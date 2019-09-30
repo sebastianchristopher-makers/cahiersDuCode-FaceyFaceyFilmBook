@@ -12,7 +12,7 @@
     <div class="jumbotron" style="background-image: url('https://www.theurbanwire.com/wp-content/uploads/2012/05/avengers.jpg');   background-repeat: no-repeat; background-size:cover;">
 
       <img src="https://pbs.twimg.com/profile_images/735242324293210112/H8YfgQHP_400x400.jpg" width="200px" alt="..." class="img-thumbnail">
-      <p style="margin-top: 5px; color: #FF0000;">THIS IS YOUR EMAIL ;) </p> 
+      <p style="margin-top: 5px; color: #Ff0000;">Test@TestSite.com </p> 
       <button type="button" class="btn btn-success" style="margin-top: 5px;">Follow</button>
 
       <div style="float: right; position: absolute; top: 10; right: 10;">
@@ -23,12 +23,17 @@
     </div>
         <div class="card-body" style="width: 18rem;   margin: 0 auto; float: none; margin-bottom: 10px;">
             <div class="btn-group" role="group" aria-label="list-group">
-                <button type="button" class="btn btn-secondary">Watched</button>
-                <button type="button" class="btn btn-secondary">To Watch</button>
+                <button href="#watched" type="button" class="btn btn-secondary" data-toggle="collapse">Watched</button>
+                <button href="#needwatch" type="button" class="btn btn-secondary" data-toggle="collapse">To Watch</button>
               </div>
         </div>
   
-   
+        <div id="watched" class="collapse container">
+            This is the HAVE WATCHED LIST
+        </div>
+        <div id="needwatch" class="collapse container">
+            This is the NEED TO WATCH LIST
+        </div>
 
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
