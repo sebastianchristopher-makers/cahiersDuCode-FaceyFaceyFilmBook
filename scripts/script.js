@@ -1,4 +1,4 @@
-const API_KEY = '78023d0556b8fab49c6ce03d5aa99237';
+const API_KEY = '';
 
 function yearOfFilm(release_date){
   return release_date.substring(0, 4);
