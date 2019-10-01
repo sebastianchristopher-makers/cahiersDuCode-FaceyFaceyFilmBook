@@ -17,9 +17,9 @@
       </div>
     </div>
     <br>
-    <p id="numFilms" style="text-align:center">Number of films</p>
+    <p id="numFilms" style="text-align:center"></p>
     <div >
-      <select id="films" style="display:block; margin: 0 auto;" onchange="getCardPhoto()">
+      <select id="films" style="display:block; margin: 0 auto;" onchange="getCardInfo()">
       </select>
     </div>
     <div class="card" style="width: 30rem;margin: 0 auto;float:none;margin-top:10px;margin-bottom: 10px;">
@@ -40,7 +40,7 @@
         <br>
         <div class="row">
           <div class="col text-center">
-            <button type="button" class="btn btn-outline-primary">Add film</button>
+            <button type="button" class="btn btn-outline-primary" onclick="addFilm()">Add film</button>
           </div>
         </div>
       </div>

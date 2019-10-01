@@ -1,4 +1,4 @@
-const API_KEY =''
+const API_KEY = '78023d0556b8fab49c6ce03d5aa99237';
 
 function yearOfFilm(release_date){
   return release_date.substring(0, 4);
@@ -19,12 +19,12 @@ function search(){
       opt.value = value;
       filmsSelect.appendChild(opt);
     }
-    document.getElementById("numFilms").innerHTML = "Search returned: " + response.results.length + " results";
-    getCardPhoto();
+    document.getElementById("numFilms").innerHTML = "Search returned " + response.results.length + " result(s)";
+    getCardInfo();
   })
 }
 
-function getCardPhoto(){
+function getCardInfo(){
   let films = document.getElementById('films');
   let filmId = films.options[films.selectedIndex].value;
   $.getJSON('https://api.themoviedb.org/3/movie/' + filmId + '?api_key=' + API_KEY + '&language=en-US', function(response){
@@ -40,23 +40,12 @@ function getCardPhoto(){
   });
 }
 
-// function getPhoto(){
-//   debugger;
-//   let films = document.getElementById('films');
-//   let filmId = films.options[films.selectedIndex].value;
-//   $.getJSON('https://api.themoviedb.org/3/movie/' + filmId + '/images?api_key=' + API_KEY + '&language=en-US&include_image_language=en%2Cnull', function(response){
-//     let backdrop = document.createElement("img");
-//     backdrop.src = 'https://image.tmdb.org/t/p/w342/' + response.backdrops[0].file_path;
-//     document.getElementById("backdrop").appendChild(backdrop);
-//   });
-// }
-//
-// function getFilm(){
-//   let films = document.getElementById('films');
-//   let filmId = films.options[films.selectedIndex].value;
-//   $.getJSON('https://api.themoviedb.org/3/movie/' + filmId + '/images?api_key=' + API_KEY + '&language=en-US&include_image_language=en%2Cnull', function(response){
-//     let poster = document.createElement("img");
-//     poster.src = 'https://image.tmdb.org/t/p/w342/' + response.posters[0].file_path;
-//     document.getElementById("poster").appendChild(poster);
-//   });
-// }
+function addFilm(){
+  let filmsSelect = document.getElementById('films');
+  if(filmsSelect.options.length <= 0){
+    alert("Nothing to add!");
+  } else {
+    let filmName = filmsSelect.options[films.selectedIndex].text;
+    alert(filmName + ' was added to your collection.');
+  }
+}
