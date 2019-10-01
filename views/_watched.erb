@@ -1,0 +1,29 @@
+<div id="#watched" class="container" style="border-radius: 16px; border: 1px solid #ccc; margin-top:20px">
+
+  <br/>
+  <div class="text-center h3">
+    Watched
+  </div>
+
+  <hr/>
+  <br/>
+
+  <div class="row">
+    <% @films.each do |film| %>
+      <div class="col-md-3">
+      <div class="card" style="width: 18rem;">
+      <img class="card-img-top" src="<%= film[:image] %>" alt="Card image cap">
+      <div class="card-body">
+        <h5 class="card-title"><%= film[:title] %></h5>
+        <p class="card-text"><%= film[:synopsis] %></p>
+        <a href="#" class="btn btn-primary">Go somewhere</a>
+        <button type="button" class="btn btn-default" aria-label="Left Align">
+          <span class="glyphicon glyphicon-menu-left" aria-hidden="true">Hello</span>
+        </button>
+      </div>
+    </div>
+      </div>
+    <% end %>
+  </div>
+
+</div>
