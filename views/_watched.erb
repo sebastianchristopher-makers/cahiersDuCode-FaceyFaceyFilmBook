@@ -8,22 +8,33 @@
   <hr/>
   <br/>
 
-  <div class="row">
-    <% @films.each do |film| %>
-      <div class="col-md-3">
-      <div class="card" style="width: 18rem;">
-      <img class="card-img-top" src="<%= film[:image] %>" alt="Card image cap">
-      <div class="card-body">
-        <h5 class="card-title"><%= film[:title] %></h5>
-        <p class="card-text"><%= film[:synopsis] %></p>
-        <a href="#" class="btn btn-primary">Go somewhere</a>
-        <button type="button" class="btn btn-default" aria-label="Left Align">
-          <span class="glyphicon glyphicon-menu-left" aria-hidden="true">Hello</span>
-        </button>
-      </div>
-    </div>
+  <% @films.each do |filmGroup| %>
+    <div class="row" >
+    <% filmGroup.each do |film| %>
+      <div class="col-md-3" >
+        <div class="card" style="width: 18rem;">
+          <img class="card-img-top" src="<%= film[:image] %>" alt="Card image cap">
+          <div class="card-body">
+            <h5 class="card-title"><%= film[:title] %></h5>
+            <p class="card-text"><%= film[:synopsis] %></p>
+            <div style="text-align:center">
+              <button type="button" class="btn btn-default">
+                <i class="material-icons" style="border-width: 1px; border-style: solid; border-radius: 10px; padding: 30% 30% 30% 30%">
+                  remove
+                </i>
+              </button>
+              <button type="button" class="btn btn-default">
+                <i class="material-icons" style="border-width: 1px; border-style: solid; border-radius: 10px; padding: 30% 30% 30% 30%">
+                  create
+                </i>
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
     <% end %>
-  </div>
+    </div>
+    <br>
+  <% end %>
 
 </div>
