@@ -3,6 +3,10 @@
     <h1>FaceyFaceyFilmBook</h1>
   </span>
   <span style="float: right;">
-      <button type="button" class="btn btn-danger">Log Out</button>
+    <% if @user %>
+    <form method="POST" action="/sessions/destroy">
+        <input class="btn btn-danger" type="submit" value="Log out">
+    </form>
+    <% end %>
   </span>
 </nav>

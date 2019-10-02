@@ -21,13 +21,28 @@ class App < Sinatra::Base
     erb :index
   end
 
+  get '/user_profile' do
+    @user = session[:user]
+    erb :user_profile
+  end
+
+  get '/users/new' do
+    erb :sign_up
+  end
+  
   get '/sessions/new' do
     erb :sign_in
   end
 
-  post '/sessions/new' do
+  post '/users/new' do
     email = params[:inputEmail]
     password = params[:inputPassword]
+    user = User.create(email, password)
+    session[:user] = user
+    redirect '/user_profile'
+  end
+  
+  post '/sessions/new' do
     user = User.authenticate(email, password)
     if user
       redirect '/user_profile'
@@ -35,14 +50,13 @@ class App < Sinatra::Base
       puts("Wrong Username And/or Password")
       redirect '/sessions/new'
     end
-
-
   end
 
-  get '/user_profile' do
-    erb :user_profile
+  post '/sessions/destroy' do
+    session.clear
+    redirect '/sessions/new'
   end
-
+  
   get '/search' do
     # session[:films] = [{
     #   poster_path:"qJ2tW6WMUDux911r6m7haRef0WH.jpg",
