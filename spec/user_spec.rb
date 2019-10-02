@@ -22,4 +22,8 @@ describe User do
     user = User.create("chris@example.com", "Password1234")
     expect(user).to be_a(User)
   end
+  it "can return the correct id" do
+    user = User.create("chris@example.com", "Password1234")
+    expect(user.id).to eq(1)
+  end
 end
