@@ -4,11 +4,14 @@ require 'erb'
 require 'dotenv/load'
 require 'rack'
 require 'pg'
+require_relative './lib/database_connection'
+require_relative './lib/user'
 
 class App < Sinatra::Base
   set :sessions, true
   set :logging, true
   set :partial_template_engine, :erb
+  DatabaseConnection.setup("filmbook_test")
 
   not_found do
     erb :error
@@ -18,8 +21,20 @@ class App < Sinatra::Base
     erb :index
   end
 
-  get '/user_profile' do
+  get '/user_profile/' do
     erb :user_profile
+  end
+
+  get '/sessions/new' do
+    erb :sign_in
+  end
+
+  post '/sessions/new' do
+    email = params[:inputEmail]
+    password = params[:inputPassword]
+    user = User.create(email, password)
+    session[:user] = user
+    redirect '/'
   end
 
   get '/search' do
