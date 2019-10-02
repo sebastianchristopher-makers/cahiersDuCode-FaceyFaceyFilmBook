@@ -21,22 +21,28 @@ class App < Sinatra::Base
     erb :index
   end
 
-  get '/user_profile/' do
+  get '/user_profile' do
+    @user = session[:user]
     erb :user_profile
   end
 
-  get '/sessions/new' do
-    erb :sign_in
+  get '/users/new' do
+    erb :sign_up
   end
 
-  post '/sessions/new' do
+  post '/users/new' do
     email = params[:inputEmail]
     password = params[:inputPassword]
     user = User.create(email, password)
     session[:user] = user
-    redirect '/'
+    redirect '/user_profile'
   end
 
+  post '/sessions/destroy' do
+    session.clear
+    redirect '/sessions/new'
+  end
+  
   get '/search' do
     # session[:films] = [{
     #   poster_path:"qJ2tW6WMUDux911r6m7haRef0WH.jpg",

@@ -4,17 +4,17 @@
       <div class="card-body">
         <h5 class="card-title text-center">Sign Up</h5>
         <hr/>
-        <form class="form-signin" action="/" method="POST">
+        <form class="form-signin" action="/users/new" method="POST">
+            <!-- <div class="form-label-group">
+              <input type="name" name="inputName" class="form-control" placeholder="Name" required autofocus>
+            </div> -->
+            <br/>
             <div class="form-label-group">
-              <input type="name" id="inputName" class="form-control" placeholder="Name" required autofocus>
+              <input type="email" name="inputEmail" class="form-control" placeholder="Email address" required autofocus>
             </div>
             <br/>
             <div class="form-label-group">
-              <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
-            </div>
-            <br/>
-            <div class="form-label-group">
-              <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+              <input type="password" name="inputPassword" class="form-control" placeholder="Password" required>
             </div>
           <hr>
           <button class="btn btn-md btn-primary btn-block" type="submit">Sign Up</button>
