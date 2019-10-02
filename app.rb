@@ -10,8 +10,6 @@ class App < Sinatra::Base
   set :logging, true
   set :partial_template_engine, :erb
 
-
-
   not_found do
     erb :error
   end
