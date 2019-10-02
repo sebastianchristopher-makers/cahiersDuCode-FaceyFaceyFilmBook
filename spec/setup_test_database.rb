@@ -1,10 +1,7 @@
-#in setup_test_database.rb
-require 'pg'
-​
+require_relative '../lib/database_connection'
+
 def setup_test_database
-​  p "Setting up test database..."
-​  # Connect to the test database
-  connection = PG.connect(dbname: 'filmbook_test')
-  # Clear the users table
-  connection.exec("TRUNCATE users;")
-​end
+  connection = DatabaseConnection.setup("filmbook_test")
+  connection.query("TRUNCATE users;")
+  connection.query("ALTER SEQUENCE users_id_seq RESTART WITH 1;")
+end
