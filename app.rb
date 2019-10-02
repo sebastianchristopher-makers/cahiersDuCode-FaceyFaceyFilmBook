@@ -4,8 +4,8 @@ require 'erb'
 require 'dotenv/load'
 require 'rack'
 require 'pg'
-require_relative './lib/database_connection'
 require_relative './lib/user'
+require_relative './lib/database_connection'
 
 class App < Sinatra::Base
   set :sessions, true
@@ -29,6 +29,10 @@ class App < Sinatra::Base
   get '/users/new' do
     erb :sign_up
   end
+  
+  get '/sessions/new' do
+    erb :sign_in
+  end
 
   post '/users/new' do
     email = params[:inputEmail]
@@ -36,6 +40,16 @@ class App < Sinatra::Base
     user = User.create(email, password)
     session[:user] = user
     redirect '/user_profile'
+  end
+  
+  post '/sessions/new' do
+    user = User.authenticate(email, password)
+    if user
+      redirect '/user_profile'
+    else
+      puts("Wrong Username And/or Password")
+      redirect '/sessions/new'
+    end
   end
 
   post '/sessions/destroy' do
