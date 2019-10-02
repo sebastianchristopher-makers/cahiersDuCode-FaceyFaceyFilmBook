@@ -1,4 +1,4 @@
-const API_KEY = '';
+const API_KEY = document.getElementById("apikey").value;
 
 function yearOfFilm(release_date){
   return release_date.substring(0, 4);
@@ -18,6 +18,10 @@ function search(){
       opt.appendChild( name );
       opt.value = value;
       filmsSelect.appendChild(opt);
+      opt.dataset.title = original_title;
+      opt.dataset.year = year;
+      opt.dataset.id = response.results[i].id;
+      opt.dataset.poster_path = response.results[i].poster_path;
     }
     document.getElementById("numFilms").innerHTML = "Search returned " + response.results.length + " result(s)";
     getCardInfo();
@@ -45,7 +49,9 @@ function addFilm(){
   if(filmsSelect.options.length <= 0){
     alert("Nothing to add!");
   } else {
-    let filmName = filmsSelect.options[films.selectedIndex].text;
-    alert(filmName + ' was added to your collection.');
+    let film = filmsSelect.options[films.selectedIndex];
+    alert(film.text + ' was added to your collection.');
+
+    $.post('/search', {id:film.dataset.id, title:film.dataset.title, year: film.dataset.year, poster_path: film.dataset.poster_path})
   }
 }

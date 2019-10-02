@@ -13,7 +13,7 @@
     <% filmGroup.each do |film| %>
       <div class="col-md-3" >
         <div class="card" style="width: 18rem;">
-          <img class="card-img-top" src="<%= film[:image] %>" alt="Card image cap">
+          <img class="card-img-top" src="https://image.tmdb.org/t/p/w185/<%= film[:poster_path] %>" alt="Card image cap">
           <div class="card-body">
             <h5 class="card-title"><%= film[:title] %></h5>
             <p class="card-text"><%= film[:synopsis] %></p>
