@@ -3,11 +3,20 @@ require 'logger'
 require 'erb'
 require 'dotenv/load'
 require 'rack'
+require 'pg'
 
 class App < Sinatra::Base
   set :sessions, true
   set :logging, true
   set :partial_template_engine, :erb
+
+  if ENV['ENVIRONMENT'] == 'test'
+    # create a connection to the test database
+    connection = PG.connect(dbname: 'filmbook_test')
+  else
+    # create a connection to the production database
+    connection = PG.connect(dbname: 'filmbook')
+  end
 
   not_found do
     erb :error
