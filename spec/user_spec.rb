@@ -30,11 +30,13 @@ describe User do
 
   it "can authenticate a user" do
     user = User.create("chris@example.com", "Password1234")
-    expect(User.authenticate("chris@example.com", "Password1234")).to be true
+    expect(User.authenticate("chris@example.com", "Password1234")).to be_a(User)
   end
 
   it "wont authenticate an incorrect password" do
     user = User.create("chris@example.com", "Password1234")
-    expect(User.authenticate("chris@example.com", "foobar")).to be false
+    expect(User.authenticate("chris@example.com", "foobar")).to be(nil)
   end
+
+
 end
