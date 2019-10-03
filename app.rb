@@ -75,9 +75,13 @@ class App < Sinatra::Base
   end
 
   post '/search' do
-   filmId = params[:id]
-   userId = session[:user].id
-   Film.add(userId, filmId)
+    filmId = params[:id]
+    if session[:user] != nil
+      userId = session[:user].id
+      Film.add(userId, filmId)
+    else
+      puts "You must be logged in"
+    end
   end
 
   get '/user_profile/watched' do
