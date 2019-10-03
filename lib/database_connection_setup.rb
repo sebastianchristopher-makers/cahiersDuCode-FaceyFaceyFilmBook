@@ -1,7 +1,9 @@
 require_relative './database_connection'
 
 if ENV['ENVIRONMENT'] == 'test'
-  DatabaseConnection.setup('filmbook_test')
+  dbUri = URI.parse("postgres://localhost:5432/filmbook_test")
+  DatabaseConnection.setup(dbUri)
 else
-  DatabaseConnection.setup('filmbook')
+  dbUri = URI.parse("postgres://localhost:5432/filmbook_test")
+  DatabaseConnection.setup(dbUri)
 end

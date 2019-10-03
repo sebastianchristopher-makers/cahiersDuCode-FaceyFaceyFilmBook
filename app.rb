@@ -4,6 +4,7 @@ require 'erb'
 require 'dotenv/load'
 require 'rack'
 require 'pg'
+require 'uri'
 require_relative './lib/user'
 require_relative './lib/database_connection'
 require_relative './lib/film.rb'
@@ -12,7 +13,13 @@ class App < Sinatra::Base
   set :sessions, true
   set :logging, true
   set :partial_template_engine, :erb
-  DatabaseConnection.setup("filmbook_test")
+  if (ENV["DATABASE_URL"])
+    dbUri = URI.parse(ENV["DATABASE_URL"])
+  else
+    dbUri = URI.parse("postgres://localhost:5432/filmbook_test")
+  end
+  # PG.connect(dbUri.hostname, dbUri.port, nil, nil, dbUri.path[1..-1], dbUri.user, dbUri.password)
+  DatabaseConnection.setup(dbUri)
 
   not_found do
     erb :error
@@ -79,5 +86,7 @@ class App < Sinatra::Base
     @films = session[:films].each_slice(3).to_a
     erb :_watched
   end
+
+  run! if app_file == $PROGRAM_NAME
 
 end
