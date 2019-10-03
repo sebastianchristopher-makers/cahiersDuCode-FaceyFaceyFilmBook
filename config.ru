@@ -1,3 +1,3 @@
 require './app.rb'
 
-run Sinatra::App
+run App
