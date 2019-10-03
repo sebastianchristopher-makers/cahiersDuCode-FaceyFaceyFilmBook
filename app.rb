@@ -107,4 +107,6 @@ class App < Sinatra::Base
     erb :_watched
   end
 
+  run! if app_file == $PROGRAM_NAME
+
 end
