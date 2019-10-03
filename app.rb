@@ -5,6 +5,8 @@ require 'dotenv/load'
 require 'rack'
 require 'pg'
 require 'uri'
+require 'net/http'
+require 'json'
 require_relative './lib/user'
 require_relative './lib/database_connection'
 require_relative './lib/film.rb'
@@ -82,6 +84,15 @@ class App < Sinatra::Base
     else
       puts "You must be logged in"
     end
+  end
+
+  get '/search-api' do
+    p ENV['API_KEY']
+    p params[:filmToSearch]
+    url = 'https://api.themoviedb.org/3/search/movie?api_key=' + ENV['API_KEY'] + '&language=en-US&query=' + params[:filmToSearch] + '&page=1&include_adult=false'
+    uri = URI(url)
+    response = Net::HTTP.get(uri)
+    # JSON.parse(response)
   end
 
   get '/user_profile/watched' do
