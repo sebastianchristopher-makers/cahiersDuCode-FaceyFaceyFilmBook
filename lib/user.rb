@@ -16,13 +16,22 @@ attr_reader :email, :id, :films
     return User.new(rs[0]["id"].to_i, email)
   end
 
+  def self.user_exists?(email)
+    rs = DatabaseConnection.query("SELECT * FROM users WHERE email = '#{email}';")
+    if rs.to_a.length >= 1
+      true
+    else
+      false
+    end
+  end
+
   def self.authenticate(email, password)
     rs = DatabaseConnection.query("SELECT * FROM users WHERE email = '#{email}';")
     BCrypt::Password.new(rs[0]["password"]) == password
     if BCrypt::Password.new(rs[0]["password"]) == password
       return User.new(rs[0]["id"].to_i, email)
     else
-      
+
     end
   end
 end

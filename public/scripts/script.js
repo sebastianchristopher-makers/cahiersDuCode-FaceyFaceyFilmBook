@@ -69,13 +69,9 @@ function addFilm(){
 
     })
     .done(function(data) {
-      console.log(data);
       alert(film.text + ' was added to your collection.');
     })
     .fail(function(jqxhr, settings, ex) {
-      console.log(jqxhr);
-      console.log(settings);
-      console.log(ex);
       alert('failed, ' + jqxhr.responseText);
     });
   }

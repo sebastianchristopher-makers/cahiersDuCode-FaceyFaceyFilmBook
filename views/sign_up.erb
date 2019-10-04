@@ -5,13 +5,13 @@
       <div class="card-body">
         <h5 class="card-title text-center">Sign Up</h5>
         <hr/>
-        <form class="form-signin" action="/users/new" method="POST">
+        <form name="sign-up" id="sign-up" class="form-signin" action="/users/new" method="POST" onsubmit='event.preventDefault(); return newUser();'>
             <!-- <div class="form-label-group">
               <input type="name" name="inputName" class="form-control" placeholder="Name" required autofocus>
             </div> -->
             <br/>
             <div class="form-label-group">
-              <input type="email" name="inputEmail" class="form-control" placeholder="Email address" required autofocus>
+              <input id="email" type="email" name="inputEmail" class="form-control" placeholder="Email address" required autofocus>
             </div>
             <br/>
             <div class="form-label-group">
@@ -24,3 +24,19 @@
     </div>
   </div>
 </div>
+<script>
+  function newUser(){
+    let email = document.getElementById("email").value
+    $.get('/user-exists', {email:email}, function(data, status, xhr){
+
+    })
+    .done(function(data) {
+      document.forms['sign-up'].submit();
+    })
+    .fail(function(jqxhr, settings, ex) {
+      alert('failed, ' + jqxhr.responseText);
+      // returnToPreviousPage();
+      return false;
+    });
+  }
+</script>

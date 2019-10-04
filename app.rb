@@ -23,6 +23,10 @@ class App < Sinatra::Base
   # PG.connect(dbUri.hostname, dbUri.port, nil, nil, dbUri.path[1..-1], dbUri.user, dbUri.password)
   DatabaseConnection.setup(dbUri)
 
+  before do
+    @user = session[:user]
+  end
+
   not_found do
     erb :error
   end
@@ -30,7 +34,7 @@ class App < Sinatra::Base
   get '/' do
     erb :index
   end
-
+  
   get '/users/new' do
     erb :sign_up
   end
@@ -49,9 +53,17 @@ class App < Sinatra::Base
     erb :user_profile
   end
 
+  get '/user-exists' do
+    if User.user_exists?(params[:email])
+      status 401
+      body "User already exists!"
+    end
+  end
+
   post '/users/new' do
     email = params[:inputEmail]
     password = params[:inputPassword]
+
     user = User.create(email, password)
     session[:user] = user
     redirect '/search'
@@ -63,7 +75,7 @@ class App < Sinatra::Base
     user = User.authenticate(email, password)
     if user
       session[:user] = user
-      redirect '/search'
+      redirect "#{user.id}/user_profile/watched"
     else
       puts("Wrong Username And/or Password")
       redirect '/sessions/new'
@@ -86,7 +98,7 @@ class App < Sinatra::Base
       film_id = params[:id]
       title = params[:title]
       poster_path = params[:poster_path]
-      year = params[:year]
+      year = params[:year].to_i
       Film.create(film_id, title, poster_path, year)
       Film.add(user_id, film_id)
     else
@@ -128,9 +140,13 @@ class App < Sinatra::Base
     else
       @films= nil
     end
-    erb :_watched
   end
 
+  get '/:id/user_profile/watched' do
+    userId = params[:id]
+    @films = Film.find_by_user_id(userId).each_slice(3).to_a
+    erb :_watched
+  end
 
   run! if app_file == $PROGRAM_NAME
 

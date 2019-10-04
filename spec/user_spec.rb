@@ -38,6 +38,12 @@ describe User do
     expect(User.authenticate("chris@example.com", "foobar")).to be(nil)
   end
 
+  it "wont allow you to log in twice" do
+    # user cannot exisit twice if user does, display an error message
+    user = User.create("chris@example.com", "Password1234")
+    expect{ User.create("chris@example.com", "Password1234") }.to raise_error("User already exists!")
+  end
+
   after(:each) do
     DatabaseConnection.query("TRUNCATE users RESTART IDENTITY CASCADE;")
   end
