@@ -34,23 +34,13 @@ class App < Sinatra::Base
   get '/' do
     erb :index
   end
-  
+
   get '/users/new' do
     erb :sign_up
   end
 
   get '/sessions/new' do
     erb :sign_in
-  end
-
-  get '/user_profile' do
-    if session[:user]
-      userId = session[:user].id
-      @films = Film.find_by_user_id(userId).each_slice(3).to_a
-    else
-      @films= nil
-    end
-    erb :user_profile
   end
 
   get '/user-exists' do
@@ -75,7 +65,7 @@ class App < Sinatra::Base
     user = User.authenticate(email, password)
     if user
       session[:user] = user
-      redirect "#{user.id}/user_profile/watched"
+      redirect "#{user.id}/user_profile"
     else
       puts("Wrong Username And/or Password")
       redirect '/sessions/new'
@@ -113,39 +103,33 @@ class App < Sinatra::Base
     response = Net::HTTP.get(uri)
   end
 
-  get '/to-watch' do
-    if session[:user]
-      userId = session[:user].id
-      @films = Film.find_by_user_id(userId).each_slice(3).to_a
-    else
-      @films= nil
-    end
+  get '/:id/user_profile/to-watch' do
+    userId = params[:id]
+    @films = Film.find_by_user_id(userId).each_slice(3).to_a
     erb :_to_watch
-  end
-
-  get '/watched' do
-    if session[:user]
-      userId = session[:user].id
-      @films = Film.find_by_user_id(userId).each_slice(3).to_a
-    else
-      @films= nil
-    end
-    erb :_watched
-  end
-
-  get '/user_profile/watched' do
-    if session[:user]
-      userId = session[:user].id
-      @films = Film.find_by_user_id(userId).each_slice(3).to_a
-    else
-      @films= nil
-    end
   end
 
   get '/:id/user_profile/watched' do
     userId = params[:id]
     @films = Film.find_by_user_id(userId).each_slice(3).to_a
     erb :_watched
+  end
+
+  # get '/user_profile/watched' do
+  #   if session[:user]
+  #     userId = session[:user].id
+  #     @films = Film.find_by_user_id(userId).each_slice(3).to_a
+  #   else
+  #     @films= nil
+  #   end
+  # end
+
+  get '/:id/user_profile' do
+    userId = params[:id]
+    @id = userId
+    p @id
+    @films = Film.find_by_user_id(userId).each_slice(3).to_a
+    erb :user_profile
   end
 
   run! if app_file == $PROGRAM_NAME
