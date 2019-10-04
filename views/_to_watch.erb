@@ -1,3 +1,39 @@
-<div id="#to-watch" class="container" style="border-radius: 16px; border: 1px solid #ccc">
-  This is the NEED TO WATCH LIST
+<div id="to-watch-container" class="container" style="border-radius: 16px; border: 1px solid #ccc; margin-top:20px">
+
+  <br/>
+  <div class="text-center h3">
+    To Watch
+  </div>
+
+  <hr/>
+  <br/>
+
+  <% @films.each do |filmGroup| %>
+    <div class="row" >
+    <% filmGroup.each do |film| %>
+      <div class="col-md-3" >
+        <div class="card" style="width: 18rem;">
+          <img class="card-img-top" src="https://image.tmdb.org/t/p/w185/<%= film.poster_path %>" alt="Card image cap">
+          <div class="card-body">
+            <h5 class="card-title"><%= film.title %></h5>
+            <div style="text-align:center">
+              <button type="button" class="btn btn-default">
+                <i class="material-icons" style="border-width: 1px; border-style: solid; border-radius: 10px; padding: 30% 30% 30% 30%">
+                  remove
+                </i>
+              </button>
+              <button type="button" class="btn btn-default">
+                <i class="material-icons" style="border-width: 1px; border-style: solid; border-radius: 10px; padding: 30% 30% 30% 30%">
+                  create
+                </i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    <% end %>
+    </div>
+    <br>
+  <% end %>
+
 </div>

@@ -34,17 +34,23 @@ class App < Sinatra::Base
   get '/' do
     erb :index
   end
-
-  get '/user_profile' do
-    erb :user_profile
-  end
-
+  
   get '/users/new' do
     erb :sign_up
   end
 
   get '/sessions/new' do
     erb :sign_in
+  end
+
+  get '/user_profile' do
+    if session[:user]
+      userId = session[:user].id
+      @films = Film.find_by_user_id(userId).each_slice(3).to_a
+    else
+      @films= nil
+    end
+    erb :user_profile
   end
 
   get '/user-exists' do
@@ -60,7 +66,7 @@ class App < Sinatra::Base
 
     user = User.create(email, password)
     session[:user] = user
-    redirect '/user_profile'
+    redirect '/search'
   end
 
   post '/sessions/new' do
@@ -105,6 +111,35 @@ class App < Sinatra::Base
     url = 'https://api.themoviedb.org/3/search/movie?api_key=' + ENV['API_KEY'] + '&language=en-US&query=' + params[:filmToSearch] + '&page=1&include_adult=false'
     uri = URI(url)
     response = Net::HTTP.get(uri)
+  end
+
+  get '/to-watch' do
+    if session[:user]
+      userId = session[:user].id
+      @films = Film.find_by_user_id(userId).each_slice(3).to_a
+    else
+      @films= nil
+    end
+    erb :_to_watch
+  end
+
+  get '/watched' do
+    if session[:user]
+      userId = session[:user].id
+      @films = Film.find_by_user_id(userId).each_slice(3).to_a
+    else
+      @films= nil
+    end
+    erb :_watched
+  end
+
+  get '/user_profile/watched' do
+    if session[:user]
+      userId = session[:user].id
+      @films = Film.find_by_user_id(userId).each_slice(3).to_a
+    else
+      @films= nil
+    end
   end
 
   get '/:id/user_profile/watched' do
