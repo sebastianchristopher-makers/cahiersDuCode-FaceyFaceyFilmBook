@@ -23,6 +23,10 @@ class App < Sinatra::Base
   # PG.connect(dbUri.hostname, dbUri.port, nil, nil, dbUri.path[1..-1], dbUri.user, dbUri.password)
   DatabaseConnection.setup(dbUri)
 
+  before do
+    @user = session[:user]
+  end
+
   not_found do
     erb :error
   end
@@ -32,8 +36,6 @@ class App < Sinatra::Base
   end
 
   get '/user_profile' do
-    @user = session[:user]
-    p @user
     erb :user_profile
   end
 
@@ -59,7 +61,7 @@ class App < Sinatra::Base
     user = User.authenticate(email, password)
     if user
       session[:user] = user
-      redirect '/user_profile'
+      redirect "#{user.id}/user_profile/watched"
     else
       puts("Wrong Username And/or Password")
       redirect '/sessions/new'
@@ -82,7 +84,7 @@ class App < Sinatra::Base
       film_id = params[:id]
       title = params[:title]
       poster_path = params[:poster_path]
-      year = params[:year]
+      year = params[:year].to_i
       Film.create(film_id, title, poster_path, year)
       Film.add(user_id, film_id)
     else
@@ -97,13 +99,9 @@ class App < Sinatra::Base
     response = Net::HTTP.get(uri)
   end
 
-  get '/user_profile/watched' do
-    if session[:user]
-      userId = session[:user].id
-      @films = Film.find_by_user_id(userId).each_slice(3).to_a
-    else
-      @films= nil
-    end
+  get '/:id/user_profile/watched' do
+    userId = params[:id]
+    @films = Film.find_by_user_id(userId).each_slice(3).to_a
     erb :_watched
   end
 
