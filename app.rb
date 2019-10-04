@@ -47,9 +47,17 @@ class App < Sinatra::Base
     erb :sign_in
   end
 
+  get '/user-exists' do
+    if User.user_exists?(params[:email])
+      status 401
+      body "User already exists!"
+    end
+  end
+
   post '/users/new' do
     email = params[:inputEmail]
     password = params[:inputPassword]
+
     user = User.create(email, password)
     session[:user] = user
     redirect '/user_profile'
