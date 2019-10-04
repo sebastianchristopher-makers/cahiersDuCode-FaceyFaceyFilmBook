@@ -12,7 +12,7 @@ attr_reader :email, :id, :films
 
   def self.create(email, password)
     hashed_password = BCrypt::Password.create(password)
-    rs = DatabaseConnection.query("INSERT into users (email, password) VALUES( '#{email}', '#{hashed_password}') RETURNING *;")
+    rs = DatabaseConnection.query("INSERT into users (email, password) VALUES('#{email}', '#{hashed_password}') RETURNING *;")
     return User.new(rs[0]["id"].to_i, email)
   end
 

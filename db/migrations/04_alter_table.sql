@@ -1,0 +1,5 @@
+ALTER TABLE usersFilms
+ADD CONSTRAINT constraint_fk
+FOREIGN KEY (filmID)
+REFERENCES films(filmId)
+ON DELETE CASCADE;
