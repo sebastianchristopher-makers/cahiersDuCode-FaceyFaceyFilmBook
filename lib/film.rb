@@ -21,11 +21,11 @@ class Film
     DatabaseConnection.query("INSERT INTO usersFilms (userId, filmId) VALUES (#{user_id}, #{film_id});")
   end
 
-  def self.find_by_user_id(user_id)
-    rs = DatabaseConnection.query("SELECT * FROM usersFilms WHERE userId=#{user_id}")
-    rs.map { |row|
-      row[:filmId]
-    }
+  def self.findbyuserid(userId)
+    rs = DatabaseConnection.query("SELECT * FROM films FULL OUTER JOIN usersFilms ON films.filmid = usersFilms.filmid WHERE userid = #{userId} ")
+    rs.map do |row|
+      Film.new(row["id"].to_i, row["filmid"].to_i, row["title"], row["posterpath"], row["year"].to_i)    
+    end
   end
 
 end
