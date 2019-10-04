@@ -31,12 +31,6 @@ class App < Sinatra::Base
     erb :index
   end
 
-  get '/user_profile' do
-    @user = session[:user]
-    p @user
-    erb :user_profile
-  end
-
   get '/users/new' do
     erb :sign_up
   end
@@ -45,12 +39,22 @@ class App < Sinatra::Base
     erb :sign_in
   end
 
+  get '/user_profile' do
+    if session[:user]
+      userId = session[:user].id
+      @films = Film.find_by_user_id(userId).each_slice(3).to_a
+    else
+      @films= nil
+    end
+    erb :user_profile
+  end
+
   post '/users/new' do
     email = params[:inputEmail]
     password = params[:inputPassword]
     user = User.create(email, password)
     session[:user] = user
-    redirect '/user_profile'
+    redirect '/search'
   end
 
   post '/sessions/new' do
@@ -59,7 +63,7 @@ class App < Sinatra::Base
     user = User.authenticate(email, password)
     if user
       session[:user] = user
-      redirect '/user_profile'
+      redirect '/search'
     else
       puts("Wrong Username And/or Password")
       redirect '/sessions/new'
@@ -97,6 +101,26 @@ class App < Sinatra::Base
     response = Net::HTTP.get(uri)
   end
 
+  get '/to-watch-partial' do
+    if session[:user]
+      userId = session[:user].id
+      @films = Film.find_by_user_id(userId).each_slice(3).to_a
+    else
+      @films= nil
+    end
+    erb :_to_watch
+  end
+
+  get '/watched' do
+    if session[:user]
+      userId = session[:user].id
+      @films = Film.find_by_user_id(userId).each_slice(3).to_a
+    else
+      @films= nil
+    end
+    erb :_watched
+  end
+
   get '/user_profile/watched' do
     if session[:user]
       userId = session[:user].id
@@ -106,6 +130,7 @@ class App < Sinatra::Base
     end
     erb :_watched
   end
+
 
   run! if app_file == $PROGRAM_NAME
 

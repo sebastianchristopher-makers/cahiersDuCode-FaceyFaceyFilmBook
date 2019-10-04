@@ -7,12 +7,32 @@
 </div>
 
 <div class="card-body" style="width: 18rem;   margin: 0 auto; float: none; margin-bottom: 10px;">
+
     <div class="btn-group" role="group" aria-label="list-group">
-        <button href="#watched" type="button" class="btn btn-secondary" data-toggle="collapse">
-          <a style="color:white" href="/user_profile/watched"> Watched </a>
+        <button onclick="watched()" type="button" class="btn btn-secondary" data-toggle="collapse">
+          <a style="color:white"> Watched </a>
         </button>
-        <button href="#to-watch" type="button" class="btn btn-secondary" data-toggle="collapse">
-          <a style="color:white" href="/user_profile/to_watch"> To Watch </a>
+        <button onclick="toWatch()" type="button" class="btn btn-secondary" data-toggle="collapse">
+          <a style="color:white"> To Watch </a>
         </button>
       </div>
 </div>
+
+
+<div id="to-watch"></div>
+<div id="watched"></div>
+
+ <%= erb :_watched %>
+
+<script type="text/javascript">
+  function toWatch(){
+    $.get('/to-watch-partial', function(data){
+      document.getElementById("to-watch").innerHTML = data
+    })
+  }
+  function watched(){
+    $.get('/watched', function(data){
+      document.getElementById("watched").innerHTML = data
+    })
+  }
+</script>
