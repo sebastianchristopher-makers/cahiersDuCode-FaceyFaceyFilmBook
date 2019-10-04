@@ -100,8 +100,7 @@ class App < Sinatra::Base
   get '/user_profile/watched' do
     if session[:user]
       userId = session[:user].id
-      @films = Film.findbyuserid(userId)
-      @films = session[:films].each_slice(3).to_a
+      @films = Film.find_by_user_id(userId).each_slice(3).to_a
     else
       @films= nil
     end
