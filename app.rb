@@ -77,28 +77,34 @@ class App < Sinatra::Base
   end
 
   post '/search' do
-    filmId = params[:id]
     if session[:user] != nil
-      userId = session[:user].id
-      Film.add(userId, filmId)
+      user_id = session[:user].id
+      film_id = params[:id]
+      title = params[:title]
+      poster_path = params[:poster_path]
+      year = params[:year]
+      Film.create(film_id, title, poster_path, year)
+      Film.add(user_id, film_id)
     else
-      puts "You must be logged in"
+      status 403
+      body 'Forbidden; only logged in users can add a film'
     end
   end
 
   get '/search-api' do
-    p ENV['API_KEY']
-    p params[:filmToSearch]
     url = 'https://api.themoviedb.org/3/search/movie?api_key=' + ENV['API_KEY'] + '&language=en-US&query=' + params[:filmToSearch] + '&page=1&include_adult=false'
     uri = URI(url)
     response = Net::HTTP.get(uri)
-    # JSON.parse(response)
   end
 
   get '/user_profile/watched' do
-    userId = session[:user].id
-    @films = Film.all(userId)
-    @films = session[:films].each_slice(3).to_a
+    if session[:user]
+      userId = session[:user].id
+      @films = Film.all(userId)
+      @films = session[:films].each_slice(3).to_a
+    else
+      @films= nil
+    end
     erb :_watched
   end
 
