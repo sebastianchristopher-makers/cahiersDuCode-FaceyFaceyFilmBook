@@ -22,7 +22,7 @@ attr_reader :email, :id, :films
     if BCrypt::Password.new(rs[0]["password"]) == password
       return User.new(rs[0]["id"].to_i, email)
     else
-      "Try Again"
+      
     end
   end
 end
