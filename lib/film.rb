@@ -9,7 +9,7 @@ class Film
   def self.findbyuserid(userId)
     rs = DatabaseConnection.query("SELECT * FROM films FULL OUTER JOIN usersFilms ON films.filmid = usersFilms.filmid WHERE userid = #{userId} ")
     rs.map do |row|
-      {filmId: row[:filmId], userId: row[:userId], year: row[:year], title: row[:title], posterPath: row[:posterPath]}
+      Film.new(row["id"].to_i, row["filmid"].to_i, row["title"], row["posterpath"], row["year"].to_i)    
     end
   end
 
