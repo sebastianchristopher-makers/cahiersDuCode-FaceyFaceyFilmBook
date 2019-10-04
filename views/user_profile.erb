@@ -1,3 +1,4 @@
+<%= erb :_header %>
 <div class="jumbotron" style="background-image: url('https://www.theurbanwire.com/wp-content/uploads/2012/05/avengers.jpg');   background-repeat: no-repeat; background-size:cover;">
 
   <img src="https://pbs.twimg.com/profile_images/735242324293210112/H8YfgQHP_400x400.jpg" width="200px" alt="..." class="img-thumbnail">
@@ -18,21 +19,35 @@
       </div>
 </div>
 
-
-<div id="to-watch"></div>
-<div id="watched"></div>
-
- <%= erb :_watched %>
+<div id="container">
+  <div id="to-watch"></div>
+  <div id="watched"></div>
+</div>
 
 <script type="text/javascript">
+
   function toWatch(){
-    $.get('/to-watch-partial', function(data){
+      removeElement("watched")
+      let watched = document.createElement("div")
+      watched.id = "watched"
+      document.getElementById("container").appendChild(watched)
+    $.get('/to-watch', function(data){
       document.getElementById("to-watch").innerHTML = data
+      
     })
   }
+
   function watched(){
-    $.get('/watched', function(data){
+      removeElement("to-watch")
+      let to_watch = document.createElement("div")
+      to_watch.id = "to-watch"
+      document.getElementById("container").appendChild(to_watch)
+      $.get('/watched', function(data){
       document.getElementById("watched").innerHTML = data
     })
   }
+  function removeElement(elementId) {
+    var element = document.getElementById(elementId);
+    element.parentNode.removeChild(element);
+}
 </script>

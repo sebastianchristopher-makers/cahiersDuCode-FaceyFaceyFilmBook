@@ -101,7 +101,7 @@ class App < Sinatra::Base
     response = Net::HTTP.get(uri)
   end
 
-  get '/to-watch-partial' do
+  get '/to-watch' do
     if session[:user]
       userId = session[:user].id
       @films = Film.find_by_user_id(userId).each_slice(3).to_a
