@@ -38,5 +38,8 @@ describe User do
     expect(User.authenticate("chris@example.com", "foobar")).to be(nil)
   end
 
+  after(:each) do
+    DatabaseConnection.query("TRUNCATE users RESTART IDENTITY CASCADE;")
+  end
 
 end

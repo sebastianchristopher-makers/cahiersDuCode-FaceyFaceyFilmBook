@@ -51,8 +51,8 @@ describe Film do
     film_3 = Film.create(42497, 'Pink Narcissus', "/kaZiiGE6820KyFF9XkzPB9Rx9qn.jpg", 1971)
 
     Film.add(1, film.film_id)
-    Film.add(2, film.film_id)
-    Film.add(1, film.film_id)
+    Film.add(2, film_2.film_id)
+    Film.add(1, film_3.film_id)
     expect(Film.find_by_user_id(1)).to contain_exactly(film, film_3)
   end
 

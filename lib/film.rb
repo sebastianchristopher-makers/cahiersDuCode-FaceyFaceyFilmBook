@@ -11,6 +11,14 @@ class Film
     @year = year
   end
 
+  def ==(other)
+   id == other.id &&
+    film_id == other.film_id &&
+    title == other.title &&
+    poster_path == other.poster_path &&
+    year == other.year
+  end
+
   def self.create(film_id, title, poster_path, year)
     rs = DatabaseConnection.query("INSERT INTO films (filmId, title, posterpath, year) VALUES (#{film_id}, '#{title}', '#{poster_path}', #{year}) RETURNING *;")
     p rs[0]
@@ -21,10 +29,10 @@ class Film
     DatabaseConnection.query("INSERT INTO usersFilms (userId, filmId) VALUES (#{user_id}, #{film_id});")
   end
 
-  def self.findbyuserid(userId)
+  def self.find_by_user_id(userId)
     rs = DatabaseConnection.query("SELECT * FROM films FULL OUTER JOIN usersFilms ON films.filmid = usersFilms.filmid WHERE userid = #{userId} ")
     rs.map do |row|
-      Film.new(row["id"].to_i, row["filmid"].to_i, row["title"], row["posterpath"], row["year"].to_i)    
+      Film.new(row["id"].to_i, row["filmid"].to_i, row["title"], row["posterpath"], row["year"].to_i)
     end
   end
 
