@@ -89,8 +89,10 @@ class App < Sinatra::Base
       title = params[:title]
       poster_path = params[:poster_path]
       year = params[:year].to_i
+      watched = params[:watched]
+      to_watch = params[:to_watch]
       Film.create(film_id, title, poster_path, year)
-      Film.add(user_id, film_id)
+      Film.add(user_id, film_id, watched, to_watch)
     else
       status 403
       body 'Forbidden; only logged in users can add a film'
@@ -105,13 +107,13 @@ class App < Sinatra::Base
 
   get '/:id/user_profile/to-watch' do
     userId = params[:id]
-    @films = Film.find_by_user_id(userId).each_slice(3).to_a
+    @films = Film.find_to_watch(userId).each_slice(3).to_a
     erb :_to_watch
   end
 
   get '/:id/user_profile/watched' do
     userId = params[:id]
-    @films = Film.find_by_user_id(userId).each_slice(3).to_a
+    @films = Film.find_watched(userId).each_slice(3).to_a
     erb :_watched
   end
 
