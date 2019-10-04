@@ -89,7 +89,7 @@ class App < Sinatra::Base
       title = params[:title]
       poster_path = params[:poster_path]
       year = params[:year].to_i
-      Film.create(film_id, title, poster_path, year)
+      Film.create(film_id, title, poster_path, year) unless Film.film_exists(film_id)
       Film.add(user_id, film_id)
     else
       status 403

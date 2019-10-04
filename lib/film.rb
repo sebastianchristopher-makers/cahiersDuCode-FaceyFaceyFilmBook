@@ -28,6 +28,18 @@ class Film
     DatabaseConnection.query("INSERT INTO usersFilms (userId, filmId) VALUES ($1, $2);", [user_id, film_id])
   end
 
+  def self.find_by_id(film_id)
+    rs = DatabaseConnection.query("SELECT * FROM films WHERE filmid = $1;", [film_id] )
+    if rs.to_a.length >= 1
+      Film.new(rs[0]["id"].to_i, rs[0]["filmid"].to_i, rs[0]["title"], rs[0]["posterpath"], rs[0]["year"].to_i)
+    end
+  end
+
+  def self.film_exists?(film_id)
+    return false unless self.find_by_id(film_id)
+    return true
+  end
+
   def self.find_by_user_id(user_id)
     rs = DatabaseConnection.query("SELECT * FROM films FULL OUTER JOIN usersFilms ON films.filmid = usersFilms.filmid WHERE userid = $1;", [user_id])
     rs.map do |row|
