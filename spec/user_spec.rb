@@ -38,10 +38,13 @@ describe User do
     expect(User.authenticate("chris@example.com", "foobar")).to be(nil)
   end
 
-  it "wont allow you to log in twice" do
-    # user cannot exisit twice if user does, display an error message
+  it "can check if a user exists" do
     user = User.create("chris@example.com", "Password1234")
-    expect{ User.create("chris@example.com", "Password1234") }.to raise_error("User already exists!")
+    expect(User.user_exists?("chris@example.com")).to be true
+  end
+
+  it "can check if a user does not exist" do
+    expect(User.user_exists?("christest@example.com")).to be false
   end
 
   after(:each) do
