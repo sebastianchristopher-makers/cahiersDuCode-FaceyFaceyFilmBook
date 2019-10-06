@@ -1,0 +1,53 @@
+<head>
+  <%= erb :_header %>
+  <style>
+  /* Make the image fully responsive */
+  .carousel-inner img {
+      width: 100%;
+      height: 100%;
+  }
+  </style>
+</head>
+<body>
+  <h1 style="text-align:center"><%= @title %></h1>
+  <div style="text-align:center">
+    <iframe width="420" height="315"
+      src='<%= @src %>' frameborder="0" allowfullscreen>
+    </iframe>
+  </div>
+
+  <div class="container" style="text-align:center">
+  <h2>If you liked this, you may also like:</h2>
+  <div id="myCarousel" class="carousel slide" data-ride="carousel" style="margin: auto;width: 250px; height:250px;">
+
+    <!-- Wrapper for slides -->
+    <div class="carousel-inner">
+
+      <div class="carousel-item active">
+        <img src="https://image.tmdb.org/t/p/w780/<%= @recommendations[0].poster_path %>"  alt="<%= @recommendations[0].title %>" style="width:100%;">
+        <div class="carousel-caption">
+          <h3><%= @recommendations[0].title %></h3>
+        </div>
+      </div>
+
+      <% @recommendations[1..-1].each do |recommendation| %>
+      <div class="carousel-item">
+        <img src="https://image.tmdb.org/t/p/w780/<%= recommendation.poster_path %>"  alt="<%= recommendation.title %>" style="width:100%;">
+        <div class="carousel-caption">
+          <h3><%= recommendation.title %></h3>
+        </div>
+      </div>
+      <% end %>
+
+    </div>
+
+    <!-- Left and right controls -->
+    <a class="carousel-control-prev" href="#myCarousel" data-slide="prev">
+      <span class="carousel-control-prev-icon"></span>
+    </a>
+    <a class="carousel-control-next" href="#myCarousel" data-slide="next">
+      <span class="carousel-control-next-icon"></span>
+    </a>
+  </div>
+</div>
+</body>

@@ -10,6 +10,7 @@ require 'json'
 require_relative './lib/user'
 require_relative './lib/database_connection'
 require_relative './lib/film.rb'
+require_relative './lib/recommendation.rb'
 
 class App < Sinatra::Base
   set :sessions, true
@@ -91,7 +92,7 @@ class App < Sinatra::Base
       year = params[:year].to_i
       watched = params[:watched]
       to_watch = params[:to_watch]
-      Film.create(film_id, title, poster_path, year) unless Film.film_exists(film_id)
+      Film.create(film_id, title, poster_path, year) unless Film.film_exists?(film_id)
       Film.add(user_id, film_id, watched, to_watch)
     else
       status 403
@@ -117,21 +118,29 @@ class App < Sinatra::Base
     erb :_watched
   end
 
-  # get '/user_profile/watched' do
-  #   if session[:user]
-  #     userId = session[:user].id
-  #     @films = Film.find_by_user_id(userId).each_slice(3).to_a
-  #   else
-  #     @films= nil
-  #   end
-  # end
-
   get '/:id/user_profile' do
     userId = params[:id]
     @id = userId
     p @id
     @films = Film.find_by_user_id(userId).each_slice(3).to_a
     erb :user_profile
+  end
+
+  get '/films/:id' do
+    film_id = params[:id]
+    url = 'https://api.themoviedb.org/3/movie/' + film_id + '/videos?api_key=' + ENV['API_KEY'] + '&language=en-US'
+    uri = URI(url)
+    response = JSON.parse(Net::HTTP.get(uri))
+    @title = Film.find_by_id(film_id).title
+    @src = "https://www.youtube.com/embed/#{response["results"][0]["key"]}" if response["results"].size > 0
+
+    url = 'https://api.themoviedb.org/3/movie/' + film_id + '/recommendations?api_key=' + ENV['API_KEY'] + '&language=en-US&page=1'
+    uri = URI(url)
+    response = JSON.parse(Net::HTTP.get(uri))
+    @recommendations = response["results"].map{ |result|
+      Recommendation.new(result["id"], result["original_title"], result["poster_path"])
+    }
+    erb :_film
   end
 
   run! if app_file == $PROGRAM_NAME
