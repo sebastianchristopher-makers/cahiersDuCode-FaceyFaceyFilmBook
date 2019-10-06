@@ -56,6 +56,20 @@ describe Film do
     expect(Film.find_by_user_id(1)).to contain_exactly(film, film_3)
   end
 
+  it "can find a film by film id" do
+    film = Film.create(13446, 'Withnail & I', "/lXD5UR2dvXJF54AIBt8G2kDvYGk.jpg", 1987)
+    expect(Film.find_by_id(13446)).to eq(film)
+  end
+
+  it "checks whether a film exists" do
+    film = Film.create(13446, 'Withnail & I', "/lXD5UR2dvXJF54AIBt8G2kDvYGk.jpg", 1987)
+    expect(Film.film_exists?(13446)).to be true
+  end
+
+  it "checks whether a film does not exist" do
+    expect(Film.film_exists?(13446)).to be false
+  end
+
   after(:each) do
     DatabaseConnection.query("TRUNCATE usersFilms RESTART IDENTITY CASCADE;")
     DatabaseConnection.query("TRUNCATE users RESTART IDENTITY CASCADE;")

@@ -91,7 +91,7 @@ class App < Sinatra::Base
       year = params[:year].to_i
       watched = params[:watched]
       to_watch = params[:to_watch]
-      Film.create(film_id, title, poster_path, year)
+      Film.create(film_id, title, poster_path, year) unless Film.film_exists(film_id)
       Film.add(user_id, film_id, watched, to_watch)
     else
       status 403
