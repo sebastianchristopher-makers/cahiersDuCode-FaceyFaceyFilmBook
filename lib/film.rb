@@ -24,8 +24,8 @@ class Film
     Film.new(rs[0]["id"].to_i, rs[0]["filmid"].to_i, rs[0]["title"], rs[0]["posterpath"], rs[0]["year"].to_i)
   end
 
-  def self.add(user_id, film_id)
-    DatabaseConnection.query("INSERT INTO usersFilms (userId, filmId) VALUES ($1, $2);", [user_id, film_id])
+  def self.add(user_id, film_id, watched, to_watch)
+    DatabaseConnection.query("INSERT INTO usersFilms (userId, filmId, isWatched, isToWatch) VALUES ($1, $2, $3, $4);", [user_id, film_id, watched, to_watch])
   end
 
   def self.find_by_id(film_id)
@@ -42,6 +42,20 @@ class Film
 
   def self.find_by_user_id(user_id)
     rs = DatabaseConnection.query("SELECT * FROM films FULL OUTER JOIN usersFilms ON films.filmid = usersFilms.filmid WHERE userid = $1;", [user_id])
+    rs.map do |row|
+      Film.new(row["id"].to_i, row["filmid"].to_i, row["title"], row["posterpath"], row["year"].to_i)
+    end
+  end
+
+   def self.find_to_watch(user_id)
+    rs = DatabaseConnection.query("SELECT * FROM films FULL OUTER JOIN usersFilms ON films.filmid = usersFilms.filmid WHERE userid = $1 AND isToWatch = true;", [user_id])
+    rs.map do |row|
+      Film.new(row["id"].to_i, row["filmid"].to_i, row["title"], row["posterpath"], row["year"].to_i)
+    end
+  end
+
+   def self.find_watched(user_id)
+    rs = DatabaseConnection.query("SELECT * FROM films FULL OUTER JOIN usersFilms ON films.filmid = usersFilms.filmid WHERE userid = $1 AND isWatched = true;", [user_id])
     rs.map do |row|
       Film.new(row["id"].to_i, row["filmid"].to_i, row["title"], row["posterpath"], row["year"].to_i)
     end
