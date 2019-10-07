@@ -2,12 +2,13 @@ require 'bcrypt'
 
 class User
 
-attr_reader :email, :id, :films
+attr_reader :email, :id, :films, :favourite_film
 
-  def initialize(id, email)
+  def initialize(id, email, favourite_film = nil)
     @email = email
     @id = id
     @films = []
+    @favourite_film = favourite_film
   end
 
 
@@ -15,7 +16,8 @@ attr_reader :email, :id, :films
     return false if other.nil?
     id == other.id &&
     email == other.email &&
-    films == other.films
+    films == other.films &&
+    favourite_film == other.favourite_film
    end
 
   def self.create(email, password)
@@ -45,6 +47,10 @@ attr_reader :email, :id, :films
 
   def self.find_by_id(userid)
     rs = DatabaseConnection.query("SELECT * FROM users WHERE id = '#{userid}';")
-    return User.new(rs[0]["id"].to_i, rs[0]["email"])
+    return User.new(rs[0]["id"].to_i, rs[0]["email"], rs[0]["favouritefilm"])
+  end
+
+  def self.add_favourite(film_id, user_id)
+    DatabaseConnection.query("UPDATE users SET favouritefilm = $1 WHERE id = $2;", [film_id, user_id])
   end
 end

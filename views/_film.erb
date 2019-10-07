@@ -17,9 +17,14 @@
   </div>
 
   <div>
-    <% @showtimes.each do |showtime| %>
-      <p>Showing at <a href="<%= showtime.website %>" target="_blank"><%= showtime.cinema_name %></a> on <%= DateHelper.screen_date(showtime.start_at) %> <% if showtime.booking_link %><a href="<%= showtime.booking_link %>"><i>Buy tickets</i></a><% end %></p>
+    <% if @showtime_error %>
+      <p>Too many results - please check showtimes <a href="<%= @showtime_error %>">here</a></p>
+    <% else %>
+      <% @showtimes.each do |showtime| %>
+        <p>Showing at <a href="<%= showtime.website %>" target="_blank"><%= showtime.cinema_name %></a> on <%= DateHelper.screen_date(showtime.start_at) %> <% if showtime.booking_link %><a href="<%= showtime.booking_link %>"><i>Buy tickets</i></a><% end %></p>
+      <% end %>
     <% end %>
+
   </div>
 
   <div class="container" style="text-align:center">
@@ -37,7 +42,6 @@
       <div class="carousel-item">
         <img src="https://image.tmdb.org/t/p/w780/<%= recommendation.poster_path %>"  alt="<%= recommendation.title %>" style="width:100%;">
         <div class="carousel-caption">
-          <h3><%= recommendation.title %></h3>
         </div>
       </div>
       <% end %>
