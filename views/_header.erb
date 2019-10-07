@@ -4,9 +4,46 @@
   </span>
   <span style="float: right;">
     <% if @user %>
-    <form method="POST" action="/sessions/destroy">
-        <input class="btn btn-danger" type="submit" value="Log out">
-    </form>
+
+<!--      <div class="navbar-nav ml-auto nav-flex-icons">
+      <li class="nav-item avatar dropdown">
+        <a class="nav-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <a class="rounded-circle z-depth-0"> A</a>
+        <div class="dropdown-menu dropdown-menu-right dropdown-secondary" aria-labelledby="navbarDropdownMenuLink-5">
+          <a class="dropdown-item" href="#">Action</a>
+          <a class="dropdown-item" href="#">Another action</a>
+          <a class="dropdown-item" href="#">Something else here</a>
+        </div>
+      </li>
+    </div> -->
+
+    <div class="btn-group">
+    <button data-toggle="dropdown" style="all: unset" aria-haspopup="true" aria-expanded="false">
+      <!-- <ul class="avt nav-justified" style="padding-left: 0px; list-style-type: none;">
+        <li class="text-center"> -->
+        <span>
+          <img class="border rounded" src="https://pbs.twimg.com/profile_images/735242324293210112/H8YfgQHP_400x400.jpg" style="height:50px; width=50px;">
+          <!-- <img class="bg-dark">A</img> -->
+        </span>
+      <!--   </li>
+      </ul> -->
+      </button>
+      <div class="dropdown-menu dropdown-menu-right">
+        <a class="dropdown-item" href="/<%= session[:user].id %>/dashboard">Dashboard</a>
+        <a class="dropdown-item" href="/<%= session[:user].id %>/user_profile">Profile</a>
+        <a class="dropdown-item" href="/search">Search</a>
+        <div class="dropdown-divider"></div>
+        <a class="dropdown-item">
+          <form method="POST" action="/sessions/destroy" >
+            <input  style="all: unset;" type="submit" value="Log out">
+          </form>
+        </a>
+      </div>
+    </div>
+
+
+
+
     <% end %>
   </span>
 </nav>
