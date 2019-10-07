@@ -13,6 +13,7 @@ require_relative './lib/film.rb'
 require_relative './lib/recommendation.rb'
 require_relative './lib/showtime.rb'
 require_relative './lib/cinema.rb'
+require_relative './lib/datehelper.rb'
 
 class App < Sinatra::Base
   set :sessions, true
@@ -167,7 +168,7 @@ class App < Sinatra::Base
       cinema = Cinema.find_by_cinema_id(cinema_id)
       Showtime.create(showtime, cinema)
     }
-
+    @DateHelper = DateHelper
     erb :_film
   end
 
