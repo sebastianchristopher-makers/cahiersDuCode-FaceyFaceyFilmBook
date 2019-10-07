@@ -8,12 +8,12 @@ describe Film do
   end
 
   it "creates a new film" do
-    film = Film.create(13446, 'Withnail & I', "/lXD5UR2dvXJF54AIBt8G2kDvYGk.jpg", 1987)
+    film = Film.create(13446, 'Withnail & I', "/lXD5UR2dvXJF54AIBt8G2kDvYGk.jpg", 1987, 1)
     expect(film).to be_a(Film)
   end
 
   context "after it is created" do
-    let(:film) { Film.create(13446, 'Withnail & I', "/lXD5UR2dvXJF54AIBt8G2kDvYGk.jpg", 1987) }
+    let(:film) { Film.create(13446, 'Withnail & I', "/lXD5UR2dvXJF54AIBt8G2kDvYGk.jpg", 1987, 1) }
 
     it "has an id" do
       expect(film.id).to eq(1)
@@ -34,35 +34,39 @@ describe Film do
     it "has a year" do
       expect(film.year).to eq(1987)
     end
+
+    it "has a showtime_id" do
+      expect(film.showtime_id).to eq(1)
+    end
   end
 
   it 'adds a film to films' do
-    film = Film.create(13446, 'Withnail & I', "/lXD5UR2dvXJF54AIBt8G2kDvYGk.jpg", 1987)
-    Film.add(1, film.film_id)
+    film = Film.create(13446, 'Withnail & I', "/lXD5UR2dvXJF54AIBt8G2kDvYGk.jpg", 1987, 1)
+    Film.add(1, film.film_id, false, false)
     rs = DatabaseConnection.query("SELECT * FROM usersFilms;")
-    expect(rs[0]).to eq({"id"=>"1", "userid"=>"1", "filmid"=>"13446"})
+    expect(rs[0]).to eq({"id"=>"1", "userid"=>"1", "filmid"=>"13446", "istowatch" => "f", "iswatched" => "f"})
   end
 
   it "can find all films added by a user" do
     User.create("otheruser@example.com",  "Password1234")
 
-    film = Film.create(13446, 'Withnail & I', "/lXD5UR2dvXJF54AIBt8G2kDvYGk.jpg", 1987)
-    film_2 = Film.create(343, 'Harold and Maude', "/xqay68babjK46U9WBFD2TmtnGcx.jpg", 1971)
-    film_3 = Film.create(42497, 'Pink Narcissus', "/kaZiiGE6820KyFF9XkzPB9Rx9qn.jpg", 1971)
+    film = Film.create(13446, 'Withnail & I', "/lXD5UR2dvXJF54AIBt8G2kDvYGk.jpg", 1987, 1)
+    film_2 = Film.create(343, 'Harold and Maude', "/xqay68babjK46U9WBFD2TmtnGcx.jpg", 1971, 2)
+    film_3 = Film.create(42497, 'Pink Narcissus', "/kaZiiGE6820KyFF9XkzPB9Rx9qn.jpg", 1971, 3)
 
-    Film.add(1, film.film_id)
-    Film.add(2, film_2.film_id)
-    Film.add(1, film_3.film_id)
+    Film.add(1, film.film_id, false, false)
+    Film.add(2, film_2.film_id, false, false)
+    Film.add(1, film_3.film_id, false, false)
     expect(Film.find_by_user_id(1)).to contain_exactly(film, film_3)
   end
 
   it "can find a film by film id" do
-    film = Film.create(13446, 'Withnail & I', "/lXD5UR2dvXJF54AIBt8G2kDvYGk.jpg", 1987)
+    film = Film.create(13446, 'Withnail & I', "/lXD5UR2dvXJF54AIBt8G2kDvYGk.jpg", 1987, 1)
     expect(Film.find_by_id(13446)).to eq(film)
   end
 
   it "checks whether a film exists" do
-    film = Film.create(13446, 'Withnail & I', "/lXD5UR2dvXJF54AIBt8G2kDvYGk.jpg", 1987)
+    film = Film.create(13446, 'Withnail & I', "/lXD5UR2dvXJF54AIBt8G2kDvYGk.jpg", 1987, 1)
     expect(Film.film_exists?(13446)).to be true
   end
 

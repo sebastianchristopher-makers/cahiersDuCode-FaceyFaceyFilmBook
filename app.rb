@@ -11,6 +11,8 @@ require_relative './lib/user'
 require_relative './lib/database_connection'
 require_relative './lib/film.rb'
 require_relative './lib/recommendation.rb'
+require_relative './lib/showtime.rb'
+require_relative './lib/cinema.rb'
 
 class App < Sinatra::Base
   set :sessions, true
@@ -92,7 +94,11 @@ class App < Sinatra::Base
       year = params[:year].to_i
       watched = params[:watched]
       to_watch = params[:to_watch]
-      Film.create(film_id, title, poster_path, year) unless Film.film_exists?(film_id)
+      url = "https://api.internationalshowtimes.com/v4/movies?apikey=" + ENV['SHOWTIMES_API'] + "&tmdb_id=" + film_id
+      uri = URI(url)
+      response = JSON.parse(Net::HTTP.get(uri))
+      showtime_id = response["movies"][0]["id"]
+      Film.create(film_id, title, poster_path, year, showtime_id) unless Film.film_exists?(film_id)
       Film.add(user_id, film_id, watched, to_watch)
     else
       status 403
@@ -121,7 +127,6 @@ class App < Sinatra::Base
   get '/:id/user_profile' do
     userId = params[:id]
     @id = userId
-    p @id
     @films = Film.find_by_user_id(userId).each_slice(3).to_a
     erb :user_profile
   end
@@ -131,6 +136,7 @@ class App < Sinatra::Base
     url = 'https://api.themoviedb.org/3/movie/' + film_id + '/videos?api_key=' + ENV['API_KEY'] + '&language=en-US'
     uri = URI(url)
     response = JSON.parse(Net::HTTP.get(uri))
+    @film = Film.find_by_id(film_id)
     @title = Film.find_by_id(film_id).title
     @src = "https://www.youtube.com/embed/#{response["results"][0]["key"]}" if response["results"].size > 0
 
@@ -140,6 +146,22 @@ class App < Sinatra::Base
     @recommendations = response["results"].map{ |result|
       Recommendation.new(result["id"], result["original_title"], result["poster_path"])
     }
+
+    url = "https://api.internationalshowtimes.com/v4/showtimes?apikey=" + ENV['SHOWTIMES_API'] + "&movie_id=" + @film.showtime_id.to_s + "&location=51.515724,-0.065091&distance=30"
+    uri = URI(url)
+    response = JSON.parse(Net::HTTP.get(uri))
+    @showtimes = response["showtimes"].map{ |showtime|
+      cinema_id = showtime["cinema_id"]
+      unless Cinema.cinema_exists?(cinema_id)
+        url = "https://api.internationalshowtimes.com/v4/cinemas/" + cinema_id + "?apikey=" + ENV["SHOWTIMES_API"]
+        uri = URI(url)
+        response = JSON.parse(Net::HTTP.get(uri))
+        Cinema.create(response["cinema"]["id"], response["cinema"]["name"], response["cinema"]["website"], response["cinema"]["location"]["address"]["city"], response["cinema"]["location"]["address"]["zipcode"])
+      end
+      cinema = Cinema.find_by_cinema_id(cinema_id)
+      Showtime.create(showtime, cinema)
+    }
+
     erb :_film
   end
 
