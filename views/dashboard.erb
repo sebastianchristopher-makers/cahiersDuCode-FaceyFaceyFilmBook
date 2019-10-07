@@ -1,0 +1,7 @@
+<%= erb :_header %>
+
+<% if @user %>
+  <p>This is currently a holding page that only the user can see</p>
+<% else %>
+  <p>Please <a href="/sessions/new">Please sign in.</a></p>
+<% end %>
