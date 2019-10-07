@@ -4,9 +4,24 @@
   </span>
   <span style="float: right;">
     <% if @user %>
-    <form method="POST" action="/sessions/destroy">
-        <input class="btn btn-danger" type="submit" value="Log out">
-    </form>
+    <div class="btn-group">
+      <button data-toggle="dropdown" style="all: unset" aria-haspopup="true" aria-expanded="false">
+        <span>
+          <img class="border rounded" src="https://pbs.twimg.com/profile_images/735242324293210112/H8YfgQHP_400x400.jpg" style="height:50px; width=50px;">
+        </span>
+      </button>
+      <div class="dropdown-menu dropdown-menu-right">
+        <a class="dropdown-item" href="/<%= session[:user].id %>/dashboard">Dashboard</a>
+        <a class="dropdown-item" href="/<%= session[:user].id %>/user_profile">Profile</a>
+        <a class="dropdown-item" href="/search">Search</a>
+        <div class="dropdown-divider"></div>
+        <a class="dropdown-item">
+          <form method="POST" action="/sessions/destroy" >
+            <input  style="all: unset;" type="submit" value="Log out">
+          </form>
+        </a>
+      </div>
+    </div>
     <% end %>
   </span>
 </nav>
