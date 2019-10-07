@@ -66,6 +66,7 @@ class App < Sinatra::Base
     user = User.authenticate(email, password)
     if user
       session[:user] = user
+      @email = email
       redirect "#{user.id}/user_profile"
     else
       puts("Wrong Username And/or Password")
@@ -123,6 +124,7 @@ class App < Sinatra::Base
     @id = userId
     p @id
     @films = Film.find_by_user_id(userId).each_slice(3).to_a
+    @email = User.find_by_id(userId).email
     erb :user_profile
   end
 
