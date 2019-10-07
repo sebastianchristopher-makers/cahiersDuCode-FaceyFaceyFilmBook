@@ -25,6 +25,7 @@ function search(){
       let year = yearOfFilm(data.results[i].release_date);
       let id = data.results[i].id;
       let overview = data.results[i].overview;
+      let backdrop_path = data.results[i].backdrop_path
 
       let name = document.createTextNode(original_title + " (" + year + ")");
       opt.appendChild(name);
@@ -36,6 +37,7 @@ function search(){
       opt.dataset.id = id;
       opt.dataset.poster_path = data.results[i].poster_path;
       opt.dataset.overview = overview;
+      opt.dataset.backdrop_path = backdrop_path
     }
     document.getElementById("numFilms").innerHTML = "Search returned " + data.results.length + " result(s)";
     getCardInfo();
@@ -59,23 +61,23 @@ function getCardInfo(){
   cardPoster.src = 'https://image.tmdb.org/t/p/w185/' + film.dataset.poster_path;
 }
 
-function addFilm(){
-  let filmsSelect = document.getElementById('films');
-  if(filmsSelect.options.length <= 0){
-    alert("Nothing to add!");
-  } else {
-    let film = filmsSelect.options[films.selectedIndex];
-    $.post('/search', {id:film.dataset.id, title:film.dataset.title, year: film.dataset.year, poster_path: film.dataset.poster_path}, function(data, status, xhr){
-
-    })
-    .done(function(data) {
-      alert(film.text + ' was added to your collection.');
-    })
-    .fail(function(jqxhr, settings, ex) {
-      alert('failed, ' + jqxhr.responseText);
-    });
-  }
-}
+// function addFilm(){
+//   let filmsSelect = document.getElementById('films');
+//   if(filmsSelect.options.length <= 0){
+//     alert("Nothing to add!");
+//   } else {
+//     let film = filmsSelect.options[films.selectedIndex];
+//     $.post('/search', {id:film.dataset.id, title:film.dataset.title, year: film.dataset.year, poster_path: film.dataset.poster_path}, function(data, status, xhr){
+//
+//     })
+//     .done(function(data) {
+//       alert(film.text + ' was added to your collection.');
+//     })
+//     .fail(function(jqxhr, settings, ex) {
+//       alert('failed, ' + jqxhr.responseText);
+//     });
+//   }
+// }
 
 function addFilmToToWatch(){
   let filmsSelect = document.getElementById('films');
@@ -83,9 +85,7 @@ function addFilmToToWatch(){
     alert("Nothing to add!");
   } else {
     let film = filmsSelect.options[films.selectedIndex];
-    let res = {id:film.dataset.id, title:film.dataset.title, year: film.dataset.year, poster_path: film.dataset.poster_path, watched:'false', to_watch:'true'}
-    console.log(res)
-    $.post('/search', {id:film.dataset.id, title:film.dataset.title, year: film.dataset.year, poster_path: film.dataset.poster_path, watched:'false', to_watch:'true'}, function(data, status, xhr){
+    $.post('/search', {id:film.dataset.id, title:film.dataset.title, year: film.dataset.year, poster_path: film.dataset.poster_path, watched:'false', to_watch:'true', backdrop_path:film.dataset.backdrop_path, favourite:false}, function(data, status, xhr){
 
     })
     .done(function(data) {
@@ -103,11 +103,29 @@ function addFilmToWatched(){
     alert("Nothing to add!");
   } else {
     let film = filmsSelect.options[films.selectedIndex];
-    $.post('/search', {id:film.dataset.id, title:film.dataset.title, year: film.dataset.year, poster_path: film.dataset.poster_path, watched:'true', to_watch:'false' }, function(data, status, xhr){
+    $.post('/search', {id:film.dataset.id, title:film.dataset.title, year: film.dataset.year, poster_path: film.dataset.poster_path, watched:'true', to_watch:'false', backdrop_path:film.dataset.backdrop_path, favourite:false}, function(data, status, xhr){
 
     })
     .done(function(data) {
       alert(film.text + ' was added to your collection.');
+    })
+    .fail(function(jqxhr, settings, ex) {
+      alert('failed, ' + jqxhr.responseText);
+    });
+  }
+}
+
+function addFavouriteFilm(){
+  let filmsSelect = document.getElementById('films');
+  if(filmsSelect.options.length <= 0){
+    alert("Nothing to add!");
+  } else {
+    let film = filmsSelect.options[films.selectedIndex];
+    $.post('/search', {id:film.dataset.id, title:film.dataset.title, year: film.dataset.year, poster_path: film.dataset.poster_path, watched:'true', to_watch:'false', backdrop_path:film.dataset.backdrop_path, favourite:true}, function(data, status, xhr){
+
+    })
+    .done(function(data) {
+      alert(film.text + ' was added to your collection and your banner.');
     })
     .fail(function(jqxhr, settings, ex) {
       alert('failed, ' + jqxhr.responseText);
