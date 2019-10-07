@@ -123,6 +123,7 @@ class App < Sinatra::Base
     @id = userId
     p @id
     @films = Film.find_by_user_id(userId).each_slice(3).to_a
+    @email = User.find_by_id(userId).email
     erb :user_profile
   end
 

@@ -47,6 +47,11 @@ describe User do
     expect(User.user_exists?("christest@example.com")).to be false
   end
 
+  it "can find a user by email" do
+    user = User.create("chris@example.com", "Password1234")
+    expect(User.find_by_email("chris@example.com")).to eq(user)
+  end
+
   after(:each) do
     DatabaseConnection.query("TRUNCATE users RESTART IDENTITY CASCADE;")
   end

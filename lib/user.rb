@@ -10,6 +10,13 @@ attr_reader :email, :id, :films
     @films = []
   end
 
+
+  def ==(other)
+    id == other.id &&
+    email == other.email &&
+    films == other.films
+   end
+   
   def self.create(email, password)
     hashed_password = BCrypt::Password.create(password)
     rs = DatabaseConnection.query("INSERT into users (email, password) VALUES('#{email}', '#{hashed_password}') RETURNING *;")
@@ -33,5 +40,10 @@ attr_reader :email, :id, :films
     else
 
     end
+  end
+
+  def self.find_by_id(userid)
+    rs = DatabaseConnection.query("SELECT * FROM users WHERE id = '#{userid}';")
+    return User.new(rs[0]["id"].to_i, rs[0]["email"])
   end
 end
