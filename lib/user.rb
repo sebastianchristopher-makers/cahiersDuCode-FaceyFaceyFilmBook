@@ -12,11 +12,12 @@ attr_reader :email, :id, :films
 
 
   def ==(other)
+    return false if other.nil?
     id == other.id &&
     email == other.email &&
     films == other.films
    end
-   
+
   def self.create(email, password)
     hashed_password = BCrypt::Password.create(password)
     rs = DatabaseConnection.query("INSERT into users (email, password) VALUES('#{email}', '#{hashed_password}') RETURNING *;")
