@@ -66,7 +66,6 @@ class App < Sinatra::Base
     user = User.authenticate(email, password)
     if user
       session[:user] = user
-      @email = email
       redirect "#{user.id}/user_profile"
     else
       puts("Wrong Username And/or Password")
