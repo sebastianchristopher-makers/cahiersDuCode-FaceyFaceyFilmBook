@@ -120,10 +120,14 @@ class App < Sinatra::Base
 
   get '/:id/user_profile' do
     userId = params[:id]
-    @id = userId
-    p @id
+    @id = params[:id]
     @films = Film.find_by_user_id(userId).each_slice(3).to_a
     erb :user_profile
+  end
+
+  get '/:id/dashboard' do
+
+    erb :dashboard
   end
 
   get '/films/:id' do
