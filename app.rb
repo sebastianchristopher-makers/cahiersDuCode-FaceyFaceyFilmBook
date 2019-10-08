@@ -14,6 +14,7 @@ require_relative './lib/recommendation.rb'
 require_relative './lib/showtime.rb'
 require_relative './lib/cinema.rb'
 require_relative './lib/datehelper.rb'
+require_relative './lib/review.rb'
 
 class App < Sinatra::Base
   set :sessions, true
@@ -138,7 +139,8 @@ class App < Sinatra::Base
     @user_profile = User.find_by_id(userId)
     @email = @user_profile.email
     favourite_film_id = @user_profile.favourite_film
-    @backdrop_path = Film.find_by_id(favourite_film_id).backdrop_path
+    p favourite_film_id
+    @backdrop_path = Film.find_by_id(favourite_film_id).backdrop_path unless favourite_film_id.nil?
     p @backdrop_path
     erb :user_profile
   end
@@ -182,7 +184,26 @@ class App < Sinatra::Base
       }
     end
     @DateHelper = DateHelper
+
+    @reviews = Review.find_by_film_id(film_id)
+
+    @user_model = User
+
     erb :_film
+  end
+
+  post '/films/:id' do
+    review_content = params[:review]
+    film_id = params[:id]
+    user_id = @user.id
+    Review.create(user_id, film_id, review_content)
+    redirect("/films/#{film_id}")
+  end
+
+  get '/films/:id/add_review' do
+    film_id = params[:id]
+    @film = Film.find_by_id(film_id)
+    erb :add_review
   end
 
   run! if app_file == $PROGRAM_NAME

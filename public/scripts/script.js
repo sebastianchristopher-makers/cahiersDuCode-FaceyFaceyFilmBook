@@ -61,24 +61,6 @@ function getCardInfo(){
   cardPoster.src = 'https://image.tmdb.org/t/p/w185/' + film.dataset.poster_path;
 }
 
-// function addFilm(){
-//   let filmsSelect = document.getElementById('films');
-//   if(filmsSelect.options.length <= 0){
-//     alert("Nothing to add!");
-//   } else {
-//     let film = filmsSelect.options[films.selectedIndex];
-//     $.post('/search', {id:film.dataset.id, title:film.dataset.title, year: film.dataset.year, poster_path: film.dataset.poster_path}, function(data, status, xhr){
-//
-//     })
-//     .done(function(data) {
-//       alert(film.text + ' was added to your collection.');
-//     })
-//     .fail(function(jqxhr, settings, ex) {
-//       alert('failed, ' + jqxhr.responseText);
-//     });
-//   }
-// }
-
 function addFilmToToWatch(){
   let filmsSelect = document.getElementById('films');
   if(filmsSelect.options.length <= 0){
