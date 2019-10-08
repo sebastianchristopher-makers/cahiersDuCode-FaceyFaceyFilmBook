@@ -1,23 +1,38 @@
+/*INDEX PAGE HEADER*/
+
+header {
+  border: 55px;
+  border-color: black;
+  border: solid #000;
+  border-width: 0 0 20px;
+  border-top: 10px solid white;
+}
+
+#header-index {
+  padding: 0 0 0px;
+}
+
+#index-page-logo {
+  font-family: 'Josefin Sans', sans-serif;
+  font-weight: 700;
+  font-size: 75px;
+  padding: 0 0 0px;
+  margin: 0 0 0px;
+  line-height: 70px;
+}
+
 /* Header Parallax Element Style*/
 .paral {
-min-height: 600px;
+min-height: 700px;
 background-attachment: fixed;
 background-size: cover;
 background-position: 50% 50%;
 }
 
-/* Paragrapgh for Parallax Section */
-.paral p {
-font-size: 24px;
-color:#f5f5f5;
-text-align: center;
-line-height: 60px;
-}
-
 /* Heading for Parallax Section */
 .paral h1 {
-color: rgba(255, 255, 255, 0.8);
-font-family: 'Source Code Pro', monospace;
+color: black;
+font-family: 'Roboto Mono', monospace;
 font-size: 60px;
 text-align: center;
 padding-top: 60px;
@@ -26,34 +41,117 @@ line-height: 100px;
 
 /* Image for Parallax Section */
 .paralsec {
-/* background-image: url("http://lukedowding.com/wp-content/uploads/BladeRunner-Eye-1920x1080.jpg"); */
 background-image: url("https://cms-assets.theasc.com/NOTH-Featured-2.jpg?mtime=20170802194002.jpg");
 }
 
 .paralsec1 {
-/* background-image: url("https://i.imgur.com/L40UfuS.jpg"); */
 background-image: url("https://celluloidwickerman.files.wordpress.com/2013/12/psycho-anthony-perkins-as-norman-bates.jpg?w=1600&h=768&crop=1");
 }
 
 .paralsec2 {
-/* background-image: url("http://getwallpapers.com/wallpaper/full/e/6/e/95529.jpg"); */
 background-image: url("https://nos.nl/data/image/2016/07/03/296277/2048x1152.jpg");
 }
 
 /* Add more images for more sections */
 
-/* Remove Bottom Margin from Jumbotron */
-.jumbotron{margin-bottom: 0;}
+/* Bottom Margin from Jumbotron */
+.jumbotron{margin-bottom: 20;}
 
-/* Footer */
-.wn-footer {
-padding: 2.5rem 0;
-text-align: center;
-color: white;
-background-color: #607D8B;
-border-top: .05rem solid #e5e5e5;
+/*SIGN IN AND SIGN UP BUTTONS*/
+
+.btn {
+  font-family:'Roboto Mono', monospace;
+  font-size: 30px;
+  font-weight: 700;
+  color: white;
+  background-color: transparent;
+  border-color: white;
+  border-width: 5px;
+  box-shadow: 0px 9px 0px #009874;
+  box-shadow: none;
 }
 
-.wn-footer a {
-color: white;
+.btn:hover {
+  font-family: 'Roboto Mono', monospace;
+  font-weight: 700;
+  color: black;
+  box-shadow: 0px 5px 0px #009874;
+}
+
+/*PARALLAX-1*/
+
+#blue-block {
+  background-color: rgb(72, 179, 203);
+  font-weight: 700;
+  font-size:30px;
+  font-color: white;
+  width: 350px;
+  height: 350px;
+}
+
+#blue-block-h1 {
+  font-family:'Roboto Mono', monospace;
+  font-size: 35px;
+  font-weight: 700;
+}
+
+/*BLUE BLOCK TURNS ORANGE*/
+#blue-block-h1:hover {
+  font-family:'Roboto Mono', monospace;
+  color: white;
+  background-color: rgb(252, 114, 51);
+}
+
+/*PARALLAX-2*/
+
+#green-block {
+  background-color: rgb(178, 179, 86);
+  width: 350px;
+  height: 500px;
+}
+
+#green-block-h1 {
+  color: black;
+  font-size: 35px;
+  font-weight: 700;
+  padding: 5px;
+}
+
+#green-block:hover{
+  background-color: rgb(228, 50, 76)
+}
+
+/*PARALLAX-3*/
+
+#white-block {
+  float: right;
+  background: white;
+  border: 5px;
+  border-color: black;
+  width: 450px;
+  height: 400px;
+}
+
+#white-block-h1 {
+  color: black;
+  font-size: 35px;
+  font-weight: 700;
+  padding: 5px;
+  width: 450px;
+  height: 400px;
+  border: solid 10px white;
+}
+
+#white-block:hover {
+  background-color: pink;
+  font-style: italic;
+}
+
+/* Footer */
+.footer {
+  padding: 2.5rem 0;
+  text-align: center;
+  color: white;
+  background-color: black;
+  border-top: .05rem solid #e5e5e5;
 }
