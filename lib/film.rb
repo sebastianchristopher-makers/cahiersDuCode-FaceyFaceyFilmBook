@@ -14,12 +14,12 @@ class Film
   end
 
   def ==(other)
-   id == other.id &&
+    id == other.id &&
     film_id == other.film_id &&
     title == other.title &&
     poster_path == other.poster_path &&
     year == other.year &&
-    backdrop_path == backdrop_path.year
+    backdrop_path == other.backdrop_path
   end
 
   def self.create(film_id, title, poster_path, year, showtime_id, backdrop_path)

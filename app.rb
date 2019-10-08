@@ -19,12 +19,12 @@ class App < Sinatra::Base
   set :sessions, true
   set :logging, true
   set :partial_template_engine, :erb
-  if (ENV["DATABASE_URL"])
-    dbUri = URI.parse(ENV["DATABASE_URL"])
-  else
-    dbUri = URI.parse("postgres://localhost:5432/filmbook_test")
-  end
-  DatabaseConnection.setup(dbUri)
+  db_uri = if (ENV['DATABASE_URL'])
+            URI.parse(ENV['DATABASE_URL'])
+          else
+            URI.parse('postgres://localhost:5432/filmbook_test')
+          end
+  DatabaseConnection.setup(db_uri)
 
   before do
     @user = session[:user]
@@ -49,7 +49,7 @@ class App < Sinatra::Base
   get '/user-exists' do
     if User.user_exists?(params[:email])
       status 401
-      body "User already exists!"
+      body 'User already exists!'
     end
   end
 
@@ -74,7 +74,7 @@ class App < Sinatra::Base
       session[:user] = user
       redirect "#{user.id}/user_profile"
     else
-      puts("Wrong Username And/or Password")
+      puts('Wrong Username And/or Password')
       redirect '/sessions/new'
     end
   end
@@ -93,22 +93,20 @@ class App < Sinatra::Base
     if session[:user] != nil
       user_id = session[:user].id
       film_id = params[:id]
-      favourite = params[:favourite].to_s.downcase == "true"
+      favourite = params[:favourite].to_s.downcase == 'true'
       title = params[:title]
       poster_path = params[:poster_path]
       year = params[:year].to_i
       watched = params[:watched]
       to_watch = params[:to_watch]
       backdrop_path = params[:backdrop_path]
-      url = "https://api.internationalshowtimes.com/v4/movies?apikey=" + ENV['SHOWTIMES_API'] + "&tmdb_id=" + film_id
+      url = 'https://api.internationalshowtimes.com/v4/movies?apikey=' + ENV['SHOWTIMES_API'] + '&tmdb_id=' + film_id
       uri = URI(url)
       response = JSON.parse(Net::HTTP.get(uri))
-      showtime_id = response["movies"][0]["id"]
+      showtime_id = response['movies'][0]['id'] if response['meta_info']['total_count'] > 0
       Film.create(film_id, title, poster_path, year, showtime_id, backdrop_path) unless Film.film_exists?(film_id)
       Film.add(user_id, film_id, watched, to_watch)
-      if favourite == true
-        User.add_favourite(film_id, user_id)
-      end
+      User.add_favourite(film_id, user_id) if favourite == true
     else
       status 403
       body 'Forbidden; only logged in users can add a film'
@@ -146,7 +144,6 @@ class App < Sinatra::Base
   end
 
   get '/:id/dashboard' do
-
     erb :dashboard
   end
 
@@ -162,23 +159,23 @@ class App < Sinatra::Base
     url = 'https://api.themoviedb.org/3/movie/' + film_id + '/recommendations?api_key=' + ENV['API_KEY'] + '&language=en-US&page=1'
     uri = URI(url)
     response = JSON.parse(Net::HTTP.get(uri))
-    @recommendations = response["results"].map{ |result|
-      Recommendation.new(result["id"], result["original_title"], result["poster_path"])
+    @recommendations = response['results'].map{ |result|
+      Recommendation.new(result['id'], result['original_title'], result['poster_path'])
     }
 
-    url = "https://api.internationalshowtimes.com/v4/showtimes?apikey=" + ENV['SHOWTIMES_API'] + "&movie_id=" + @film.showtime_id.to_s + "&location=51.515724,-0.065091&distance=30"
+    url = 'https://api.internationalshowtimes.com/v4/showtimes?apikey=' + ENV['SHOWTIMES_API'] + '&movie_id=' + @film.showtime_id.to_s + '&location=51.515724,-0.065091&distance=30'
     uri = URI(url)
     response = JSON.parse(Net::HTTP.get(uri))
-    if response["showtimes"].length > 20
+    if response['showtimes'].length > 20
       @showtime_error = "https://www.google.com/search?q=#{@title.split.join("+")}+showtimes&oq=#{@title.split.join("+")}+showtimes"
     else
-      @showtimes = response["showtimes"].map{ |showtime|
-        cinema_id = showtime["cinema_id"]
+      @showtimes = response['showtimes'].map{ |showtime|
+        cinema_id = showtime['cinema_id']
         unless Cinema.cinema_exists?(cinema_id)
-          url = "https://api.internationalshowtimes.com/v4/cinemas/" + cinema_id + "?apikey=" + ENV["SHOWTIMES_API"]
+          url = 'https://api.internationalshowtimes.com/v4/cinemas/' + cinema_id + '?apikey=' + ENV['SHOWTIMES_API']
           uri = URI(url)
           response = JSON.parse(Net::HTTP.get(uri))
-          Cinema.create(response["cinema"]["id"], response["cinema"]["name"], response["cinema"]["website"], response["cinema"]["location"]["address"]["city"], response["cinema"]["location"]["address"]["zipcode"])
+          Cinema.create(response['cinema']['id'], response['cinema']['name'], response['cinema']['website'], response['cinema']['location']['address']['city'], response['cinema']['location']['address']['zipcode'])
         end
         cinema = Cinema.find_by_cinema_id(cinema_id)
         Showtime.create(showtime, cinema)

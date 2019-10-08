@@ -38,16 +38,13 @@ attr_reader :email, :id, :films, :favourite_film
   def self.authenticate(email, password)
     rs = DatabaseConnection.query("SELECT * FROM users WHERE email = '#{email}';")
     BCrypt::Password.new(rs[0]["password"]) == password
-    if BCrypt::Password.new(rs[0]["password"]) == password
-      return User.new(rs[0]["id"].to_i, email)
-    else
-
-    end
+    return User.new(rs[0]["id"].to_i, email) if BCrypt::Password.new(rs[0]["password"]) == password
   end
 
   def self.find_by_id(userid)
-    rs = DatabaseConnection.query("SELECT * FROM users WHERE id = '#{userid}';")
-    return User.new(rs[0]["id"].to_i, rs[0]["email"], rs[0]["favouritefilm"])
+    rs = DatabaseConnection.query('SELECT * FROM users WHERE id = $1;', [userid])
+    favourite_film = rs[0]["favouritefilm"].to_i unless rs[0]["favouritefilm"].nil?
+    User.new(rs[0]["id"].to_i, rs[0]["email"], favourite_film)
   end
 
   def self.add_favourite(film_id, user_id)
