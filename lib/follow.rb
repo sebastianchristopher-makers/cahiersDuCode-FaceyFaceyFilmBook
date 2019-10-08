@@ -21,9 +21,10 @@ class Follower
 
     def self.find_by_user_id(user_id)
         rs = DatabaseConnection.query("SELECT * FROM followers WHERE userID = #{user_id}")
-        rs.map do |follow|
-        # what happens if rs returns 0 results
-             Follower.new(follow["id"].to_i, follow["user_id"].to_i, follow["follower_id"].to_i)
+        if rs.to_a.length > 0
+          rs.map do |follow|
+            Follower.new(follow["id"].to_i, follow["user_id"].to_i, follow["follower_id"].to_i)
+          end
         end
     end
 
