@@ -1,0 +1,7 @@
+<h2>Add a review for <%= @film.title %></h2>
+<div style="text-align: center">
+  <form action="/films/<%= @film.film_id %>" method="POST">
+    <textarea rows="20" name="review" cols="100" ></textarea>
+    <input type="submit" value="Add review">
+  </form>
+</div>
