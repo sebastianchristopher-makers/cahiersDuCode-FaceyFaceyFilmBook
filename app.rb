@@ -91,6 +91,24 @@ class App < Sinatra::Base
     erb :search
   end
 
+  post '/create' do
+    film_id = params[:id]
+    unless Film.film_exists?(film_id)
+
+      title = params[:title]
+      poster_path = params[:poster_path]
+      year = params[:year].to_i
+      backdrop_path = params[:backdrop_path]
+      overview = params[:overview]
+
+      url = 'https://api.internationalshowtimes.com/v4/movies?apikey=' + ENV['SHOWTIMES_API'] + '&tmdb_id=' + film_id
+      uri = URI(url)
+      response = JSON.parse(Net::HTTP.get(uri))
+      showtime_id = response['movies'][0]['id'] if response['meta_info']['total_count'] > 0
+      Film.create(film_id, title, poster_path, year, showtime_id, backdrop_path, overview)
+    end
+  end
+
   post '/search' do
     if session[:user] != nil
       user_id = session[:user].id
@@ -164,7 +182,7 @@ class App < Sinatra::Base
     uri = URI(url)
     response = JSON.parse(Net::HTTP.get(uri))
     @recommendations = response['results'].map{ |result|
-      Recommendation.new(result['id'], result['original_title'], result['poster_path'])
+      Recommendation.create(result)
     }
 
     url = 'https://api.internationalshowtimes.com/v4/showtimes?apikey=' + ENV['SHOWTIMES_API'] + '&movie_id=' + @film.showtime_id.to_s + '&location=51.515724,-0.065091&distance=30'
