@@ -15,6 +15,7 @@ require_relative './lib/showtime.rb'
 require_relative './lib/cinema.rb'
 require_relative './lib/datehelper.rb'
 require_relative './lib/review.rb'
+require_relative './lib/follow.rb'
 
 class App < Sinatra::Base
   set :sessions, true
@@ -204,6 +205,12 @@ class App < Sinatra::Base
     film_id = params[:id]
     @film = Film.find_by_id(film_id)
     erb :add_review
+  end
+
+  post '/addfollow' do
+    user_id = params[:userid]
+    follower_id = params[:followerid]
+    Follower.add(user_id, follower_id)
   end
 
   run! if app_file == $PROGRAM_NAME
