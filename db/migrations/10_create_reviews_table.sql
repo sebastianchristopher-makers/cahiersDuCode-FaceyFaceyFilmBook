@@ -1,8 +1,8 @@
 CREATE TABLE reviews(
   id SERIAL PRIMARY KEY,
-  FOREIGN KEY (filmID)
+  filmID INTEGER
   REFERENCES films(filmId),
-  FOREIGN KEY (userID)
+  userID INTEGER
   REFERENCES users(id),
   reviewContent TEXT
 );
