@@ -1,7 +1,7 @@
 CREATE TABLE followers(
   id SERIAL PRIMARY KEY,
-  FOREIGN KEY (userId)
+  userId INTEGER
   REFERENCES users(id),
-  FOREIGN KEY (followerId)
-  REFERENCES users(id),
+  followerId INTEGER
+  REFERENCES users(id)
 );
