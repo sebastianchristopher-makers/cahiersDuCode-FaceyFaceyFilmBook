@@ -102,11 +102,12 @@ class App < Sinatra::Base
       watched = params[:watched]
       to_watch = params[:to_watch]
       backdrop_path = params[:backdrop_path]
+      overview = params[:overview]
       url = 'https://api.internationalshowtimes.com/v4/movies?apikey=' + ENV['SHOWTIMES_API'] + '&tmdb_id=' + film_id
       uri = URI(url)
       response = JSON.parse(Net::HTTP.get(uri))
       showtime_id = response['movies'][0]['id'] if response['meta_info']['total_count'] > 0
-      Film.create(film_id, title, poster_path, year, showtime_id, backdrop_path) unless Film.film_exists?(film_id)
+      Film.create(film_id, title, poster_path, year, showtime_id, backdrop_path, overview) unless Film.film_exists?(film_id)
       Film.add(user_id, film_id, watched, to_watch)
       User.add_favourite(film_id, user_id) if favourite == true
     else

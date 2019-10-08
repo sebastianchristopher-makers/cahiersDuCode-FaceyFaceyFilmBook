@@ -67,7 +67,7 @@ function addFilmToToWatch(){
     alert("Nothing to add!");
   } else {
     let film = filmsSelect.options[films.selectedIndex];
-    $.post('/search', {id:film.dataset.id, title:film.dataset.title, year: film.dataset.year, poster_path: film.dataset.poster_path, watched:'false', to_watch:'true', backdrop_path:film.dataset.backdrop_path, favourite:false}, function(data, status, xhr){
+    $.post('/search', {id:film.dataset.id, title:film.dataset.title, year: film.dataset.year, poster_path: film.dataset.poster_path, watched:'false', to_watch:'true', backdrop_path:film.dataset.backdrop_path, overview:opt.dataset.overview, favourite:false}, function(data, status, xhr){
 
     })
     .done(function(data) {
@@ -85,7 +85,7 @@ function addFilmToWatched(){
     alert("Nothing to add!");
   } else {
     let film = filmsSelect.options[films.selectedIndex];
-    $.post('/search', {id:film.dataset.id, title:film.dataset.title, year: film.dataset.year, poster_path: film.dataset.poster_path, watched:'true', to_watch:'false', backdrop_path:film.dataset.backdrop_path, favourite:false}, function(data, status, xhr){
+    $.post('/search', {id:film.dataset.id, title:film.dataset.title, year: film.dataset.year, poster_path: film.dataset.poster_path, watched:'true', to_watch:'false', backdrop_path:film.dataset.backdrop_path, overview:opt.dataset.overview, favourite:false}, function(data, status, xhr){
 
     })
     .done(function(data) {
@@ -103,7 +103,7 @@ function addFavouriteFilm(){
     alert("Nothing to add!");
   } else {
     let film = filmsSelect.options[films.selectedIndex];
-    $.post('/search', {id:film.dataset.id, title:film.dataset.title, year: film.dataset.year, poster_path: film.dataset.poster_path, watched:'true', to_watch:'false', backdrop_path:film.dataset.backdrop_path, favourite:true}, function(data, status, xhr){
+    $.post('/search', {id:film.dataset.id, title:film.dataset.title, year: film.dataset.year, poster_path: film.dataset.poster_path, watched:'true', to_watch:'false', backdrop_path:film.dataset.backdrop_path, overview:opt.dataset.overview, favourite:true}, function(data, status, xhr){
 
     })
     .done(function(data) {
