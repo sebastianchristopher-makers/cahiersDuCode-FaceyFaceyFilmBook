@@ -13,15 +13,25 @@
 # it.
 #
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
+require 'capybara/rspec'
+require 'puma'
+require 'selenium-webdriver'
 require 'simplecov'
 require 'simplecov-console'
 require_relative './setup_test_database'
+require_relative 'features/web_helpers.rb'
+require 'rspec-html-matchers'
 
 SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter.new([
   SimpleCov::Formatter::Console,
   SimpleCov::Formatter::HTMLFormatter
 ])
 SimpleCov.start
+
+require File.join(File.dirname(__FILE__), '..', 'app.rb')
+
+Capybara.app = App
+Capybara.current_driver = :selenium
 
 ENV['ENVIRONMENT'] = 'test'
 
