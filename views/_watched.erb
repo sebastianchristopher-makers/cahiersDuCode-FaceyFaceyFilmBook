@@ -29,7 +29,7 @@
             <h5 class="card-title"><a href="/films/<%= film.film_id %>"><%= film.title %></a></h5>
             <% if @user.id == @id %>
             <div style="text-align:center">
-              <button type="button" class="btn btn-default shadow-none">
+              <button type="button" class="btn btn-default shadow-none" onclick="deleteWatched(<%= film.film_id %>)">
                 <i class="material-icons" style="border-width: 1px; border-style: solid; border-radius: 10px; padding: 30% 30% 30% 30%">
                   remove
                 </i>

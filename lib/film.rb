@@ -32,6 +32,14 @@ class Film
     DatabaseConnection.query("INSERT INTO usersFilms (userId, filmId, isWatched, isToWatch) VALUES ($1, $2, $3, $4);", [user_id, film_id, watched, to_watch])
   end
 
+  def self.remove_watched(user_id, film_id)
+    DatabaseConnection.query("UPDATE usersFilms SET iswatched = false WHERE userid = $1 AND filmid = $2;", [user_id, film_id])
+  end
+
+  def self.remove_is_to_watch(user_id, film_id)
+    DatabaseConnection.query("UPDATE usersFilms SET istowatch = false WHERE userid = $1 AND filmid = $2;", [user_id, film_id])
+  end
+
   def self.find_by_id(film_id)
     rs = DatabaseConnection.query("SELECT * FROM films WHERE filmid = $1;", [film_id] )
     if rs.to_a.length >= 1

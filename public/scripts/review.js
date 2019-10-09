@@ -21,3 +21,8 @@ window.onclick = function(event) {
     modal.style.display = "none";
   }
 }
+
+function deleteWatched(id){
+  $.post('/delete-watched', {userId:<%= @user.id %>,filmId:id}, function(data){})
+  alert("Removed from list");
+}

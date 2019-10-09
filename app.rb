@@ -232,6 +232,12 @@ class App < Sinatra::Base
     Follower.add(user_id, follower_id)
   end
 
+  post '/delete-watched' do
+    user_id = params[:userId]
+    film_id = params[:filmId]
+    Film.remove_watched(user_id, film_id)
+  end
+
   run! if app_file == $PROGRAM_NAME
 
 end
