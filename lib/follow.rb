@@ -38,6 +38,11 @@ class Follower
       return rs[0]["following"].to_i
     end
 
+    def self.get_following_users(user_id) # number of people a user is following
+      rs = DatabaseConnection.query("SELECT followerid FROM followers WHERE userid = #{user_id};")
+      rs.map{ |follower| follower["followerid"].to_i} unless rs.to_a.empty?
+    end
+
     def self.following?(user_id, follower_id)
       rs = DatabaseConnection.query("SELECT * FROM followers WHERE userid = #{user_id} AND followerid = #{follower_id}")
       if rs.to_a.size > 0

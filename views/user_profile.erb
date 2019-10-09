@@ -1,8 +1,14 @@
+<body style="background: url('https://www.sccpre.cat/png/big/11/111723_film-grain-png.png') no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;">
 <head>
   <%= erb :_header %>
   <link rel="stylesheet" type="text/css" href="../styles/review_style.css">
 </head>
-<div class="jumbotron" style="background-image: url(https://image.tmdb.org/t/p/w1280/<%= @backdrop_path %>); background-repeat: no-repeat; background-size:cover;">
+
+<div class="jumbotron" style="background-image: url(https://image.tmdb.org/t/p/w1280/<%= @backdrop_path %>); background-repeat: no-repeat; background-size:cover;-webkit-filter:grayscale(100%);filter: grayscale(100%);">
 
   <div style="text-align: center;">
 
@@ -58,7 +64,10 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script type="text/javascript">
-  if (<%= @userisfollowing %>){
+  if(<%= @user.id%> ==<%=@id%>){
+    document.getElementById("follow").style.display = "none";
+    document.getElementById("following").style.display = "none";
+  } else if (<%= @userisfollowing %>){
     document.getElementById("following").style.display = "block";
     // document.getElementById("follow").style.margin-top = "5px";
     document.getElementById("follow").style.display = "none";
@@ -89,7 +98,7 @@
       document.getElementById("following").style.display = "none";
       location.reload();
     }
-    
+
   function toWatch(){
     removeElement("watched")
     removeElement("dashboard")

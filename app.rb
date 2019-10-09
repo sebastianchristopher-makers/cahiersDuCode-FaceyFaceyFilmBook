@@ -157,6 +157,10 @@ class App < Sinatra::Base
       Recommendation.create(result)
     }
     @film_title = Film.find_by_id(film_id).title if Film.film_exists?(film_id)
+
+    @following = Follower.get_following_users(@user.id).map{ |follower|
+      User.find_by_id(follower)
+    }
     erb :_dashboard
   end
 
@@ -265,7 +269,7 @@ class App < Sinatra::Base
   post '/deletefollow' do
     user_id = params[:userid]
     follower_id = params[:followerid]
-    Follower.unfollow(user_id, follower_id)  
+    Follower.unfollow(user_id, follower_id)
   end
   post '/delete-watched' do
     user_id = params[:userId]
