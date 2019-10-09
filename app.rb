@@ -181,6 +181,11 @@ class App < Sinatra::Base
     erb :_watched
   end
 
+  get '/user_profile' do
+    redirect ('/sessions/new') unless session[:user]
+    redirect "/#{@user.id}/user_profile"
+  end
+
   get '/:id/user_profile' do
     redirect ('/sessions/new') unless session[:user]
     userId = params[:id]
@@ -193,6 +198,7 @@ class App < Sinatra::Base
     @email = @user_profile.email
     favourite_film_id = @user_profile.favourite_film
     @backdrop_path = Film.find_by_id(favourite_film_id).backdrop_path unless favourite_film_id.nil?
+    @user_profile_path = User.find_by_id(@id).profile_path
     erb :user_profile
   end
 
@@ -280,6 +286,19 @@ class App < Sinatra::Base
     user_id = params[:userId]
     film_id = params[:filmId]
     Film.remove_to_watch(user_id, film_id)
+  end
+
+  get '/change-profile' do
+    erb :search_person
+  end
+
+  get '/search-people' do
+    uri = URI('https://api.themoviedb.org/3/search/person?include_adult=false&page=1&query=' + params[:personToSearch] + '&language=en-US&api_key=' + ENV['API_KEY'])
+    response = Net::HTTP.get(uri)
+  end
+
+  post '/update-profile' do
+    User.add_profile_path(@user.id, params[:profile_path])
   end
 
   run! if app_file == $PROGRAM_NAME

@@ -9,11 +9,17 @@
 </head>
 
 <div onMouseOver="showButton()" onMouseOut="hideButton()" class="jumbotron" style="background-image: url(https://image.tmdb.org/t/p/w1280/<%= @backdrop_path %>); background-repeat: no-repeat; background-size:cover;-webkit-filter:grayscale(100%);filter:contrast(110%) grayscale(100%);">
-  <button id='change-banner' style="visibility:hidden;" type="button" class="btn-default" onclick="window.location.href ='/add_favourite';">Change your banner photo</button>
+  <button id='change-banner' style="visibility:hidden;margin-bottom:5px" type="button" class="btn-default" onclick="window.location.href ='/add_favourite';">Change your profile photo</button>
+  <br>
+  <button id='change-profile' style="visibility:hidden;" type="button" class="btn-default" onclick="window.location.href ='/change-profile';">Change your banner photo</button>
   <div style="text-align: center;">
 
     <div style="display: inline-block;">
+      <% if @user_profile_path %>
+      <img src="https://image.tmdb.org/t/p/w185/<%= @user_profile_path %>" width="200px" class="img-thumbnail" style="-webkit-filter:grayscale(100%);filter:contrast(110%) grayscale(100%);">
+      <% else %>
       <img src="https://pbs.twimg.com/profile_images/735242324293210112/H8YfgQHP_400x400.jpg" width="200px" class="img-thumbnail">
+      <% end %>
       <p style="margin-top: 5px; color: #ff69b4; font-size: 20px;"> <%= @email %> </p>
     </div>
 
@@ -66,9 +72,11 @@
 <script type="text/javascript">
   function showButton(){
     document.getElementById('change-banner').style.visibility = "visible";
+    document.getElementById('change-profile').style.visibility = "visible";
   }
   function hideButton(){
     document.getElementById('change-banner').style.visibility = "hidden";
+    document.getElementById('change-profile').style.visibility = "hidden";
   }
 
   if(<%= @user.id%> ==<%=@id%>){
