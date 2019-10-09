@@ -44,7 +44,7 @@
   }
 
    function follower(){
-     if(<%= @user.id%> !=)<%=@id%>
+     if(<%= @user.id%> !=<%=@id%>)
     $.post('/addfollow', {userid:<%= @user.id%>, followerid: <%= @id%>}, function(data){
     })
     alert("Successfully Followed.")
@@ -94,6 +94,6 @@
     var element = document.getElementById(elementId);
     element.parentNode.removeChild(element);
   }
-  
+
   watched();
 </script>
