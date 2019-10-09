@@ -1,0 +1,20 @@
+/*
+* _header partial
+*/
+
+#avatar-dropdown {
+  float: right;
+  border: 2px solid black;
+}
+
+#avatar-image {
+  border: 2px solid black;
+}
+
+/*
+* sign_in.erb
+*/
+
+.form-signin {
+
+}

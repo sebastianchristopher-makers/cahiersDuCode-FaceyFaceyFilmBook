@@ -155,3 +155,30 @@ background-image: url("https://nos.nl/data/image/2016/07/03/296277/2048x1152.jpg
   background-color: black;
   border-top: .05rem solid #e5e5e5;
 }
+
+/*
+* _header partial
+*/
+
+#avatar-dropdown {
+  float: right;
+  border: 2px solid black;
+}
+
+#avatar-image {
+  border: 2px solid black;
+}
+
+/*
+* sign_in.erb
+*/
+
+.form-signin {
+  border: solid 10px black;
+}
+
+.form-control {
+  font-family: 'Roboto Mono', monospace!important;
+  font-weight: 700!important;
+  font-size: 70px!important;
+}

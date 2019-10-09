@@ -1,18 +1,19 @@
 <%= erb :_header %>
+
 <div class="container">
-  <div class="col-sm-9 col-md-7 col-lg-3 mx-auto">
-    <div class="card card-signin my-5">
-      <div class="card-body">
+  <div class="col-sm-9 col-md-8 col-lg-3 mx-auto">
+    <div id="sign-in-card" class="card card-signin my-5">
+      <div class="card-body" style="border: solid 3px black; box-shadow: 10px 9px 0px #009874">
         <form class="form-signin" action="/sessions/new" method="POST">
-           <div class="form-label-group">
-              <input type="email" name="inputEmail" class="form-control" placeholder="Email address" required autofocus>
+           <div class="form-label-group" style="font-family: 'Roboto Mono', monospace;">
+              <input type="email" name="inputEmail" class="form-control rounded-0" placeholder="EMAIL ADDRESS" required style="border: 2px solid black; box-shadow: none; text-align:center;  font-weight: 500; font-size: 18px;">
             </div>
             <br/>
-            <div class="form-label-group">
-              <input type="password" name="inputPassword" class="form-control" placeholder="Password" required>
+            <div class="form-label-group" style="font-family: 'Roboto Mono', monospace;">
+              <input type="password" name="inputPassword" class="form-control rounded-0" placeholder="PASSWORD" required style="border: 2px solid black; box-shadow: none; text-align:center; font-weight: 500; font-size: 18px;">
             </div>
-          <hr>
-          <button class="btn btn-md btn-primary btn-block" type="submit">Sign in</button>
+          <hr style="color: black;">
+          <button id="sign-in-submit-button" class="btn btn-md btn-primary btn-block rounded-0" type="submit" style="border:none; background: #009874; font-family: 'Roboto Mono', monospace; font-weight: 500; font-size: 18px;">SIGN IN</button>
         </form>
       </div>
     </div>
