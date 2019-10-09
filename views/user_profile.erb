@@ -6,8 +6,8 @@
 
   <img src="https://pbs.twimg.com/profile_images/735242324293210112/H8YfgQHP_400x400.jpg" width="200px" alt="..." class="img-thumbnail">
   <p style="margin-top: 5px; color: #ff69b4; font-size: 20px;"> <%= @email %> </p>
-  <button type="button" class="btn btn-success" onclick=follower() style="margin-top: 5px;">Follow</button>
-
+  <button type="button" class="btn btn-success" id="follow" onclick="follower()" >Follow</button>
+  <button type="button" class="btn btn-success" id="following" disabled>Following</button>
 </div>
 
 <div class="card-body" style="width: 18rem;   margin: 0 auto; float: none; margin-bottom: 10px;">
@@ -29,6 +29,29 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script type="text/javascript">
+  window.onload = function(){
+    if (<%= @userisfollowing %>){
+      document.getElementById("following").style.display = "block";
+      // document.getElementById("follow").style.margin-top = "5px";
+      document.getElementById("follow").style.display = "none";
+      // document.getElementById("following").style.margin-top = "5px";
+    } else {
+      document.getElementById("following").style.display = "none";
+      // document.getElementById("follow").style.margin-top = "5px";
+      document.getElementById("follow").style.display = "block";
+      // document.getElementById("following").style.margin-top = "5px";
+    }
+  }
+
+   function follower(){
+     if(<%= @user.id%> !=)<%=@id%>
+    $.post('/addfollow', {userid:<%= @user.id%>, followerid: <%= @id%>}, function(data){
+    })
+    alert("Successfully Followed.")
+    document.getElementById("follow").style.display = "none";
+    document.getElementById("following").style.display = "block";
+   }
+
   function toWatch(){
     removeElement("watched")
     let watched = document.createElement("div")
@@ -70,12 +93,6 @@
   function removeElement(elementId) {
     var element = document.getElementById(elementId);
     element.parentNode.removeChild(element);
-  }
-
-  function follower(){
-    $.post('/addfollow', {userid: <%= @id%>, followerid: <%= @user.id%>}, function(data){
-    })
-    alert("Successfully Followed.")
   }
 
   watched();
