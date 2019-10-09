@@ -29,6 +29,7 @@
           <img class="card-img-top" src="https://image.tmdb.org/t/p/w185/<%= film.poster_path %>" alt="Card image cap">
           <div class="card-body">
             <h5 class="card-title"><a href="/films/<%= film.film_id %>"><%= film.title %></a></h5>
+            <% if @user.id == @id %>
             <div style="text-align:center">
               <button type="button" class="btn btn-default">
                 <i class="material-icons" style="border-width: 1px; border-style: solid; border-radius: 10px; padding: 30% 30% 30% 30%">
@@ -41,6 +42,7 @@
                 </i>
               </button>
             </div>
+            <% end %>
           </div>
         </div>
       </div>
