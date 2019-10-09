@@ -142,27 +142,27 @@ class App < Sinatra::Base
 
   get '/:id/user_profile/to-watch' do
     userId = params[:id]
+    @id = userId.to_i
     @films = Film.find_to_watch(userId).each_slice(3).to_a
     erb :_to_watch
   end
 
   get '/:id/user_profile/watched' do
     userId = params[:id]
+    @id = userId.to_i
     @films = Film.find_watched(userId).each_slice(3).to_a
     erb :_watched
   end
 
   get '/:id/user_profile' do
     userId = params[:id]
-    @id = userId
+    @id = userId.to_i
     @userisfollowing = Follower.following?(@user.id, @id)
     @films = Film.find_by_user_id(userId).each_slice(3).to_a
     @user_profile = User.find_by_id(userId)
     @email = @user_profile.email
     favourite_film_id = @user_profile.favourite_film
-    p favourite_film_id
     @backdrop_path = Film.find_by_id(favourite_film_id).backdrop_path unless favourite_film_id.nil?
-    p @backdrop_path
     erb :user_profile
   end
 
