@@ -22,7 +22,12 @@ window.onclick = function(event) {
   }
 }
 
-function deleteWatched(id){
-  $.post('/delete-watched', {userId:<%= @user.id %>,filmId:id}, function(data){})
+function deleteWatched(userId, filmId){
+  $.post('/delete-watched', {userId:userId,filmId:filmId}, function(data){})
+  alert("Removed from list");
+}
+
+function deleteToWatch(userId, filmId){
+  $.post('/delete-to-watch', {userId:userId,filmId:filmId}, function(data){})
   alert("Removed from list");
 }

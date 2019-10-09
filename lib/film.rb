@@ -36,7 +36,7 @@ class Film
     DatabaseConnection.query("UPDATE usersFilms SET iswatched = false WHERE userid = $1 AND filmid = $2;", [user_id, film_id])
   end
 
-  def self.remove_is_to_watch(user_id, film_id)
+  def self.remove_to_watch(user_id, film_id)
     DatabaseConnection.query("UPDATE usersFilms SET istowatch = false WHERE userid = $1 AND filmid = $2;", [user_id, film_id])
   end
 

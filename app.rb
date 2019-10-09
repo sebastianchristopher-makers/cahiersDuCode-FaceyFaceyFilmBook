@@ -238,6 +238,12 @@ class App < Sinatra::Base
     Film.remove_watched(user_id, film_id)
   end
 
+  post '/delete-to-watch' do
+    user_id = params[:userId]
+    film_id = params[:filmId]
+    Film.remove_to_watch(user_id, film_id)
+  end
+
   run! if app_file == $PROGRAM_NAME
 
 end
