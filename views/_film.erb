@@ -1,5 +1,6 @@
 <head>
   <%= erb :_header %>
+  <link rel="stylesheet" type="text/css" href="../styles/review_style.css">
   <style>
   /* Make the image fully responsive */
   .carousel-inner img {
@@ -44,9 +45,22 @@
         </li>
        <% end %>
       </ul>
-      <form action="/films/<%= @film.film_id %>/add_review" method="GET">
-        <input type="submit" value="Add review" />
-      </form>
+      <!-- <h2>Add a review for <%= @film.title %></h2> -->
+      <!-- Trigger/Open The Modal -->
+      <button onclick="openAddReview()">Add a review</button>
+      <!-- The Modal -->
+      <div id="myModal" class="modal">
+        <!-- Modal content -->
+        <div class="modal-content">
+          <span class="close">&times;</span>
+          <div style="text-align: center">
+            <form action="/films/<%= @film.film_id %>" method="POST">
+                <textarea rows="20" name="review" cols="90" ></textarea>
+                <input type="submit" value="Add review">
+            </form>
+          </div>
+        </div>
+      </div>
       </div>
     </div>
 
@@ -98,4 +112,5 @@
       }
     };
   </script>
+  <script src="../scripts/review.js"></script>
 </body>
