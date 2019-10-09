@@ -1,5 +1,6 @@
 <head>
   <%= erb :_header %>
+  <link rel="stylesheet" type="text/css" href="../styles/review_style.css">
   <style>
   /* Make the image fully responsive */
   .carousel-inner img {
@@ -14,6 +15,10 @@
     <iframe width="420" height="315"
       src='<%= @src %>' frameborder="0" allowfullscreen>
     </iframe>
+  </div>
+
+  <div style="text-align:center;margin-bottom:10px">
+    <p><%= @film.overview %></p>
   </div>
 
   <div class="container">
@@ -40,9 +45,22 @@
         </li>
        <% end %>
       </ul>
-      <form action="/films/<%= @film.film_id %>/add_review" method="GET">
-        <input type="submit" value="Add review" />
-      </form>
+      <!-- <h2>Add a review for <%= @film.title %></h2> -->
+      <!-- Trigger/Open The Modal -->
+      <button onclick="openAddReview()">Add a review</button>
+      <!-- The Modal -->
+      <div id="myModal" class="modal">
+        <!-- Modal content -->
+        <div class="modal-content">
+          <span class="close">&times;</span>
+          <div style="text-align: center">
+            <form action="/films/<%= @film.film_id %>" method="POST">
+                <textarea rows="20" name="review" cols="90" ></textarea>
+                <input type="submit" value="Add review">
+            </form>
+          </div>
+        </div>
+      </div>
       </div>
     </div>
 
@@ -53,18 +71,18 @@
     <div id="myCarousel" class="carousel slide" data-ride="carousel" style="margin: auto;width: 250px; height:250px;">
       <!-- Wrapper for slides -->
       <div class="carousel-inner">
+
         <div class="carousel-item active">
-          <img src="https://image.tmdb.org/t/p/w780/<%= @recommendations[0].poster_path %>"  alt="<%= @recommendations[0].title %>" style="width:100%;">
-          <div class="carousel-caption">
-            <h3><%= @recommendations[0].title %></h3>
-          </div>
+          <img class="recommendation" src="https://image.tmdb.org/t/p/w780/<%= @recommendations[0].poster_path %>"  alt="<%= @recommendations[0].title %>" style="width:100%;" data-id=<%= @recommendations[0].film_id %> data-title="<%= @recommendations[0].title %>" data-year=<%= @recommendations[0].year %> data-poster_path="<%= @recommendations[0].poster_path %>" data-backdrop_path="<%= @recommendations[0].backdrop_path %>" data-overview="<%= @recommendations[0].overview %>">
         </div>
+
         <% @recommendations[1..-1].each do |recommendation| %>
         <div class="carousel-item">
-          <img src="https://image.tmdb.org/t/p/w780/<%= recommendation.poster_path %>"  alt="<%= recommendation.title %>" style="width:100%;">
+          <img class="recommendation" src="https://image.tmdb.org/t/p/w780/<%= recommendation.poster_path %>"  alt="<%= recommendation.title %>" style="width:100%;" data-id=<%= recommendation.film_id %> data-title="<%= recommendation.title %>" data-year=<%= recommendation.year %> data-poster_path="<%= recommendation.poster_path %>" data-backdrop_path="<%= recommendation.backdrop_path %>" data-overview="<%= recommendation.overview %>">
         </div>
         <% end %>
       </div>
+
         <!-- Left and right controls -->
         <a class="carousel-control-prev" href="#myCarousel" data-slide="prev">
           <span class="carousel-control-prev-icon"></span>
@@ -77,4 +95,22 @@
     <% end %>
     </div>
   </div>
+  <script type="text/javascript">
+    window.onload = function() {
+      let recommendations = document.getElementsByClassName('recommendation');
+      let createFilm = function(){
+        let film = this;
+        $.post('/create', {id:film.dataset.id, title:film.dataset.title, year: film.dataset.year, poster_path: film.dataset.poster_path, backdrop_path:film.dataset.backdrop_path, overview:film.dataset.overview}, function(data, status, xhr){
+        })
+        .done(function(data) {
+          window.location.replace("/films/" + film.dataset.id);
+        })
+        .fail(function (jqxhr,settings,ex) { alert('failed, '+ ex); });
+      }
+      for (let i = 0; i < recommendations.length; i++) {
+        recommendations[i].addEventListener('click', createFilm, false);
+      }
+    };
+  </script>
+  <script src="../scripts/review.js"></script>
 </body>

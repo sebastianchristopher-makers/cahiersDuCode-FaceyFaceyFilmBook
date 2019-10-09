@@ -1,9 +1,12 @@
-<%= erb :_header %>
+<head>
+  <%= erb :_header %>
+  <link rel="stylesheet" type="text/css" href="../styles/review_style.css">
+</head>
 <div class="jumbotron" style="background-image: url(https://image.tmdb.org/t/p/w1280/<%= @backdrop_path %>); background-repeat: no-repeat; background-size:cover;">
 
   <img src="https://pbs.twimg.com/profile_images/735242324293210112/H8YfgQHP_400x400.jpg" width="200px" alt="..." class="img-thumbnail">
   <p style="margin-top: 5px; color: #ff69b4; font-size: 20px;"> <%= @email %> </p>
-  <button type="button" class="btn btn-success" style="margin-top: 5px;">Follow</button>
+  <button type="button" class="btn btn-success" onclick=follower() style="margin-top: 5px;">Follow</button>
 
 
 </div>
@@ -35,22 +38,45 @@
     console.log('/user_profile/to-watch');
     $.get('/<%= @id %>/user_profile/to-watch', function(data){
       document.getElementById("to-watch").innerHTML = data
+      //load script after html is returned
+      $.getScript( "../scripts/review.js" )
+      .done(function( script, textStatus ) {
+        console.log( textStatus );
+      })
+      .fail(function( jqxhr, settings, exception ) {
+        console.log( "Triggered ajaxError handler." );
+      });
     })
+
   }
 
   function watched(){
-      removeElement("to-watch")
-      let to_watch = document.createElement("div")
-      to_watch.id = "to-watch"
-      document.getElementById("container").appendChild(to_watch)
-      $.get('/<%= @id %>/user_profile/watched', function(data){
+    removeElement("to-watch")
+    let to_watch = document.createElement("div")
+    to_watch.id = "to-watch"
+    document.getElementById("container").appendChild(to_watch)
+    $.get('/<%= @id %>/user_profile/watched', function(data){
       document.getElementById("watched").innerHTML = data
+      //load script after html is returned
+      $.getScript( "../scripts/review.js" )
+      .done(function( script, textStatus ) {
+        console.log( textStatus );
+      })
+      .fail(function( jqxhr, settings, exception ) {
+        console.log( "Triggered ajaxError handler." );
+      });
     })
   }
 
   function removeElement(elementId) {
     var element = document.getElementById(elementId);
     element.parentNode.removeChild(element);
+  }
+
+  function follower(){
+    $.post('/addfollow', {userid: <%= @id%>, followerid: <%= @user.id%>}, function(data){
+    })
+    alert("Successfully Followed.")
   }
 
   watched();

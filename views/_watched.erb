@@ -11,6 +11,17 @@
   <% @films.each do |filmGroup| %>
     <div class="row" >
     <% filmGroup.each do |film| %>
+    <div id="myModal" class="modal">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <div style="text-align: center">
+          <form action="/films/<%= film.film_id %>" method="POST">
+              <textarea rows="20" name="review" cols="90" ></textarea>
+              <input type="submit" value="Add review">
+            </form>
+          </div>
+        </div>
+      </div>
       <div class="col-md-3" >
         <div class="card" style="width: 18rem;">
           <img class="card-img-top" src="https://image.tmdb.org/t/p/w185/<%= film.poster_path %>" alt="Card image cap">
@@ -22,7 +33,7 @@
                   remove
                 </i>
               </button>
-              <button type="button" class="btn btn-default shadow-none">
+              <button type="button" class="btn btn-default shadow-none" onclick="openAddReview()">
                 <i class="material-icons" style="border-width: 1px; border-style: solid; border-radius: 10px; padding: 30% 30% 30% 30%">
                   create
                 </i>
@@ -35,5 +46,4 @@
     </div>
     <br>
   <% end %>
-
 </div>
