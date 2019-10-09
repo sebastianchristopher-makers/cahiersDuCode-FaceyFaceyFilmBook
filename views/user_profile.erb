@@ -11,20 +11,23 @@
 </div>
 
 <div class="card-body" style="width: 18rem;   margin: 0 auto; float: none; margin-bottom: 10px;">
-
     <div class="btn-group" role="group" aria-label="list-group">
+        <button onclick="dashboard()" type="button" class="btn btn-secondary" data-toggle="collapse">
+          <a style="color:white"> Dashboard</a>
+        </button>
         <button onclick="watched()" type="button" class="btn btn-secondary" data-toggle="collapse">
           <a style="color:white"> Watched </a>
         </button>
-        <button onclick="toWatch()" type="button" class="btn btn-secondary" data-toggle="collapse">
+        <button onclick="toWatch()" type="button" class="btn btn-secondary" data-toggle="collapse" style="width:110px">
           <a style="color:white"> To Watch </a>
         </button>
-      </div>
+    </div>
 </div>
 
 <div id="container">
   <div id="to-watch"></div>
   <div id="watched"></div>
+  <div id="dashboard"></div>
 </div>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -54,9 +57,13 @@
 
   function toWatch(){
     removeElement("watched")
+    removeElement("dashboard")
     let watched = document.createElement("div")
+    let dashboard = document.createElement("div")
     watched.id = "watched"
+    dashboard.id = "dashboard"
     document.getElementById("container").appendChild(watched)
+    document.getElementById("container").appendChild(dashboard)
     console.log('/user_profile/to-watch');
     $.get('/<%= @id %>/user_profile/to-watch', function(data){
       document.getElementById("to-watch").innerHTML = data
@@ -74,11 +81,37 @@
 
   function watched(){
     removeElement("to-watch")
+    removeElement("dashboard")
     let to_watch = document.createElement("div")
+    let dashboard = document.createElement("div")
     to_watch.id = "to-watch"
+    dashboard.id = "dashboard"
     document.getElementById("container").appendChild(to_watch)
+    document.getElementById("container").appendChild(dashboard)
     $.get('/<%= @id %>/user_profile/watched', function(data){
       document.getElementById("watched").innerHTML = data
+      //load script after html is returned
+      $.getScript( "../scripts/review.js" )
+      .done(function( script, textStatus ) {
+        console.log( textStatus );
+      })
+      .fail(function( jqxhr, settings, exception ) {
+        console.log( "Triggered ajaxError handler." );
+      });
+    })
+  }
+
+  function dashboard(){
+    removeElement("to-watch")
+    removeElement("watched")
+    let to_watch = document.createElement("div")
+    let watched = document.createElement("div")
+    to_watch.id = "to-watch"
+    watched.id = "watched"
+    document.getElementById("container").appendChild(to_watch)
+    document.getElementById("container").appendChild(watched)
+    $.get('/<%= @id %>/dashboard', function(data){
+      document.getElementById("dashboard").innerHTML = data
       //load script after html is returned
       $.getScript( "../scripts/review.js" )
       .done(function( script, textStatus ) {

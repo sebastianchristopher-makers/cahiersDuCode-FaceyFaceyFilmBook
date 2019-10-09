@@ -146,6 +146,12 @@ class App < Sinatra::Base
     response = Net::HTTP.get(uri)
   end
 
+  get '/:id/dashboard' do
+    redirect ('/sessions/new') unless session[:user]
+
+    erb :_dashboard
+  end
+
   get '/:id/user_profile/to-watch' do
     redirect ('/sessions/new') unless session[:user]
 
