@@ -1,27 +1,33 @@
-<nav class="navbar navbar-light bg-light">
-  <span class="text">
-    <h1><span>FaceyFaceyFilmBook</span><span style="padding-left:150px;font-size:18px;font-style: italic;">"Of all the film apps in all the world..."</span></h1>
-  </span>
-  <span style="float: right;">
-    <% if @user %>
-    <div class="btn-group">
-      <button data-toggle="dropdown" style="all: unset" aria-haspopup="true" aria-expanded="false">
-        <span>
-          <img class="border rounded" src="https://pbs.twimg.com/profile_images/735242324293210112/H8YfgQHP_400x400.jpg" style="height:50px; width=50px;">
-        </span>
-      </button>
-      <div class="dropdown-menu dropdown-menu-right">
-        <a class="dropdown-item" href="/<%= session[:user].id %>/dashboard">Dashboard</a>
-        <a class="dropdown-item" href="/<%= session[:user].id %>/user_profile">Profile</a>
-        <a class="dropdown-item" href="/search">Search</a>
-        <div class="dropdown-divider"></div>
-        <a class="dropdown-item">
-          <form method="POST" action="/sessions/destroy" >
-            <input  style="all: unset;" type="submit" value="Log out">
-          </form>
-        </a>
-      </div>
+
+  <nav class="navbar">
+    <div>
+      <h1>
+        <span>FaceyFaceyFilmBook</span>
+      </h1>
     </div>
-    <% end %>
-  </span>
-</nav>
+
+    <div id="avatar-dropdown">
+      <% if @user %>
+      <div class="btn-group">
+        <button data-toggle="dropdown" style="all: unset" aria-haspopup="true" aria-expanded="false">
+          <span>
+            <img id="avatar-image" class="border rounded" src="https://pbs.twimg.com/profile_images/735242324293210112/H8YfgQHP_400x400.jpg" style="height:50px; width=50px;">
+          </span>
+        </button>
+
+        <div class="dropdown-menu dropdown-menu-right">
+          <a class="dropdown-item" href="/<%= session[:user].id %>/dashboard">Dashboard</a>
+          <a class="dropdown-item" href="/<%= session[:user].id %>/user_profile">Profile</a>
+          <a class="dropdown-item" href="/search">Search</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item">
+            <form method="POST" action="/sessions/destroy" >
+              <input  style="all: unset;" type="submit" value="Log out">
+            </form>
+          </a>
+        </div>
+      </div>
+      <% end %>
+    </div>
+  </nav>
+
