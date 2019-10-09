@@ -47,4 +47,8 @@ class Follower
       end
     end
 
+    def self.unfollow(user_id, follower_id)
+      rs = DatabaseConnection.query("DELETE FROM followers WHERE userid = #{user_id} AND followerid = #{follower_id}")
+    end
+
 end
