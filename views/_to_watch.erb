@@ -26,9 +26,8 @@
       </div>
       <div class="col-md-3" >
         <div class="card" style="width: 18rem;">
-          <img class="card-img-top" src="https://image.tmdb.org/t/p/w185/<%= film.poster_path %>" alt="Card image cap">
+          <a href="/films/<%= film.film_id %>"><img class="card-img-top" src="https://image.tmdb.org/t/p/w185/<%= film.poster_path %>" alt="Card image cap"></a>
           <div class="card-body">
-            <h5 class="card-title"><a href="/films/<%= film.film_id %>"><%= film.title %></a></h5>
             <% if @user.id == @id %>
             <div style="text-align:center">
               <button type="button" class="btn btn-default shadow-none" onclick="deleteToWatch(<%= @user.id %>,<%= film.film_id %>)">
