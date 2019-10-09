@@ -40,7 +40,7 @@
       <h2>Reviews</h2>
       <ul>
        <% @reviews.each do |review|  %>
-        <li> <%=review.review_content %>
+        <li> <pre><%=review.review_content %></pre>
           <p>Reviewed by <%=@user_model.find_by_id(review.user_id).email %></p>
         </li>
        <% end %>

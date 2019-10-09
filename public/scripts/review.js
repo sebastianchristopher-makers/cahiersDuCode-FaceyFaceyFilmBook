@@ -5,7 +5,8 @@ let modal = document.getElementById("myModal");
 let span = document.getElementsByClassName("close")[0];
 
 // When the user clicks the button, open the modal
-function openAddReview(){
+function openAddReview(id){
+  let modal = document.getElementById("myModal" + id);
   modal.style.display = "block";
 }
 
