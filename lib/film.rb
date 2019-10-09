@@ -29,7 +29,11 @@ class Film
   end
 
   def self.add(user_id, film_id, watched, to_watch)
-    DatabaseConnection.query("INSERT INTO usersFilms (userId, filmId, isWatched, isToWatch) VALUES ($1, $2, $3, $4);", [user_id, film_id, watched, to_watch])
+    p watched == "true"
+    p Film.watched?(user_id, film_id)
+    p to_watch == "true"
+    p Film.to_watch?(user_id, film_id)
+    DatabaseConnection.query("INSERT INTO usersFilms (userId, filmId, isWatched, isToWatch) VALUES ($1, $2, $3, $4);", [user_id, film_id, watched, to_watch]) unless watched == "true" && Film.watched?(user_id, film_id) || to_watch == "true" && Film.to_watch?(user_id, film_id)
   end
 
   def self.remove_watched(user_id, film_id)
@@ -71,6 +75,18 @@ class Film
     rs.map do |row|
       Film.new(row["id"].to_i, row["filmid"].to_i, row["title"], row["posterpath"], row["year"].to_i, row["showtimeid"].to_i, row["backdroppath"], row["overview"])
     end
+  end
+
+  def self.watched?(user_id, film_id)
+    rs = DatabaseConnection.query("SELECT * FROM usersFilms WHERE userid = $1 AND filmid = $2 AND iswatched = true;", [user_id, film_id])
+    return false if rs.to_a.empty?
+    return true
+  end
+
+  def self.to_watch?(user_id, film_id)
+    rs = DatabaseConnection.query("SELECT * FROM usersFilms WHERE userid = $1 AND filmid = $2 AND istowatch = true;", [user_id, film_id])
+    return false if rs.to_a.empty?
+    return true
   end
 
   def self.getRandom(user_id)

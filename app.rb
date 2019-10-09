@@ -68,7 +68,6 @@ class App < Sinatra::Base
 
   get '/add_favourite' do
     redirect ('/sessions/new') unless session[:user]
-
     erb :add_favourite
   end
 
