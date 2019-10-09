@@ -73,4 +73,8 @@ class Film
     end
   end
 
+  def self.getRandom(user_id)
+    rs = DatabaseConnection.query("SELECT filmid FROM usersfilms WHERE userid = $1  AND iswatched = true;", [user_id])
+    rs.map{ |x| x.values }.flatten.sample.to_i unless rs.to_a.empty?
+  end
 end

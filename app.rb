@@ -148,7 +148,15 @@ class App < Sinatra::Base
 
   get '/:id/dashboard' do
     redirect ('/sessions/new') unless session[:user]
+    film_id = Film.getRandom(@user.id)
 
+    url = "https://api.themoviedb.org/3/movie/#{film_id}/recommendations?api_key=#{ENV['API_KEY']}&language=en-US&page=1"
+    uri = URI(url)
+    response = JSON.parse(Net::HTTP.get(uri))
+    @recommendations = response['results'].map{ |result|
+      Recommendation.create(result)
+    }
+    @film_title = Film.find_by_id(film_id).title if Film.film_exists?(film_id)
     erb :_dashboard
   end
 
@@ -182,10 +190,6 @@ class App < Sinatra::Base
     favourite_film_id = @user_profile.favourite_film
     @backdrop_path = Film.find_by_id(favourite_film_id).backdrop_path unless favourite_film_id.nil?
     erb :user_profile
-  end
-
-  get '/:id/dashboard' do
-    erb :dashboard
   end
 
   get '/films/:id' do

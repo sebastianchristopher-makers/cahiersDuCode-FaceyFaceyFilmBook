@@ -1,13 +1,50 @@
+<style>
+  /* Make the image fully responsive */
+  .carousel-inner img {
+      width: 100%;
+      height: 100%;
+  }
+</style>
 <div id="dashboard-container" class="container" style="border-radius: 16px; border: 1px solid #ccc; margin-top:20px">
 
   <br/>
   <div class="text-center h3">
     Dashboard
   </div>
-
   <hr/>
   <br/>
+  <div class="row" style="text-align:center">
+    <h4>Enjoyed <%= @film_title %>? Try these:</h4>
+    <div class="col-xl-10">
+    <% unless @recommendations.empty? %>
+    <div id="myCarousel" class="carousel slide" data-ride="carousel" style="margin: auto;width: 250px; height:250px;">
+      <!-- Wrapper for slides -->
+      <div class="carousel-inner">
 
-  <p>please work</p>
+        <div class="carousel-item active">
+          <img class="recommendation" src="https://image.tmdb.org/t/p/w780/<%= @recommendations[0].poster_path %>"  alt="<%= @recommendations[0].title %>" style="width:100%;" data-id=<%= @recommendations[0].film_id %> data-title="<%= @recommendations[0].title %>" data-year=<%= @recommendations[0].year %> data-poster_path="<%= @recommendations[0].poster_path %>" data-backdrop_path="<%= @recommendations[0].backdrop_path %>" data-overview="<%= @recommendations[0].overview %>">
+        </div>
+
+        <% @recommendations[1..-1].each do |recommendation| %>
+        <div class="carousel-item">
+          <img class="recommendation" src="https://image.tmdb.org/t/p/w780/<%= recommendation.poster_path %>"  alt="<%= recommendation.title %>" style="width:100%;" data-id=<%= recommendation.film_id %> data-title="<%= recommendation.title %>" data-year=<%= recommendation.year %> data-poster_path="<%= recommendation.poster_path %>" data-backdrop_path="<%= recommendation.backdrop_path %>" data-overview="<%= recommendation.overview %>">
+        </div>
+        <% end %>
+      </div>
+
+        <!-- Left and right controls -->
+        <a class="carousel-control-prev" href="#myCarousel" data-slide="prev">
+          <span class="carousel-control-prev-icon"></span>
+        </a>
+        <a class="carousel-control-next" href="#myCarousel" data-slide="next">
+          <span class="carousel-control-next-icon"></span>
+        </a>
+      </div>
+    </div>
+    <% end %>
+    </div>
+  </div>
+
+
 
 </div>

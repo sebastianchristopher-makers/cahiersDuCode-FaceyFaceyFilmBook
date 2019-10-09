@@ -32,28 +32,26 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script type="text/javascript">
-  window.onload = function(){
-    if (<%= @userisfollowing %>){
-      document.getElementById("following").style.display = "block";
-      // document.getElementById("follow").style.margin-top = "5px";
-      document.getElementById("follow").style.display = "none";
-      // document.getElementById("following").style.margin-top = "5px";
-    } else {
-      document.getElementById("following").style.display = "none";
-      // document.getElementById("follow").style.margin-top = "5px";
-      document.getElementById("follow").style.display = "block";
-      // document.getElementById("following").style.margin-top = "5px";
-    }
+  if (<%= @userisfollowing %>){
+    document.getElementById("following").style.display = "block";
+    // document.getElementById("follow").style.margin-top = "5px";
+    document.getElementById("follow").style.display = "none";
+    // document.getElementById("following").style.margin-top = "5px";
+  } else {
+    document.getElementById("following").style.display = "none";
+    // document.getElementById("follow").style.margin-top = "5px";
+    document.getElementById("follow").style.display = "block";
+    // document.getElementById("following").style.margin-top = "5px";
   }
 
-   function follower(){
-     if(<%= @user.id%> !=<%=@id%>)
-    $.post('/addfollow', {userid:<%= @user.id%>, followerid: <%= @id%>}, function(data){
+  function follower(){
+    if(<%= @user.id%> !=<%=@id%>)
+      $.post('/addfollow', {userid:<%= @user.id%>, followerid: <%= @id%>}, function(data){
     })
     alert("Successfully Followed.")
     document.getElementById("follow").style.display = "none";
     document.getElementById("following").style.display = "block";
-   }
+  }
 
   function toWatch(){
     removeElement("watched")
