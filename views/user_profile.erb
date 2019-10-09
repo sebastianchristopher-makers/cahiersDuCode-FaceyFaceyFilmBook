@@ -74,9 +74,11 @@
   }
 
   function follower(){
-    $.post('/addfollow', {userid: <%= @id%>, followerid: <%= @user.id%>}, function(data){
-    })
-    alert("Successfully Followed.")
+    if(<%= @user.id%> != <%= @id%>){
+      $.post('/addfollow', {userid: <%= @user.id%>, followerid: <%= @id%>}, function(data){
+      })
+      alert("Successfully Followed.")
+    }
   }
 
   watched();

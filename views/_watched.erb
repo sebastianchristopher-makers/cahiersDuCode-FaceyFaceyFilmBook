@@ -11,7 +11,7 @@
   <% @films.each do |filmGroup| %>
     <div class="row" >
     <% filmGroup.each do |film| %>
-    <div id="myModal" class="modal">
+    <div id="myModal<%= film.film_id %>" class="modal">
       <div class="modal-content">
         <span class="close">&times;</span>
         <div style="text-align: center">
@@ -33,7 +33,7 @@
                   remove
                 </i>
               </button>
-              <button type="button" class="btn btn-default shadow-none" onclick="openAddReview()">
+              <button type="button" class="btn btn-default shadow-none" onclick="openAddReview(<%= film.film_id %>)">
                 <i class="material-icons" style="border-width: 1px; border-style: solid; border-radius: 10px; padding: 30% 30% 30% 30%">
                   create
                 </i>
