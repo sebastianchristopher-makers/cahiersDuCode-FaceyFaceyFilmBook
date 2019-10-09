@@ -4,26 +4,27 @@
   -o-background-size: cover;
   background-size: cover;">
 <%= erb :_header %>
+
 <div class="container">
   <div class="col-sm-9 col-md-7 col-lg-3 mx-auto">
-    <div class="card card-signin my-5">
-      <div class="card-body">
-        <h5 class="card-title text-center">Sign Up</h5>
+    <div class="card card-signin my-5 rounded-0 border-0">
+      <div class="card-body" style="border: solid 3px black; box-shadow: 10px 9px 0px #009874">
+        <h5 class="card-title text-center" style=" font-family: 'Roboto Mono', monospace; font-weight: 500; font-size: 20px;">SIGN UP</h5>
         <hr/>
         <form name="sign-up" id="sign-up" class="form-signin" action="/users/new" method="POST" onsubmit='event.preventDefault(); return newUser();'>
             <!-- <div class="form-label-group">
               <input type="name" name="inputName" class="form-control" placeholder="Name" required autofocus>
             </div> -->
-            <br/>
-            <div class="form-label-group">
-              <input id="email" type="email" name="inputEmail" class="form-control" placeholder="Email address" required autofocus>
+
+            <div class="form-label-group" style="font-family: 'Roboto Mono', monospace;">
+              <input id="email" type="email" name="inputEmail" class="form-control rounded-0" placeholder="EMAIL ADDRESS" required style="border: 2px solid black; box-shadow: none; text-align:center;  font-weight: 500; font-size: 18px;">
             </div>
             <br/>
-            <div class="form-label-group">
-              <input type="password" name="inputPassword" class="form-control" placeholder="Password" required>
+            <div class="form-label-group" style="font-family: 'Roboto Mono', monospace;">
+              <input type="password" name="inputPassword" class="form-control rounded-0" placeholder="PASSWORD" required style="border: 2px solid black; box-shadow: none; text-align:center; font-weight: 500; font-size: 18px;">
             </div>
           <hr>
-          <button class="btn btn-md btn-primary btn-block" type="submit">Sign Up</button>
+          <button id="sign-in-submit-button" class="btn btn-md btn-primary btn-block rounded-0" type="submit" style="border:none; background: #009874; font-family: 'Roboto Mono', monospace; font-weight: 500; font-size: 18px;">SIGN UP</button>
         </form>
       </div>
     </div>
