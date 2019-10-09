@@ -185,11 +185,6 @@ class App < Sinatra::Base
     erb :user_profile
   end
 
-  get '/:id/dashboard' do
-    @string = "HELLO"
-    erb :dashboard
-  end
-
   get '/films/:id' do
     redirect ('/sessions/new') unless session[:user]
 
@@ -259,6 +254,11 @@ class App < Sinatra::Base
     Follower.add(user_id, follower_id)
   end
 
+  post '/deletefollow' do
+    user_id = params[:userid]
+    follower_id = params[:followerid]
+    Follower.unfollow(user_id, follower_id)  
+  end
   post '/delete-watched' do
     user_id = params[:userId]
     film_id = params[:filmId]
