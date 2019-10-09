@@ -185,11 +185,6 @@ class App < Sinatra::Base
     erb :user_profile
   end
 
-  get '/:id/dashboard' do
-    @string = "HELLO"
-    erb :dashboard
-  end
-
   get '/films/:id' do
     redirect ('/sessions/new') unless session[:user]
 
