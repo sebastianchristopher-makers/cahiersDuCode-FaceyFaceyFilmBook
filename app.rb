@@ -262,6 +262,11 @@ class App < Sinatra::Base
     Follower.add(user_id, follower_id)
   end
 
+  post '/deletefollow' do
+    user_id = params[:userid]
+    follower_id = params[:followerid]
+    Follower.unfollow(user_id, follower_id)  
+  end
   post '/delete-watched' do
     user_id = params[:userId]
     film_id = params[:filmId]

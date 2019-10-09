@@ -13,7 +13,7 @@
 
     <br>
 
-    <div style="display: inline-block; border: solid black 1px;">
+    <div style="display: inline-block; border: solid black 1px; background-color: white;">
       <table>
         <tr>
           <th>Followers</th>
@@ -30,7 +30,7 @@
 
     <div style="display: inline-block;">
       <button type="button" class="btn btn-success" id="follow" onclick="follower()" >Follow</button>
-      <button type="button" class="btn btn-success" id="following" disabled>Following</button>
+      <button type="button" class="btn btn-danger" id="following" onclick="unfollow()">Unfollow</button>
     </div>
   </div>
 
@@ -71,14 +71,25 @@
   }
 
   function follower(){
-    if(<%= @user.id%> !=<%=@id%>)
+    if(<%= @user.id%> !=<%=@id%>){
       $.post('/addfollow', {userid:<%= @user.id%>, followerid: <%= @id%>}, function(data){
-    })
-    alert("Successfully Followed.")
-    document.getElementById("follow").style.display = "none";
-    document.getElementById("following").style.display = "block";
-  }
+      })
+      alert("Successfully Followed.");
+      document.getElementById("follow").style.display = "none";
+      document.getElementById("following").style.display = "block";
+      location.reload();
+     }
+    }
 
+    function unfollow(){
+      $.post('/deletefollow', {userid:<%= @user.id%>, followerid: <%= @id%>}, function(data){
+      })
+      alert("Successfully Unfollowed.");
+      document.getElementById("follow").style.display = "block";
+      document.getElementById("following").style.display = "none";
+      location.reload();
+    }
+    
   function toWatch(){
     removeElement("watched")
     removeElement("dashboard")
