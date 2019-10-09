@@ -172,9 +172,10 @@ class App < Sinatra::Base
 
   get '/:id/user_profile' do
     redirect ('/sessions/new') unless session[:user]
-
     userId = params[:id]
     @id = userId.to_i
+    @follower_count = Follower.get_followers(userId)
+    @following_count = Follower.get_following(userId)
     @userisfollowing = Follower.following?(@user.id, @id)
     @films = Film.find_by_user_id(userId).each_slice(3).to_a
     @user_profile = User.find_by_id(userId)
@@ -182,10 +183,6 @@ class App < Sinatra::Base
     favourite_film_id = @user_profile.favourite_film
     @backdrop_path = Film.find_by_id(favourite_film_id).backdrop_path unless favourite_film_id.nil?
     erb :user_profile
-  end
-
-  get '/:id/dashboard' do
-    erb :dashboard
   end
 
   get '/films/:id' do
