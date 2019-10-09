@@ -7,6 +7,7 @@ require 'pg'
 require 'uri'
 require 'net/http'
 require 'json'
+
 require_relative './lib/user'
 require_relative './lib/database_connection'
 require_relative './lib/film.rb'
@@ -18,6 +19,7 @@ require_relative './lib/review.rb'
 require_relative './lib/follow.rb'
 
 class App < Sinatra::Base
+
   set :sessions, true
   set :logging, true
   set :partial_template_engine, :erb
@@ -65,6 +67,8 @@ class App < Sinatra::Base
   end
 
   get '/add_favourite' do
+    redirect ('/sessions/new') unless session[:user]
+
     erb :add_favourite
   end
 
@@ -87,6 +91,8 @@ class App < Sinatra::Base
   end
 
   get '/search' do
+    redirect ('/sessions/new') unless session[:user]
+
     @key = ENV['API_KEY']
     erb :search
   end
@@ -141,6 +147,8 @@ class App < Sinatra::Base
   end
 
   get '/:id/user_profile/to-watch' do
+    redirect ('/sessions/new') unless session[:user]
+
     userId = params[:id]
     @id = userId.to_i
     @films = Film.find_to_watch(userId).each_slice(3).to_a
@@ -148,6 +156,8 @@ class App < Sinatra::Base
   end
 
   get '/:id/user_profile/watched' do
+    redirect ('/sessions/new') unless session[:user]
+
     userId = params[:id]
     @id = userId.to_i
     @films = Film.find_watched(userId).each_slice(3).to_a
@@ -155,6 +165,8 @@ class App < Sinatra::Base
   end
 
   get '/:id/user_profile' do
+    redirect ('/sessions/new') unless session[:user]
+
     userId = params[:id]
     @id = userId.to_i
     @userisfollowing = Follower.following?(@user.id, @id)
@@ -171,6 +183,8 @@ class App < Sinatra::Base
   end
 
   get '/films/:id' do
+    redirect ('/sessions/new') unless session[:user]
+
     film_id = params[:id]
     url = 'https://api.themoviedb.org/3/movie/' + film_id + '/videos?api_key=' + ENV['API_KEY'] + '&language=en-US'
     uri = URI(url)
@@ -214,6 +228,7 @@ class App < Sinatra::Base
   end
 
   post '/films/:id' do
+
     review_content = params[:review]
     film_id = params[:id]
     user_id = @user.id
@@ -222,12 +237,15 @@ class App < Sinatra::Base
   end
 
   get '/films/:id/add_review' do
+    redirect ('/sessions/new') unless session[:user]
+
     film_id = params[:id]
     @film = Film.find_by_id(film_id)
     erb :add_review
   end
 
   post '/addfollow' do
+
     user_id = params[:userid]
     follower_id = params[:followerid]
     Follower.add(user_id, follower_id)
