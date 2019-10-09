@@ -157,6 +157,7 @@ class App < Sinatra::Base
   get '/:id/user_profile' do
     userId = params[:id]
     @id = userId.to_i
+    @userisfollowing = Follower.following?(@user.id, @id)
     @films = Film.find_by_user_id(userId).each_slice(3).to_a
     @user_profile = User.find_by_id(userId)
     @email = @user_profile.email
