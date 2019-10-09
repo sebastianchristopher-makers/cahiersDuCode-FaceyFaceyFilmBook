@@ -4,10 +4,36 @@
 </head>
 <div class="jumbotron" style="background-image: url(https://image.tmdb.org/t/p/w1280/<%= @backdrop_path %>); background-repeat: no-repeat; background-size:cover;">
 
-  <img src="https://pbs.twimg.com/profile_images/735242324293210112/H8YfgQHP_400x400.jpg" width="200px" alt="..." class="img-thumbnail">
-  <p style="margin-top: 5px; color: #ff69b4; font-size: 20px;"> <%= @email %> </p>
-  <button type="button" class="btn btn-success" id="follow" onclick="follower()" >Follow</button>
-  <button type="button" class="btn btn-success" id="following" disabled>Following</button>
+  <div style="text-align: center;">
+
+    <div style="display: inline-block;">
+      <img src="https://pbs.twimg.com/profile_images/735242324293210112/H8YfgQHP_400x400.jpg" width="200px" class="img-thumbnail">
+      <p style="margin-top: 5px; color: #ff69b4; font-size: 20px;"> <%= @email %> </p>
+    </div>
+
+    <br>
+
+    <div style="display: inline-block; border: solid black 1px;">
+      <table>
+        <tr>
+          <th>Followers</th>
+          <th>Following</th>
+        </tr>
+        <tr>
+          <td><%= @follower_count %></td>
+          <td><%= @following_count %></td>
+        </tr>
+      </table>
+    </div>
+
+    <br>
+
+    <div style="display: inline-block;">
+      <button type="button" class="btn btn-success" id="follow" onclick="follower()" >Follow</button>
+      <button type="button" class="btn btn-success" id="following" disabled>Following</button>
+    </div>
+  </div>
+
 </div>
 
 <div class="card-body" style="width: 18rem;   margin: 0 auto; float: none; margin-bottom: 10px;">

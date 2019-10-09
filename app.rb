@@ -180,9 +180,10 @@ class App < Sinatra::Base
 
   get '/:id/user_profile' do
     redirect ('/sessions/new') unless session[:user]
-
     userId = params[:id]
     @id = userId.to_i
+    @follower_count = Follower.get_followers(userId)
+    @following_count = Follower.get_following(userId)
     @userisfollowing = Follower.following?(@user.id, @id)
     @films = Film.find_by_user_id(userId).each_slice(3).to_a
     @user_profile = User.find_by_id(userId)
