@@ -35,7 +35,8 @@ class App < Sinatra::Base
   end
 
   not_found do
-    erb :error
+    # erb :error
+    erb :not_found
   end
 
   get '/' do
