@@ -1,3 +1,7 @@
+<head>
+  <link rel="stylesheet" type="text/css" href="../styles/review_style.css">
+</head>
+
 <body style="background: url('https://www.sccpre.cat/png/big/11/111723_film-grain-png.png') no-repeat center center fixed;
   -webkit-background-size: cover;
   -moz-background-size: cover;
@@ -9,9 +13,11 @@
 </head>
 
 <div onMouseOver="showButton()" onMouseOut="hideButton()" class="jumbotron" style="background-image: url(https://image.tmdb.org/t/p/w1280/<%= @backdrop_path %>); background-repeat: no-repeat; background-size:cover;-webkit-filter:grayscale(100%);filter:contrast(110%) grayscale(100%);">
-  <button id='change-banner' style="visibility:hidden;margin-bottom:5px" type="button" class="btn-default" onclick="window.location.href ='/add_favourite';">Change your profile photo</button>
+  <% if @user.id == @id %>
+  <button id='change-banner' style="visibility:hidden;margin-bottom:5px" type="button" class="btn-default" onclick="window.location.href ='/add_favourite';">Change your banner photo</button>
   <br>
-  <button id='change-profile' style="visibility:hidden;" type="button" class="btn-default" onclick="window.location.href ='/change-profile';">Change your banner photo</button>
+  <button id='change-profile' style="visibility:hidden;" type="button" class="btn-default" onclick="window.location.href ='/change-profile';">Change your profile photo</button>
+  <% end %>
   <div style="text-align: center;">
 
     <div style="display: inline-block;">
@@ -73,27 +79,47 @@
     </div>
 
     <br>
-
-    <div style="display: inline-block;">
-      <button type="button" class="btn btn-success" id="follow" onclick="follower()" >Follow</button>
-      <button type="button" class="btn btn-danger" id="following" onclick="unfollow()">Unfollow</button>
+    <br>
+    <div style="display:inline-block;">
+      <button type="button" class="btn btn-success rounded-0" style="font-family: 'Roboto Mono', monospace; font-size: 16px;" id="follow" onclick="follower()" >Follow</button>
+      <button type="button" class="btn btn-danger rounded-0" style="font-family: 'Roboto Mono', monospace; font-size: 16px;" id="following" onclick="unfollow()">Unfollow</button>
     </div>
   </div>
-
 </div>
 
-<div class="card-body" style="width: 18rem;   margin: 0 auto; float: none; margin-bottom: 10px;">
-    <div class="btn-group" role="group" aria-label="list-group">
-        <button onclick="dashboard()" type="button" class="btn btn-secondary" data-toggle="collapse">
-          <a style="color:white"> Dashboard</a>
-        </button>
-        <button onclick="watched()" type="button" class="btn btn-secondary" data-toggle="collapse">
-          <a style="color:white"> Watched </a>
-        </button>
-        <button onclick="toWatch()" type="button" class="btn btn-secondary" data-toggle="collapse" style="width:110px">
-          <a style="color:white"> To Watch </a>
-        </button>
+<div id="following" class="modal">
+  <!-- Modal content -->
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <div style="text-align: center">
+      <% if @following %>
+        <h5>You are following:</h5>
+        <% @following.each do |user| %>
+          <p><a href="/<%= user.id %>/user_profile"><%= user.email %></a></p>
+        <% end %>
+      <% else %>
+        <h5>You are not following any other users.</h5>
+      <% end %>
     </div>
+  </div>
+</div>
+
+<br>
+
+<div class="card-body text-center" style="diplay: flex; margin-bottom: 10px;">
+  <div class="btn-group" role="group" aria-label="list-group" style="font-family: 'Roboto Mono', monospace;">
+    <% if @user.id == @id %>
+      <button onclick="dashboard()" type="button" class="btn btn-secondary rounded-0" style="border: 3px solid white; font-size: 20px; background: none" data-toggle="collapse">
+        <a style="color:white"> DASHBOARD</a>
+      </button>
+    <% end %>
+    <button onclick="watched()" type="button" class="btn btn-secondary rounded-0" style="border: 3px solid white; font-size: 20px; background: none" data-toggle="collapse">
+      <a style="color:white"> WATCHED </a>
+    </button>
+    <button onclick="toWatch()" type="button" class="btn btn-secondary rounded-0" data-toggle="collapse" style="width:130px; border: 3px solid white; font-size: 20px; background: none">
+      <a style="color:white"> TO WATCH </a>
+    </button>
+  </div>
 </div>
 
 <div id="container">
@@ -164,7 +190,6 @@
     if(<%= @user.id%> !=<%=@id%>){
       $.post('/addfollow', {userid:<%= @user.id%>, followerid: <%= @id%>}, function(data){
       })
-      alert("Successfully Followed.");
       document.getElementById("follow").style.display = "none";
       document.getElementById("following").style.display = "block";
       location.reload();
@@ -174,7 +199,6 @@
     function unfollow(){
       $.post('/deletefollow', {userid:<%= @user.id%>, followerid: <%= @id%>}, function(data){
       })
-      alert("Successfully Unfollowed.");
       document.getElementById("follow").style.display = "block";
       document.getElementById("following").style.display = "none";
       location.reload();
