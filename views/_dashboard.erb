@@ -44,7 +44,7 @@
       <% recommendationGroup.each do |recommendation| %>
       <div class="col-md-3">
         <div id="film-card" class="card rounded-0" style=" height: 100%; width: 100%; object-fit: stretch; ">
-            <img id="<%= recommendation.film_id %>" onclick="createFilm(<%= recommendation.film_id %>)" class="card-img-top rounded-0 recommendation" style="width: 100%; height: 100%; object-fit: stretch;" src="https://image.tmdb.org/t/p/w780/<%= recommendation.poster_path %>"  alt="<%= recommendation.title %>" style="width:100%;" data-id="<%= recommendation.film_id %>" data-title="<%= recommendation.title %>" data-year="<%= recommendation.year %>" data-poster_path="<%= recommendation.poster_path %>" data-backdrop_path="<%= recommendation.backdrop_path %>" data-overview="<%= recommendation.overview %>">
+            <img id="<%= recommendation.film_id %>" onclick="createFilm(<%= recommendation.film_id %>)" class="card-img-top rounded-0 recommendation" style="width: 100%; height: 100%; width:100%; object-fit: stretch;" src="https://image.tmdb.org/t/p/w780/<%= recommendation.poster_path %>"  alt="<%= recommendation.title %>" data-id="<%= recommendation.film_id %>" data-title="<%= recommendation.title %>" data-year="<%= recommendation.year %>" data-posterpath="<%= recommendation.poster_path %>" data-backdrop_path="<%= recommendation.backdrop_path %>" data-overview="<%= recommendation.overview %>">
         </div>
       </div>
       <% end %>

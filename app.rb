@@ -87,7 +87,8 @@ class App < Sinatra::Base
       session[:user] = user
       redirect "#{user.id}/user_profile"
     else
-      puts('Wrong Username And/or Password')
+      session[:err] = nil
+      session[:err] = 'Wrong Username And/or Password'
       redirect '/sessions/new'
     end
   end
@@ -112,7 +113,6 @@ class App < Sinatra::Base
       poster_path = params[:poster_path]
       year = params[:year].to_i
       backdrop_path = params[:backdrop_path]
-      poster_path = params[:poster_path]
       overview = params[:overview]
 
       url = 'https://api.internationalshowtimes.com/v4/movies?apikey=' + ENV['SHOWTIMES_API'] + '&tmdb_id=' + film_id

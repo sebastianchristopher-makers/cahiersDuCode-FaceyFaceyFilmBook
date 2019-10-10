@@ -38,13 +38,13 @@
       <% if @watched %>
       <p>Film is in your watched list</p>
       <% else %>
-      <button type="button" class="btn btn-primary" onClick="addSingleFilmToWatched()">Add to watched list</button>
+      <button type="button" style="display:none;" class="btn btn-primary" onClick="addSingleFilmToWatched()">Add to watched list</button>
       <% end %>
       <br>
       <% if @to_watch %>
       <p>Film is in your to-watch list</p>
       <% else %>
-      <button type="button" class="btn btn-primary" onClick="addSingleFilmToToWatch()">Add to to-watch list</button>
+      <button type="button" style="display:none;" class="btn btn-primary" onClick="addSingleFilmToToWatch()">Add to to-watch list</button>
       <% end %>
     </div>
 
@@ -193,7 +193,7 @@
       });
     }
     function addSingleFilmToToWatch(){
-      $.post('/search', {id:<%= @film.id %>, title:<%= @film.title %>, year: <%= @film.year %>, poster_path:<%= @film.poster_path %>, watched:'false', to_watch:'true', backdrop_path:<%= @film.backdrop_path %>, overview:<%= @film.overview %>, favourite:false}, function(data, status, xhr){
+      $.post('/search', {id:<%= @film.id %>, title:'<%= @film.title %>', year:<%= @film.year %>, poster_path:'<%= @film.poster_path %>', watched:'false', to_watch:'true', backdrop_path:'<%= @film.backdrop_path %>', overview:"<%= @film.overview %>", favourite:false}, function(data, status, xhr){
 
       })
       .done(function(data) {

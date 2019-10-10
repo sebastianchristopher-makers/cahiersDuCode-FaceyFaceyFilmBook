@@ -14,6 +14,12 @@
     <span style="display: inline-block; font-family: 'Roboto Mono', monospace; font-weight: 500; font-size: 18px; background: white; border: solid 3px white;">
       PLEASE SIGN IN
     </span>
+    <%if session[:err] %>
+    <br>
+    <span style="margin-top: 5px;display: inline-block; font-family: 'Roboto Mono', monospace; font-weight: 500; font-size: 18px; background: red;">
+      USERNAME AND/OR PASSWORD INCORRECT
+    </span>
+    <% end %>
   </div>
 <% end %>
 

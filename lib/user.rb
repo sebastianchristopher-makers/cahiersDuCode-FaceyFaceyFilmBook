@@ -38,8 +38,10 @@ attr_reader :email, :id, :films, :favourite_film, :profile_path
 
   def self.authenticate(email, password)
     rs = DatabaseConnection.query("SELECT * FROM users WHERE email = '#{email}';")
-    BCrypt::Password.new(rs[0]["password"]) == password
-    return User.new(rs[0]["id"].to_i, email) if BCrypt::Password.new(rs[0]["password"]) == password
+    if rs.to_a.size > 0
+      BCrypt::Password.new(rs[0]["password"]) == password
+      return User.new(rs[0]["id"].to_i, email) if BCrypt::Password.new(rs[0]["password"]) == password
+    end
   end
 
   def self.find_by_id(userid)
