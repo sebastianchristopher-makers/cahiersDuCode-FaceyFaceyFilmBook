@@ -12,19 +12,21 @@
   <link rel="stylesheet" type="text/css" href="../styles/review_style.css">
 </head>
 
-<div onMouseOver="showButton()" onMouseOut="hideButton()" class="jumbotron" style="background-image: url(https://image.tmdb.org/t/p/w1280/<%= @backdrop_path %>); background-repeat: no-repeat; background-size:cover;-webkit-filter:grayscale(100%);filter:contrast(110%) grayscale(100%);">
+<div onMouseOver="showButton()" onMouseOut="hideButton()" class="jumbotron rounded-0" style="border: 35px solid black; border-left: 0px; border-right: 0px; height: 550px;background: #ccc; background-image: url(https://image.tmdb.org/t/p/w1280/<%= @backdrop_path %>); background-repeat: no-repeat; background-size:cover;-webkit-filter:grayscale(100%);filter:contrast(110%) grayscale(100%);">
   <button id='change-banner' style="visibility:hidden;margin-bottom:5px" type="button" class="btn-default" onclick="window.location.href ='/add_favourite';">Change your banner photo</button>
   <br>
   <button id='change-profile' style="visibility:hidden;" type="button" class="btn-default" onclick="window.location.href ='/change-profile';">Change your profile photo</button>
   <div style="text-align: center;">
 
-    <div style="display: inline-block;">
+    <div style="display: inline-block;" >
       <% if @user_profile_path %>
-      <img src="https://image.tmdb.org/t/p/w185/<%= @user_profile_path %>" width="200px" class="img-thumbnail" style="-webkit-filter:grayscale(100%);filter:contrast(110%) grayscale(100%);">
+      <img src="https://image.tmdb.org/t/p/w185/<%= @user_profile_path %>" width="200px" class="img-thumbnail" style="-webkit-filter:grayscale(100%); filter:contrast(110%) grayscale(100%);">
       <% else %>
-      <img src="https://pbs.twimg.com/profile_images/735242324293210112/H8YfgQHP_400x400.jpg" width="200px" class="img-thumbnail">
+      <img src="https://pbs.twimg.com/profile_images/735242324293210112/H8YfgQHP_400x400.jpg" width="200px" class="img-thumbnail rounded-0" style="border: 5px solid white;">
       <% end %>
-      <p style="margin-top: 5px; color: #ff69b4; font-size: 20px;"> <%= @email %> </p>
+      <p style="margin-top: 5px; color: #ff69b4; font-family: 'Roboto Mono', monospace; font-size: 20px; color: black; background: white">
+        <%= @email %>
+      </p>
     </div>
 
     <br>
@@ -38,8 +40,8 @@
     <br>
     <br>
     <div style="display:inline-block;">
-      <button type="button" class="btn btn-success rounded-0" style="font-family: 'Roboto Mono', monospace; font-size: 16px;" id="follow" onclick="follower()" >Follow</button>
-      <button type="button" class="btn btn-danger rounded-0" style="font-family: 'Roboto Mono', monospace; font-size: 16px;" id="following" onclick="unfollow()">Unfollow</button>
+      <button type="button" class="btn btn-success rounded-0" style="font-family: 'Roboto Mono', monospace; font-size: 16px;" id="follow" onclick="follower()" >FOLLOW</button>
+      <button type="button" class="btn btn-danger rounded-0" style="font-family: 'Roboto Mono', monospace; font-size: 16px;" id="following" onclick="unfollow()">UNFOLLOW</button>
     </div>
   </div>
 </div>
@@ -61,20 +63,18 @@
   </div>
 </div>
 
-<br>
-
 <div class="card-body text-center" style="diplay: flex; margin-bottom: 10px;">
   <div class="btn-group" role="group" aria-label="list-group" style="font-family: 'Roboto Mono', monospace;">
     <% if @user.id == @id %>
-      <button onclick="dashboard()" type="button" class="btn btn-secondary rounded-0" style="border: 3px solid white; font-size: 20px; background: none" data-toggle="collapse">
-        <a style="color:white"> DASHBOARD</a>
+      <button onclick="dashboard()" type="button" class="btn btn-secondary rounded-0" style="border: 3px solid black; font-size: 20px; background: white" data-toggle="collapse">
+        <a style="color:black"> DASHBOARD</a>
       </button>
     <% end %>
-    <button onclick="watched()" type="button" class="btn btn-secondary rounded-0" style="border: 3px solid white; font-size: 20px; background: none" data-toggle="collapse">
-      <a style="color:white"> WATCHED </a>
+    <button onclick="watched()" type="button" class="btn btn-secondary rounded-0" style="border: 3px solid black; font-size: 20px; background: white" data-toggle="collapse">
+      <a style="color:black"> WATCHED </a>
     </button>
-    <button onclick="toWatch()" type="button" class="btn btn-secondary rounded-0" data-toggle="collapse" style="width:130px; border: 3px solid white; font-size: 20px; background: none">
-      <a style="color:white"> TO WATCH </a>
+    <button onclick="toWatch()" type="button" class="btn btn-secondary rounded-0" data-toggle="collapse" style="width:130px; border: 3px solid black; font-size: 20px; background: white">
+      <a style="color:black"> TO WATCH </a>
     </button>
   </div>
 </div>
@@ -86,6 +86,7 @@
 </div>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
 <script type="text/javascript">
   window.onload = function(){
     let spans = document.getElementsByClassName("close");
