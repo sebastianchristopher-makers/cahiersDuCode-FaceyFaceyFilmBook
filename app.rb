@@ -153,18 +153,26 @@ class App < Sinatra::Base
   get '/:id/dashboard' do
     redirect ('/sessions/new') unless session[:user]
     film_id = Film.getRandom(@user.id)
+    unless film_id.nil?
+      url = "https://api.themoviedb.org/3/movie/#{film_id}/recommendations?api_key=#{ENV['API_KEY']}&language=en-US&page=1"
+      uri = URI(url)
+      response = JSON.parse(Net::HTTP.get(uri))
+      @recommendations = response['results'].map{ |result|
+        Recommendation.create(result)
+      }
+      @recommendations = @recommendations.each_slice(4).to_a unless @recommendations.empty?
+      @film_title = Film.find_by_id(film_id).title if Film.film_exists?(film_id)
+    end
 
-    url = "https://api.themoviedb.org/3/movie/#{film_id}/recommendations?api_key=#{ENV['API_KEY']}&language=en-US&page=1"
-    uri = URI(url)
-    response = JSON.parse(Net::HTTP.get(uri))
-    @recommendations = response['results'].map{ |result|
-      Recommendation.create(result)
-    }
-    @film_title = Film.find_by_id(film_id).title if Film.film_exists?(film_id)
-
-    @following = Follower.get_following_users(params[:id]).map{ |follower|
-      User.find_by_id(follower)
-    }
+    if Follower.get_following(@user.id) > 0
+      @following = Follower.get_following_users(@user.id).map{ |follower|
+        User.find_by_id(follower)
+      }
+      @recent = Follower.get_following_users(@user.id).map{ |follower|
+        Film.most_recent(follower)
+      }
+      @recent.each{ |rec| p rec }
+    end
     erb :_dashboard
   end
 
@@ -173,7 +181,7 @@ class App < Sinatra::Base
 
     userId = params[:id]
     @id = userId.to_i
-    @films = Film.find_to_watch(userId).each_slice(3).to_a
+    @films = Film.find_to_watch(userId).each_slice(4).to_a
     erb :_to_watch
   end
 
@@ -205,7 +213,12 @@ class App < Sinatra::Base
     @backdrop_path = Film.find_by_id(favourite_film_id).backdrop_path unless favourite_film_id.nil?
     @user_profile_path = User.find_by_id(@id).profile_path
     if @following_count > 0
-      @following = Follower.get_following_users(@user.id).map{ |follower|
+      @following = Follower.get_following_users(@id).map{ |follower|
+        User.find_by_id(follower)
+      }
+    end
+    if @follower_count > 0
+      @followers = Follower.get_follower_users(@id).map{ |follower|
         User.find_by_id(follower)
       }
     end

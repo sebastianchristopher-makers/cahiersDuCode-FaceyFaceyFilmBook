@@ -79,9 +79,11 @@
   <br>
   <br>
   <div class="text-center">
+    <% if @user.id == @id %>
     <a id="add-film-button" class="btn btn-lg btn-success rounded-0" href="/search">
       ADD A FILM
     </a>
+    <% end %>
   </div>
   <br>
   <br>
