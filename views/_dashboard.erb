@@ -1,23 +1,43 @@
-<div id="dashboard-container" class="container" style="border-radius: 16px; border: 1px solid #ccc; margin-top:20px">
+<head>
+
+  <style type="text/css">
+    #add-film-button {
+    -webkit-appearance: button;
+    -moz-appearance: button;
+    font-family: 'Roboto Mono', monospace;
+    font-size: 16px;
+    font-color: white;
+    border: 3px solid black ;
+    text-decoration: none;
+  }
+
+  </style>
+</head>
+
+<body>
+
+<div id="dashboard-container" class="container" style="border: 5px solid black; background: white; margin-top:10px">
 
   <br/>
-  <div class="text-center h3">
-    Dashboard
+  <div class="text-center h3" style="font-family:'Roboto Mono', monospace ; font-weight: 700 ; font-size: 35px;">
+      <span>DASHBOARD</span>
   </div>
-  <hr/ style="border: 1px black solid">
+
+  <hr/ style="border: 2px black solid">
   <br/>
 
 
-  <div class="row" style="text-align:center">
+  <div style="text-align:center">
     <% unless @recommendations.nil? %>
-    <h4>Enjoyed <%= @film_title %>? Try these:</h4>
+    <h3 style="text-align: center; font-family:'Roboto Mono', monospace ; font-weight: 500 ; font-size: 18px;">Enjoyed <%= @film_title %>? Try these:</h3>
+    <br>
     <% @recommendations.each do |recommendationGroup| %>
-    <div class="row" >
+    <div class="row" style="margin-bottom: 20px">
       <% recommendationGroup.each do |recommendation| %>
       <div class="col-md-3">
-        <div class="card rounded-0" style="border: 3px solid black; ">
+        <div class="card rounded-0" style="border: 3px solid black; height: 100%; width: 100%; object-fit: stretch; ">
           <a href="/films/<%= recommendation.film_id %>">
-            <img class="card-img-top rounded-0" style="width: 100%; height: 100%; object-fit: stretch;" src="https://image.tmdb.org/t/p/w780/<%= recommendation.poster_path %>"  alt="<%= recommendation.title %>" style="width:100%;" data-id=<%= recommendation.film_id %> data-title="<%= recommendation.title %>" data-year=<%= recommendation.year %> data-poster_path="<%= recommendation.poster_path %>" data-backdrop_path="<%= recommendation.backdrop_path %>" data-overview="<%= recommendation.overview %>">
+            <img class="card-img-top rounded-0" style="width: 100%; height: 100%; object-fit: stretch;" src="https://image.tmdb.org/t/p/w780/<%= recommendation.poster_path %>"  alt="<%= recommendation.title %>" style="width:100%;" data-id="<%= recommendation.film_id %>" data-title="<%= recommendation.title %>" data-year="<%= recommendation.year %> "data-poster_path="<%= recommendation.poster_path %>" data-backdrop_path="<%= recommendation.backdrop_path %>" data-overview="<%= recommendation.overview %>">
           </a>
         </div>
       </div>
@@ -28,17 +48,21 @@
   </div>
 
   <br>
-  <br>
+  <hr/ style="border: 2px black solid">
   <div style="text-align:center">
-    <h4>Recent activity</h4>
+    <br>
+    <h3 style="font-family:'Roboto Mono', monospace ; font-weight: 700 ; font-size: 35px;">RECENT ACTIVITY</h3>
+    <br>
     <ul>
       <% unless @following.nil? %>
         <% @following.each_with_index do |follower, i| %>
-          <li>
-            <p><a href="/<%= follower.id %>/user_profile"><%= follower.email %></a> <%= @recent[i] %></p>
+          <li style="list-style: none">
+            <p style="font-family:'Roboto Mono', monospace ; font-weight: 500 ; font-size: 18px;"><b>
+              <a href="/<%= follower.id %>/user_profile"><%= follower.email %></a></b> <%= @recent[i] %></p>
           </li>
         <% end %>
       <% end %>
     </ul>
   </div>
 </div>
+</body>
