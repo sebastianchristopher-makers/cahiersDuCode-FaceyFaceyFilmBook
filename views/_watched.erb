@@ -4,18 +4,27 @@
     #add-film-button {
     -webkit-appearance: button;
     -moz-appearance: button;
-    appearance: button;
     font-family: 'Roboto Mono', monospace;
     font-size: 16px;
-    font-color: white
+    font-color: white;
+    border: 3px solid black ;
     text-decoration: none;
+  }
+
+  #review:hover {
+    color: black;
+    background: yellow;
+    border: black 2px;
+  }
+
+  #delete:hover {
+    background: red;
   }
   </style>
 </head>
 
 <body>
 
-</body>
 <div id="watched-container" class="container" style="border: 5px solid black; background: white; margin-top:10px">
 
   <br/>
@@ -49,12 +58,12 @@
             <% if @user.id == @id %>
             <div style="text-align:center">
               <button type="button" class="btn btn-default shadow-none" onclick="deleteWatched(<%= @user.id %>,<%= film.film_id %>)">
-                <i class="material-icons" style="border-width: 2px; border-style: solid; padding: 30% 30% 30% 30%">
+                <i class="material-icons" id="delete" style="border-width: 2px; border-style: solid; padding: 30% 30% 30% 30%">
                   delete
                 </i>
               </button>
               <button type="button" class="btn btn-default shadow-none" onclick="openAddReview(<%= film.film_id %>)">
-                <i class="material-icons" style="border-width: 2px; border-style: solid; padding: 30% 30% 30% 30%">
+                <i class="material-icons" id="review" style="border-width: 2px; border-style: solid; padding: 30% 30% 30% 30%">
                   create
                 </i>
               </button>
@@ -80,3 +89,5 @@
 </div>
 <br>
 <br>
+</body>
+
