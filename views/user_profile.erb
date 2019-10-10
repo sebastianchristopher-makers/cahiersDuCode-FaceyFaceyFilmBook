@@ -31,17 +31,11 @@
 
     <br>
 
-    <div style="display: inline-block; border: solid black 1px; background-color: white;">
-      <table>
-        <tr>
-          <th onclick="showFollowers()">Followers</th>
-          <th onclick="showFollowing()">Following</th>
-        </tr>
-        <tr>
-          <td><%= @follower_count %></td>
-          <td><%= @following_count %></td>
-        </tr>
-      </table>
+    <div style="display: inline-block; background-color: white; font-family: 'Roboto Mono', monospace; font-size: 16px;">
+        <span>
+          <%= @follower_count %><span onclick="showFollowers()"> Followers </span>|
+          <%= @following_count %><span onclick="showFollowing()"> Following</span>
+        </span>
     </div>
 
     <div id="following" class="modal">
@@ -150,7 +144,7 @@
       modal.style.display = "none";
     }
   }
- 
+
    function showFollowers(){
     let modal = document.getElementById("followers");
     modal.style.display = "block";
