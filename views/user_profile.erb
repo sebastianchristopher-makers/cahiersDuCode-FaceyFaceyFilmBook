@@ -67,8 +67,10 @@
 
 <div class="card-body" style="width: 18rem;   margin: 0 auto; float: none; margin-bottom: 10px;">
     <div class="btn-group" role="group" aria-label="list-group">
+      <% if @user.id == @id %>
         <button onclick="dashboard()" type="button" class="btn btn-secondary" data-toggle="collapse">
           <a style="color:white"> Dashboard</a>
+      <% end %>
         </button>
         <button onclick="watched()" type="button" class="btn btn-secondary" data-toggle="collapse">
           <a style="color:white"> Watched </a>
