@@ -1,5 +1,28 @@
 <head>
   <link rel="stylesheet" type="text/css" href="../styles/review_style.css">
+  <style type="text/css">
+
+    #dashboard-button {
+      background: white;
+    }
+    #dashboard-button:hover {
+      background: yellow;
+    }
+
+    #watched-button{
+      background: white;
+    }
+    #watched-button:hover {
+      background: cyan;
+    }
+
+    #to-watch-button {
+      background: white;
+    }
+    #to-watch-button:hover {
+      background: magenta;
+    }
+  </style>
 </head>
 
 <body style="background: url('https://www.sccpre.cat/png/big/11/111723_film-grain-png.png') no-repeat center center fixed;
@@ -105,14 +128,14 @@
 <div class="card-body text-center" style="diplay: flex; margin-bottom: 10px;">
   <div class="btn-group" role="group" aria-label="list-group" style="font-family: 'Roboto Mono', monospace;">
     <% if @user.id == @id %>
-      <button onclick="dashboard()" type="button" class="btn btn-secondary rounded-0" style="border: 3px solid black; font-size: 20px; background: white" data-toggle="collapse">
+      <button id="dashboard-button" onclick="dashboard()" type="button" class="btn btn-secondary rounded-0 shadow-none" style="border: 3px solid black; font-size: 20px;" data-toggle="collapse">
         <a style="color:black"> DASHBOARD</a>
       </button>
     <% end %>
-    <button onclick="watched()" type="button" class="btn btn-secondary rounded-0" style="border: 3px solid black; font-size: 20px; background: white" data-toggle="collapse">
+    <button id="watched-button" onclick="watched()" type="button" class="btn btn-secondary rounded-0 shadow-none" style="border: 3px solid black; font-size: 20px;" data-toggle="collapse">
       <a style="color:black"> WATCHED </a>
     </button>
-    <button onclick="toWatch()" type="button" class="btn btn-secondary rounded-0" data-toggle="collapse" style="width:130px; border: 3px solid black; font-size: 20px; background: white">
+    <button id="to-watch-button" onclick="toWatch()" type="button" class="btn btn-secondary rounded-0 shadow-none" data-toggle="collapse" style="width:130px; border: 3px solid black; font-size: 20px;">
       <a style="color:black"> TO WATCH </a>
     </button>
   </div>
