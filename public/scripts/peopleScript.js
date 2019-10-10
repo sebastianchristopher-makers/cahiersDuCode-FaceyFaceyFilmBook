@@ -12,7 +12,6 @@ peopleSearchBox.addEventListener("keyup", function(event) {
 function searchPerson(){
   let personToSearch = document.getElementById("person").value;
   $.getJSON('/search-people', {personToSearch:personToSearch}, function (data, textStatus, jqXHR){
-    console.log("Here");
     let peopleSelect = document.getElementById('people');
     peopleSelect.options.length = 0;
     for(let i = 0; i < data.results.length; i++){

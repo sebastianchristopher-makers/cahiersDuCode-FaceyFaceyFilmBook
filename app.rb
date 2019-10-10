@@ -36,6 +36,8 @@ class App < Sinatra::Base
 
   not_found do
     # erb :error
+    status 404
+    body 'Page not found'
     erb :not_found
   end
 
@@ -300,6 +302,7 @@ class App < Sinatra::Base
     follower_id = params[:followerid]
     Follower.unfollow(user_id, follower_id)
   end
+  
   post '/delete-watched' do
     user_id = params[:userId]
     film_id = params[:filmId]
