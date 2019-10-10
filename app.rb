@@ -199,9 +199,16 @@ class App < Sinatra::Base
     favourite_film_id = @user_profile.favourite_film
     @backdrop_path = Film.find_by_id(favourite_film_id).backdrop_path unless favourite_film_id.nil?
     @user_profile_path = User.find_by_id(@id).profile_path
-    @following = Follower.get_following_users(@user.id).map{ |follower|
+    if @following_count > 0
+    @following = Follower.get_following_users(@id).map{ |follower|
       User.find_by_id(follower)
     }
+    end
+    if @follower_count > 0
+    @followers = Follower.get_follower_users(@id).map{ |follower|
+      User.find_by_id(follower)
+    }
+    end
     erb :user_profile
   end
 
