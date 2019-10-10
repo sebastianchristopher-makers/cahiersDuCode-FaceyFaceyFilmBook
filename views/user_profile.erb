@@ -195,7 +195,6 @@
     <% end %>
   }
 
-  debugger;
   if(<%= @user.id == @id %>){
     document.getElementById("follow").style.display = "none";
     document.getElementById("following").style.display = "none";
@@ -288,6 +287,14 @@
       document.getElementById("dashboard").innerHTML = data
       //load script after html is returned
       $.getScript( "../scripts/review.js" )
+      .done(function( script, textStatus ) {
+        console.log( textStatus );
+      })
+      .fail(function( jqxhr, settings, exception ) {
+        console.log( "Triggered ajaxError handler." );
+      });
+      //load script after html is returned
+      $.getScript( "../scripts/dashboard.js" )
       .done(function( script, textStatus ) {
         console.log( textStatus );
       })
