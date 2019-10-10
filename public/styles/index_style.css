@@ -59,7 +59,7 @@ background-image: url("https://nos.nl/data/image/2016/07/03/296277/2048x1152.jpg
 
 /*SIGN IN AND SIGN UP BUTTONS*/
 
-.btn {
+#sign-in-up {
   font-family:'Roboto Mono', monospace;
   font-size: 30px;
   font-weight: 700;
@@ -71,7 +71,7 @@ background-image: url("https://nos.nl/data/image/2016/07/03/296277/2048x1152.jpg
   box-shadow: none;
 }
 
-.btn:hover {
+#sign-in-up:hover {
   font-family: 'Roboto Mono', monospace;
   font-weight: 700;
   color: black;

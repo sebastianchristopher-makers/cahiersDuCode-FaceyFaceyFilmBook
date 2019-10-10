@@ -1,21 +1,50 @@
+<head>
+  <style type="text/css">
+    #add-banner-button {
+      font-family: 'Roboto Mono', monospace;
+      font-size: 15px;
+      font-weight: 700;
+      color: black;
+      border-color: black;
+      border-width: 2px;
+    }
+    #add-banner-button:hover {
+      background-color: #009874;
+    }
+  </style>
+</head>
+
+<body style="background: orange;">
 <%= erb :_header %>
-<body>
-  <h1 style="text-align:center">Add your favourite film</h1>
-  <h5 style="text-align:center">(This will be the banner for your profile)</h5>
+
+<div class="container" style="border: 5px solid black; margin-top: 40px; width: 700px; background: white">
+
+  <div style="margin-top: 10px; font-family: 'Roboto Mono', monospace;">
+    <h1 style="text-align:center; font-weight: 700">SELECT PROFILE BANNER</h1>
+    <hr style="border: 3px solid black">
+    <br>
+    <h5 style="text-align:center; font-size: 18px">Search for a film which you would like to form the banner for your profile</h5>
+    <br>
+  </div>
 
   <div style="text-align:center">
     <div style="display:inline-block">
-      <input type="text" id="film">
-      <button id="search" onclick="search()"><i class="fa fa-search"></i></button>
+      <input style="border: 2px solid black; outline: none; text-align: center; font-family: 'Roboto Mono', monospace; font-size: 18px;" type="text" id="film" placeholder="SEARCH">
+      <button style="border: 2px solid black; font-size: 18px" id="search" onclick="search()"><i class="fa fa-search"></i></button>
     </div>
   </div>
   <br>
-  <p id="numFilms" style="text-align:center"></p>
-  <div >
-    <select id="films" style="display:block; margin: 0 auto;" onchange="getCardInfo()">
+
+  <div class="text-center">
+    <p style="font-family: 'Roboto Mono', monospace; font-size: 16px;" id="numFilms" style="text-align:center"></p>
+  </div>
+
+  <div class="text-center">
+    <select style="font-family: 'Roboto Mono', monospace; font-size: 16px; border:2px solid black; display:block; margin: 0 auto;" id="films" onchange="getCardInfo()">
     </select>
   </div>
-  <div class="card" style="width: 30rem;margin: 0 auto;float:none;margin-top:10px;margin-bottom: 10px;">
+
+  <div class="card" style="width: 30rem;margin: 0 auto; float:none; margin-top:10px; margin-bottom: 10px; border: 3px solid black; border-radius: 0px; font-family: 'Roboto Mono', monospace; font-size: 16px;">
     <div class="card-body">
       <div class="row">
         <div class="col text-left">
@@ -33,9 +62,13 @@
       <br>
       <div class="row">
         <div class="col text-center">
-          <button type="button" class="btn btn-outline-primary" onclick="addFavouriteFilm()">Add favourite film</button>
+          <button id="add-banner-button" type="button" class="btn btn-outline-primary rounded-0" onclick="addFavouriteFilm()">+ Banner</button>
         </div>
       </div>
     </div>
   </div>
+  <br>
+
+</div>
+
 </body>
