@@ -9,36 +9,39 @@
 
 
   <div class="row" style="text-align:center">
-    <% unless @recommendations.empty? %>
+    <% unless @recommendations.nil? %>
     <h4>Enjoyed <%= @film_title %>? Try these:</h4>
     <% @recommendations.each do |recommendationGroup| %>
-      <div class="row" >
+    <div class="row" >
       <% recommendationGroup.each do |recommendation| %>
-        <div class="col-md-3">
-          <div class="card rounded-0" style="border: 3px solid black; ">
-            <a href="/films/<%= recommendation.film_id %>">
-              <img class="card-img-top rounded-0" style="width: 100%; height: 100%; object-fit: stretch;" src="https://image.tmdb.org/t/p/w780/<%= recommendation.poster_path %>"  alt="<%= recommendation.title %>" style="width:100%;" data-id=<%= recommendation.film_id %> data-title="<%= recommendation.title %>" data-year=<%= recommendation.year %> data-poster_path="<%= recommendation.poster_path %>" data-backdrop_path="<%= recommendation.backdrop_path %>" data-overview="<%= recommendation.overview %>">
-            </a>
-            <div class="card-body">
-            </div>
-          </div>
+      <div class="col-md-3">
+        <div class="card rounded-0" style="border: 3px solid black; ">
+          <a href="/films/<%= recommendation.film_id %>">
+            <img class="card-img-top rounded-0" style="width: 100%; height: 100%; object-fit: stretch;" src="https://image.tmdb.org/t/p/w780/<%= recommendation.poster_path %>"  alt="<%= recommendation.title %>" style="width:100%;" data-id=<%= recommendation.film_id %> data-title="<%= recommendation.title %>" data-year=<%= recommendation.year %> data-poster_path="<%= recommendation.poster_path %>" data-backdrop_path="<%= recommendation.backdrop_path %>" data-overview="<%= recommendation.overview %>">
+          </a>
         </div>
-      <% end %>
       </div>
-      <br>
+      <% end %>
+    </div>
     <% end %>
     <% end %>
   </div>
 
-    <br>
+  <br>
+  <br>
+  <div style="text-align:center">
+    <h4>Recent activity</h4>
     <ul>
       <% unless @following.nil? %>
-        <% @following.each do |follower| %>
-          <li><a href="/<%= follower.id %>/user_profile"><%= follower.email %></a></li>
+        <% @following.each_with_index do |follower, i| %>
+          <li>
+            <p><a href="/<%= follower.id %>/user_profile"><%= follower.email %></a> <%= @recent[i] %></p>
+          </li>
         <% end %>
       <% end %>
     </ul>
   </div>
+
 
 
 

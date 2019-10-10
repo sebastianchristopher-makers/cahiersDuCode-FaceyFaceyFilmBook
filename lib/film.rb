@@ -63,6 +63,16 @@ class Film
     end
   end
 
+  def self.most_recent(user_id)
+    rs = DatabaseConnection.query("SELECT * FROM films RIGHT JOIN usersFilms ON films.filmid = usersFilms.filmid WHERE userid = $1 ORDER BY usersFilms.id DESC LIMIT 1;", [user_id])
+    if rs[0]["iswatched"] == "true"
+      list = "watched list"
+    else
+      list = "to watch list"
+    end
+    "added #{rs[0]["title"]} to #{list}" if rs.to_a.length > 0
+  end
+
    def self.find_to_watch(user_id)
     rs = DatabaseConnection.query("SELECT * FROM films FULL OUTER JOIN usersFilms ON films.filmid = usersFilms.filmid WHERE userid = $1 AND isToWatch = true;", [user_id])
     rs.map do |row|
