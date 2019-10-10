@@ -239,7 +239,6 @@ class App < Sinatra::Base
     @film = Film.find_by_id(film_id)
     @title = Film.find_by_id(film_id).title
     @src = "https://www.youtube.com/embed/#{response["results"][0]["key"]}" if response["results"].size > 0
-
     url = 'https://api.themoviedb.org/3/movie/' + film_id + '/recommendations?api_key=' + ENV['API_KEY'] + '&language=en-US&page=1'
     uri = URI(url)
     response = JSON.parse(Net::HTTP.get(uri))
