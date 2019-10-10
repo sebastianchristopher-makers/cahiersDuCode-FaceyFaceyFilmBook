@@ -193,20 +193,22 @@ class App < Sinatra::Base
 
   get '/:id/user_profile' do
     redirect ('/sessions/new') unless session[:user]
-    userId = params[:id]
-    @id = userId.to_i
-    @follower_count = Follower.get_followers(userId)
-    @following_count = Follower.get_following(userId)
-    @userisfollowing = Follower.following?(@user.id, @id)
-    @films = Film.find_by_user_id(userId).each_slice(3).to_a
-    @user_profile = User.find_by_id(userId)
+    user_id = params[:id]
+    @id = user_id.to_i
+    @follower_count = Follower.get_followers(user_id)
+    @following_count = Follower.get_following(user_id)
+    @userisfollowing = Follower.following?(@user.id, user_id)
+    @films = Film.find_by_user_id(user_id).each_slice(3).to_a
+    @user_profile = User.find_by_id(user_id)
     @email = @user_profile.email
     favourite_film_id = @user_profile.favourite_film
     @backdrop_path = Film.find_by_id(favourite_film_id).backdrop_path unless favourite_film_id.nil?
     @user_profile_path = User.find_by_id(@id).profile_path
-    @following = Follower.get_following_users(@user.id).map{ |follower|
-      User.find_by_id(follower)
-    }
+    if @following_count > 0
+      @following = Follower.get_following_users(@user.id).map{ |follower|
+        User.find_by_id(follower)
+      }
+    end
     erb :user_profile
   end
 
