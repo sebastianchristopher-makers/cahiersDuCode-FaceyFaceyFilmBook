@@ -23,6 +23,9 @@
       background: magenta;
     }
   </style>
+
+  <%= erb :_header %>
+  <link rel="stylesheet" type="text/css" href="../styles/review_style.css">
 </head>
 
 <body style="background: url('https://www.sccpre.cat/png/big/11/111723_film-grain-png.png') no-repeat center center fixed;
@@ -30,11 +33,6 @@
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;">
-<head>
-  <%= erb :_header %>
-  <link rel="stylesheet" type="text/css" href="../styles/review_style.css">
-</head>
-
 
 <div onMouseOver="showButton()" onMouseOut="hideButton()" class="jumbotron rounded-0" style="border: 35px solid black; border-left: 0px; border-right: 0px; height: 550px;background: #ccc; background-image: url(https://image.tmdb.org/t/p/w1280/<%= @backdrop_path %>); background-repeat: no-repeat; background-size:cover;-webkit-filter:grayscale(100%);filter:contrast(110%) grayscale(100%);">
 

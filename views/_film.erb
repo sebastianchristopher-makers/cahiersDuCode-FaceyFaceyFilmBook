@@ -10,83 +10,108 @@
   </style>
 </head>
 
-<body>
+<body style="background: url('https://www.sccpre.cat/png/big/11/111723_film-grain-png.png') no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;">
 
-<div class="container" style="border: 5px solid black;">
+<div class="container" style="background: white; border: 5px solid black; margin-top: 50px">
 
   <!-- FILM TITLE -->
 
-  <h1 style="text-align: center;">
+  <h1 style="text-align: center; padding-top: 7px; font-family: 'Roboto Mono', monospace;">
     <%= @title %>
   </h1>
-  <hr>
+  <hr/ style="border: 2px black solid">
   <br>
 
   <!-- TRAILER & SYNOPSIS BLOCK -->
 
-  <div>
-    <div style="text-align:center;margin-bottom:10px">
-      <iframe width="420" height="315"
+  <div style="display: flex; justify-content: space-between;">
+    <div style="text-align:center;margin-bottom:10px; width: 50%; margin-right: auto">
+      <iframe width="420" height="315" style="border: 5px solid black;"
         src='<%= @src %>' frameborder="0" allowfullscreen>
       </iframe>
     </div>
 
-    <div style="text-align:center;margin-bottom:10px">
+    <% if @film.overview.nil? %>
+    <div style="margin-bottom:10px; width:50%; border: 3px solid black; padding-left: 25px; padding-right: 25px; font-family: 'Roboto Mono', monospace; margin-left: auto;">
+      <h3 class="text-center" style="padding-top: 10px; ">SYNOPSIS</h3>
+      <hr/ style="border: 2px black solid; width: 90%">
       <p><%= @film.overview %></p>
     </div>
+    <% else %>
+    <div style="margin-bottom:10px; width:50%; border: 3px solid black; padding-left: 25px; padding-right: 25px; font-family: 'Roboto Mono', monospace; margin-left: auto;">
+      <h3 class="text-center" style="padding-top: 10px; ">SYNOPSIS</h3>
+      <hr/ style="border: 2px black solid; width: 90%">
+      <p class="text-center">No synopsis is available for this film.</p>
+      <% end %>
+     </div>
   </div>
 
-  <hr>
+  <hr/ style="border: 2px black solid">
 
-
-    <div class="row">
-      <div class="col-xl-10">
+    <div>
         <% if @showtime_error %>
+
           <p>Too many results - please check showtimes <a href="<%= @showtime_error %>">here</a></p>
         <% else %>
           <% @showtimes.each do |showtime| %>
             <p>Showing at <a href="<%= showtime.website %>" target="_blank"><%= showtime.cinema_name %></a> on <%= DateHelper.screen_date(showtime.start_at) %> <% if showtime.booking_link %><a href="<%= showtime.booking_link %>"><i>Buy tickets</i></a><% end %></p>
           <% end %>
         <% end %>
-      </div>
     </div>
 
-    <div class="row">
-      <div class="col-xl-10">
-      <h2>Reviews</h2>
-      <ul>
+    <div>
+
+        <h2 class="text-center" style="font-family: 'Roboto Mono', monospace;">REVIEWS</h2>
+        <br>
+      <ul style="list-style: none">
        <% @reviews.each do |review|  %>
-        <li> <pre><%=review.review_content %></pre>
-          <p>Reviewed by <%=@user_model.find_by_id(review.user_id).email %></p>
+        <li> <pre style="font-family: 'Roboto Mono', monospace; font-size: 18px;"><%=review.review_content %></pre>
+          <p style="font-family: 'Roboto Mono', monospace; font-style: italic">Reviewed by <%=@user_model.find_by_id(review.user_id).email %></p>
         </li>
        <% end %>
       </ul>
       <!-- <h2>Add a review for <%= @film.title %></h2> -->
       <!-- Trigger/Open The Modal -->
-      <button onclick="openAddReview()">Add a review</button>
+
+      <div class="text-center" style="font-family: 'Roboto Mono', monospace; ">
+        <br>
+        <a id="add-review-button" class="btn btn-md btn-success rounded-0" onclick="openAddReview('1')" style="color: white; border: 2px solid black">
+                ADD A REVIEW
+        </a>
+      </div >
+
       <!-- The Modal -->
-      <div id="myModal" class="modal">
+      <div id="myModal1" class="modal">
         <!-- Modal content -->
         <div class="modal-content">
           <span class="close">&times;</span>
           <div style="text-align: center">
+            <br>
             <form action="/films/<%= @film.film_id %>" method="POST">
                 <textarea rows="20" name="review" cols="90" ></textarea>
-                <input type="submit" value="Add review">
+                <br>
+                <input type="submit" value="Add Review">
             </form>
           </div>
         </div>
       </div>
-      </div>
+
     </div>
 
-  <hr style="">
+    <hr/ style="border: 2px black solid">
 
-  <div class="row" style="text-align:center">
-
-    <div class="col-xl-10">
     <% unless @recommendations.empty? %>
-    <h2>If you liked this, you may also like:</h2>
+
+    <h2 class="text-center" style="font-family: 'Roboto Mono', monospace;">RECOMMENDATIONS</h2>
+    <br>
+    <div class="text-center" style="font-family: 'Roboto Mono', monospace;">
+      <p>If you liked this, you may also like:</p>
+    </div>
+    <br>
     <div id="myCarousel" class="carousel slide" data-ride="carousel" style="margin: auto;width: 250px; height:250px;">
       <!-- Wrapper for slides -->
       <div class="carousel-inner">
@@ -103,6 +128,7 @@
       </div>
 
         <!-- Left and right controls -->
+
         <a class="carousel-control-prev" href="#myCarousel" data-slide="prev">
           <span class="carousel-control-prev-icon"></span>
         </a>
@@ -110,8 +136,20 @@
           <span class="carousel-control-next-icon"></span>
         </a>
       </div>
-    </div>
+
     <% end %>
+
+  <div class="row">
+    <div class="col-xl-10">
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+    </div>
   </div>
 </div>
 
