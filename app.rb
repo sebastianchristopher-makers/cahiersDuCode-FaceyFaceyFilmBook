@@ -47,6 +47,11 @@ class App < Sinatra::Base
   end
 
   get '/sessions/new' do
+    # added logic so that if a user is logged in, goign to /sessions/new does not ask you to login again
+    if session[:user]
+      user = session[:user]
+      redirect "#{user.id}/user_profile"
+    end
     erb :sign_in
   end
 
@@ -178,7 +183,7 @@ class App < Sinatra::Base
 
     userId = params[:id]
     @id = userId.to_i
-    @films = Film.find_watched(userId).each_slice(3).to_a
+    @films = Film.find_watched(userId).each_slice(4).to_a
     erb :_watched
   end
 

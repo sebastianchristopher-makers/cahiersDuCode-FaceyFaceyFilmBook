@@ -1,57 +1,50 @@
+<head>
+  <link rel="stylesheet" type="text/css" href="../styles/review_style.css">
+</head>
+
 <body style="background: url('https://www.sccpre.cat/png/big/11/111723_film-grain-png.png') no-repeat center center fixed;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;">
-<head>
+
   <%= erb :_header %>
-  <link rel="stylesheet" type="text/css" href="../styles/review_style.css">
-</head>
 
-<div class="jumbotron" style="background-image: url(https://image.tmdb.org/t/p/w1280/<%= @backdrop_path %>); background-repeat: no-repeat; background-size:cover;-webkit-filter:grayscale(100%);filter: grayscale(100%);">
+  <div class="jumbotron rounded-0" style="background-image: url(https://image.tmdb.org/t/p/w1280/<%= @backdrop_path %>); background-repeat: no-repeat; background-size:cover;-webkit-filter:grayscale(100%);filter: grayscale(100%);border: 25px solid black; border-right: 0px; border-left: 0px">
+    <div style="text-align: center;">
 
-  <div style="text-align: center;">
+      <div style="display: inline-block;">
+        <img class="rounded-0" src="https://pbs.twimg.com/profile_images/735242324293210112/H8YfgQHP_400x400.jpg" width="200px" class="img-thumbnail" style="border:4px solid black;">
+        <p style="margin-top: 5px; background: white; font-family: 'Roboto Mono', monospace;font-size: 20px;"> <%= @email %> </p>
+      </div>
 
-    <div style="display: inline-block;">
-      <img src="https://pbs.twimg.com/profile_images/735242324293210112/H8YfgQHP_400x400.jpg" width="200px" class="img-thumbnail">
-      <p style="margin-top: 5px; color: #ff69b4; font-size: 20px;"> <%= @email %> </p>
-    </div>
+      <br>
 
-    <br>
-
-    <div style="display: inline-block; border: solid black 1px; background-color: white;">
-      <table>
-        <tr>
-          <th>Followers</th>
-          <th>Following</th>
-        </tr>
-        <tr>
-          <td><%= @follower_count %></td>
-          <td><%= @following_count %></td>
-        </tr>
-      </table>
-    </div>
-
-    <br>
-
-    <div style="display: inline-block;">
-      <button type="button" class="btn btn-success" id="follow" onclick="follower()" >Follow</button>
-      <button type="button" class="btn btn-danger" id="following" onclick="unfollow()">Unfollow</button>
+      <div style="display: inline-block; background-color: white; font-family: 'Roboto Mono', monospace; font-size: 16px;">
+        <span>
+          <%= @follower_count %> Followers |
+          <%= @following_count %> Following
+        </span>
+      </div>
+      <br>
+      <br>
+      <div style="display:inline-block;">
+        <button type="button" class="btn btn-success rounded-0" style="font-family: 'Roboto Mono', monospace; font-size: 16px;" id="follow" onclick="follower()" >Follow</button>
+        <button type="button" class="btn btn-danger rounded-0" style="font-family: 'Roboto Mono', monospace; font-size: 16px;" id="following" onclick="unfollow()">Unfollow</button>
+      </div>
     </div>
   </div>
 
-</div>
-
-<div class="card-body" style="width: 18rem;   margin: 0 auto; float: none; margin-bottom: 10px;">
-    <div class="btn-group" role="group" aria-label="list-group">
-        <button onclick="dashboard()" type="button" class="btn btn-secondary" data-toggle="collapse">
-          <a style="color:white"> Dashboard</a>
+<div class="card-body text-center" style="diplay: flex; margin-bottom: 10px;">
+    <div class="btn-group" role="group" aria-label="list-group" style="font-family: 'Roboto Mono', monospace;">
+        <button onclick="dashboard()" type="button" class="btn btn-secondary rounded-0" style="border: 3px solid white; font-size: 20px; background: none" data-toggle="collapse">
+          <a style="color:white"> DASHBOARD</a>
         </button>
-        <button onclick="watched()" type="button" class="btn btn-secondary" data-toggle="collapse">
-          <a style="color:white"> Watched </a>
+        <button onclick="watched()" type="button" class="btn btn-secondary rounded-0" style="border: 3px solid white; font-size: 20px; background: none" data-toggle="collapse">
+          <a style="color:white"> WATCHED </a>
         </button>
-        <button onclick="toWatch()" type="button" class="btn btn-secondary" data-toggle="collapse" style="width:110px">
-          <a style="color:white"> To Watch </a>
+        <button onclick="toWatch()" type="button" class="btn btn-secondary rounded-0" data-toggle="collapse" style="width:130px; border: 3px solid white; font-size: 20px; background: none">
+          <a style="color:white"> TO WATCH </a>
         </button>
     </div>
 </div>
@@ -83,7 +76,6 @@
     if(<%= @user.id%> !=<%=@id%>){
       $.post('/addfollow', {userid:<%= @user.id%>, followerid: <%= @id%>}, function(data){
       })
-      alert("Successfully Followed.");
       document.getElementById("follow").style.display = "none";
       document.getElementById("following").style.display = "block";
       location.reload();
@@ -93,7 +85,6 @@
     function unfollow(){
       $.post('/deletefollow', {userid:<%= @user.id%>, followerid: <%= @id%>}, function(data){
       })
-      alert("Successfully Unfollowed.");
       document.getElementById("follow").style.display = "block";
       document.getElementById("following").style.display = "none";
       location.reload();
