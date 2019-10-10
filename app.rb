@@ -318,6 +318,10 @@ class App < Sinatra::Base
   end
 
   get '/change-profile' do
+    if session[:user]
+      user = session[:user]
+      redirect "#{user.id}/user_profile"
+    end
     erb :search_person
   end
 
