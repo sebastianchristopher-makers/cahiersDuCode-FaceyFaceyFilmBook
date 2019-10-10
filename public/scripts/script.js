@@ -108,6 +108,7 @@ function addFavouriteFilm(){
     })
     .done(function(data) {
       alert(film.text + ' was added to your collection and your banner.');
+      window.location.href = "/user_profile";
     })
     .fail(function(jqxhr, settings, ex) {
       alert('failed, ' + jqxhr.responseText);

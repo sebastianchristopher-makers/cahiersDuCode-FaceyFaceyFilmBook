@@ -1,0 +1,39 @@
+<%= erb :_header %>
+<h1 style="text-align:center">Search for an actor/crewmember</h1>
+
+<div style="text-align:center">
+  <div style="display:inline-block">
+    <input type="text" id="person">
+    <button id="search-person" onclick="searchPerson()"><i class="fa fa-search"></i></button>
+  </div>
+</div>
+<br>
+<p id="numresults" style="text-align:center"></p>
+<div >
+  <select id="people" style="display:block; margin: 0 auto;" onchange="getPersonInfo()">
+  </select>
+</div>
+<div class="card" style="width: 30rem;margin: 0 auto;float:none;margin-top:10px;margin-bottom: 10px;">
+  <div class="card-body">
+    <div class="row">
+      <div class="col text-left">
+        <h4 id="cardTitle" style="text-align:center"></h4>
+        <br>
+        <div style="height:50%; overflow-y: auto">
+          <p style="font-size:12px" id="overView"></p>
+        </div>
+      </div>
+      <div class="col text-right">
+        <div id="cardProfile" style="text-align:right"></div>
+        <img id="profileImg"></img>
+      </div>
+    </div>
+    <br>
+    <div class="row">
+      <div class="col text-center">
+        <button type="button" class="btn btn-outline-primary" onclick="addProfile()">Add profile</button>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="../scripts/peopleScript.js"></script>

@@ -40,12 +40,11 @@
           </div>
         </div>
       </div>
-
       <div class="col-md-3">
         <div class="card rounded-0" style="border: 3px solid black; ">
           <a href="/films/<%= film.film_id %>">
             <img class="card-img-top rounded-0" style="width: 100%; height: 100%; object-fit: stretch;" src="https://image.tmdb.org/t/p/w185/<%= film.poster_path %>" alt="<%= film.title %>">
-           </a>
+          </a>
           <div class="card-body">
             <% if @user.id == @id %>
             <div style="text-align:center">

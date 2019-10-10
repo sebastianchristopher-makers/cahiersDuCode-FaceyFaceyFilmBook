@@ -7,8 +7,59 @@
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;">
-
+<head>
   <%= erb :_header %>
+  <link rel="stylesheet" type="text/css" href="../styles/review_style.css">
+</head>
+
+<div onMouseOver="showButton()" onMouseOut="hideButton()" class="jumbotron" style="background-image: url(https://image.tmdb.org/t/p/w1280/<%= @backdrop_path %>); background-repeat: no-repeat; background-size:cover;-webkit-filter:grayscale(100%);filter:contrast(110%) grayscale(100%);">
+  <button id='change-banner' style="visibility:hidden;margin-bottom:5px" type="button" class="btn-default" onclick="window.location.href ='/add_favourite';">Change your banner photo</button>
+  <br>
+  <button id='change-profile' style="visibility:hidden;" type="button" class="btn-default" onclick="window.location.href ='/change-profile';">Change your profile photo</button>
+  <div style="text-align: center;">
+
+    <div style="display: inline-block;">
+      <% if @user_profile_path %>
+      <img src="https://image.tmdb.org/t/p/w185/<%= @user_profile_path %>" width="200px" class="img-thumbnail" style="-webkit-filter:grayscale(100%);filter:contrast(110%) grayscale(100%);">
+      <% else %>
+      <img src="https://pbs.twimg.com/profile_images/735242324293210112/H8YfgQHP_400x400.jpg" width="200px" class="img-thumbnail">
+      <% end %>
+      <p style="margin-top: 5px; color: #ff69b4; font-size: 20px;"> <%= @email %> </p>
+    </div>
+
+    <br>
+
+    <div style="display: inline-block; border: solid black 1px; background-color: white;">
+      <table>
+        <tr>
+          <th>Followers</th>
+          <th onclick="showFollowing()">Following</th>
+        </tr>
+        <tr>
+          <td><%= @follower_count %></td>
+          <td><%= @following_count %></td>
+        </tr>
+      </table>
+    </div>
+
+    <div id="following" class="modal">
+      <!-- Modal content -->
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <div style="text-align: center">
+          <% if @following %>
+            <h5>You are following:</h5>
+            <% @following.each do |user| %>
+              <p><a href="/<%= user.id %>/user_profile"><%= user.email %></a></p>
+            <% end %>
+          <% else %>
+            <h5>You are not following any other users.</h5>
+          <% end %>
+        </div>
+      </div>
+    </div>
+
+    <br>
 
   <div class="jumbotron rounded-0" style="background-image: url(https://image.tmdb.org/t/p/w1280/<%= @backdrop_path %>); background-repeat: no-repeat; background-size:cover;-webkit-filter:grayscale(100%);filter: grayscale(100%);border: 25px solid black; border-right: 0px; border-left: 0px">
     <div style="text-align: center;">
@@ -37,8 +88,10 @@
 
 <div class="card-body text-center" style="diplay: flex; margin-bottom: 10px;">
     <div class="btn-group" role="group" aria-label="list-group" style="font-family: 'Roboto Mono', monospace;">
+      <% if @user.id == @id %>
         <button onclick="dashboard()" type="button" class="btn btn-secondary rounded-0" style="border: 3px solid white; font-size: 20px; background: none" data-toggle="collapse">
           <a style="color:white"> DASHBOARD</a>
+      <% end %>
         </button>
         <button onclick="watched()" type="button" class="btn btn-secondary rounded-0" style="border: 3px solid white; font-size: 20px; background: none" data-toggle="collapse">
           <a style="color:white"> WATCHED </a>
@@ -57,6 +110,36 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script type="text/javascript">
+  window.onload = function(){
+    let spans = document.getElementsByClassName("close");
+  }
+  spans = document.getElementsByClassName("close");
+  // let spans = document.getElementsByClassName("close")
+  for(let i = 0; i < document.getElementsByClassName("close").length; i++){
+    spans[i].onclick = function() {
+      this.parentElement.parentElement.style.display = "none";
+    }
+  }
+  function showFollowing(){
+    let modal = document.getElementById("following");
+    modal.style.display = "block";
+  }
+  window.onclick = function(event) {
+    let modal = document.getElementById("following");
+    if (event.target == modal) {
+      modal.style.display = "none";
+    }
+  }
+
+  function showButton(){
+    document.getElementById('change-banner').style.visibility = "visible";
+    document.getElementById('change-profile').style.visibility = "visible";
+  }
+  function hideButton(){
+    document.getElementById('change-banner').style.visibility = "hidden";
+    document.getElementById('change-profile').style.visibility = "hidden";
+  }
+
   if(<%= @user.id%> ==<%=@id%>){
     document.getElementById("follow").style.display = "none";
     document.getElementById("following").style.display = "none";
