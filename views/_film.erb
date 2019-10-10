@@ -46,8 +46,21 @@
         src='<%= @src %>' frameborder="0" allowfullscreen>
       </iframe>
     </div>
+    <div style="text-align:center;margin-bottom:10px">
+      <% if @watched %>
+      <p>Film is in your watched list</p>
+      <% else %>
+      <button type="button" style="display:none;" class="btn btn-primary" onClick="addSingleFilmToWatched()">Add to watched list</button>
+      <% end %>
+      <br>
+      <% if @to_watch %>
+      <p>Film is in your to-watch list</p>
+      <% else %>
+      <button type="button" style="display:none;" class="btn btn-primary" onClick="addSingleFilmToToWatch()">Add to to-watch list</button>
+      <% end %>
+    </div>
 
-    <% if @film.overview.nil? %>
+    <% if @film.overview %>
     <div style="margin-bottom:10px; width:50%; border: 3px solid black; padding-left: 25px; padding-right: 25px; font-family: 'Roboto Mono', monospace; margin-left: auto;">
       <h3 class="text-center" style="padding-top: 10px; ">SYNOPSIS</h3>
       <hr/ style="border: 2px black solid; width: 90%">
@@ -192,6 +205,29 @@
     }
     for (let i = 0; i < recommendations.length; i++) {
       recommendations[i].addEventListener('click', createFilm, false);
+    }
+
+    function addSingleFilmToWatched(){
+      $.post('/search', {id:<%= @film.id %>, title:<%= @film.title %>, year: <%= @film.year %>, poster_path:<%= @film.poster_path %>, watched:'true', to_watch:'false', backdrop_path:<%= @film.backdrop_path %>, overview:<%= @film.overview %>, favourite:false}, function(data, status, xhr){
+
+      })
+      .done(function(data) {
+        alert(<%= @film.title %> + ' was added to your collection.');
+      })
+      .fail(function(jqxhr, settings, ex) {
+        alert('failed, ' + jqxhr.responseText);
+      });
+    }
+    function addSingleFilmToToWatch(){
+      $.post('/search', {id:<%= @film.id %>, title:'<%= @film.title %>', year:<%= @film.year %>, poster_path:'<%= @film.poster_path %>', watched:'false', to_watch:'true', backdrop_path:'<%= @film.backdrop_path %>', overview:"<%= @film.overview %>", favourite:false}, function(data, status, xhr){
+
+      })
+      .done(function(data) {
+        alert(<%= @film.title %> + ' was added to your collection.');
+      })
+      .fail(function(jqxhr, settings, ex) {
+        alert('failed, ' + jqxhr.responseText);
+      });
     }
   </script>
   <script src="../scripts/review.js"></script>

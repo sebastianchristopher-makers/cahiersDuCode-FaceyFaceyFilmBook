@@ -36,6 +36,8 @@ class App < Sinatra::Base
 
   not_found do
     # erb :error
+    status 404
+    body 'Page not found'
     erb :not_found
   end
 
@@ -85,7 +87,8 @@ class App < Sinatra::Base
       session[:user] = user
       redirect "#{user.id}/user_profile"
     else
-      puts('Wrong Username And/or Password')
+      session[:err] = nil
+      session[:err] = 'Wrong Username And/or Password'
       redirect '/sessions/new'
     end
   end
@@ -236,7 +239,6 @@ class App < Sinatra::Base
     @film = Film.find_by_id(film_id)
     @title = Film.find_by_id(film_id).title
     @src = "https://www.youtube.com/embed/#{response["results"][0]["key"]}" if response["results"].size > 0
-
     url = 'https://api.themoviedb.org/3/movie/' + film_id + '/recommendations?api_key=' + ENV['API_KEY'] + '&language=en-US&page=1'
     uri = URI(url)
     response = JSON.parse(Net::HTTP.get(uri))
@@ -268,6 +270,8 @@ class App < Sinatra::Base
 
     @user_model = User
 
+    @watched = Film.watched?(@user.id, film_id)
+    @to_watch = Film.to_watch?(@user.id, film_id)
     erb :_film
   end
 
@@ -300,6 +304,7 @@ class App < Sinatra::Base
     follower_id = params[:followerid]
     Follower.unfollow(user_id, follower_id)
   end
+
   post '/delete-watched' do
     user_id = params[:userId]
     film_id = params[:filmId]

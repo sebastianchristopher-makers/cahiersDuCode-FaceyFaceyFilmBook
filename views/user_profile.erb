@@ -33,6 +33,24 @@
       color: white;
     }
 
+    .jumbotron{
+      border: 35px solid black;
+      border-left: 0px;
+      border-right: 0px;
+      height: 550px;
+      background: #ccc;
+      background-image: url(https://image.tmdb.org/t/p/w1280/<%= @backdrop_path %>);
+      background-repeat: no-repeat;
+      background-size:cover;
+      -webkit-filter:grayscale(100%);
+      filter:contrast(110%) grayscale(100%);
+    }
+
+    .ignore-grayscale{
+      -webkit-filter:grayscale(0%) !important;
+      filter:contrast(100%) grayscale(0%) !important;
+      background-color: #5cb85c !important;
+    }
   </style>
 
   <%= erb :_header %>
@@ -45,7 +63,7 @@
   -o-background-size: cover;
   background-size: cover;">
 
-<div onMouseOver="showButton()" onMouseOut="hideButton()" class="jumbotron rounded-0" style="border: 35px solid black; border-left: 0px; border-right: 0px; height: 550px;background: #ccc; background-image: url(https://image.tmdb.org/t/p/w1280/<%= @backdrop_path %>); background-repeat: no-repeat; background-size:cover;-webkit-filter:grayscale(100%);filter:contrast(110%) grayscale(100%);">
+<div onMouseOver="showButton()" onMouseOut="hideButton()" class="jumbotron rounded-0">
 
   <button id='change-banner' style="visibility:hidden;margin-bottom:5px; border: 3px solid black; border-radius: 0px; font-family: 'Roboto Mono', monospace; font-size: 16px;" type="button" class="btn-default" onclick="window.location.href ='/add_favourite';">CHANGE BANNER PICTURE</button>
   <br>
@@ -69,8 +87,8 @@
 
     <div style="display: inline-block; background-color: white; font-family: 'Roboto Mono', monospace; font-size: 16px;">
         <span>
-          <%= @follower_count %><span onclick="showFollowers()"> Followers </span>|
-          <%= @following_count %><span onclick="showFollowing()"> Following</span>
+          <span id="follower-count"><%= @follower_count %></span><span onclick="showFollowers()"> Followers </span>|
+          <span id="following-count"><%= @following_count %></span><span onclick="showFollowing()"> Following</span>
         </span>
     </div>
 
@@ -111,8 +129,8 @@
     <br>
     <br>
     <div style="display:inline-block;">
-      <button type="button" class="btn btn-success rounded-0" style="font-family: 'Roboto Mono', monospace; font-size: 16px;" id="follow" onclick="follower()" >FOLLOW</button>
-      <button type="button" class="btn btn-danger rounded-0" style="font-family: 'Roboto Mono', monospace; font-size: 16px;" id="following" onclick="unfollow()">UNFOLLOW</button>
+      <button type="button" class="btn btn-success rounded-0 ignore-grayscale" style="font-family: 'Roboto Mono', monospace; font-size: 16px;" id="follow" onclick="follower()" >FOLLOW</button>
+      <button type="button" class="btn btn-danger rounded-0 ignore-grayscale" style="font-family: 'Roboto Mono', monospace; font-size: 16px;" id="following" onclick="unfollow()">UNFOLLOW</button>
     </div>
   </div>
 </div>
@@ -211,6 +229,7 @@
     document.getElementById("following").style.display = "none";
   } else if (<%= @userisfollowing %>){
     document.getElementById("following").style.display = "block";
+    document.getElementById("following").style.background='#5cb85c';
     // document.getElementById("follow").style.margin-top = "5px";
     document.getElementById("follow").style.display = "none";
     // document.getElementById("following").style.margin-top = "5px";
@@ -218,6 +237,7 @@
     document.getElementById("following").style.display = "none";
     // document.getElementById("follow").style.margin-top = "5px";
     document.getElementById("follow").style.display = "block";
+    document.getElementById("follow").style.background='#5cb85c';
     // document.getElementById("following").style.margin-top = "5px";
   }
 
@@ -227,7 +247,8 @@
       })
       document.getElementById("follow").style.display = "none";
       document.getElementById("following").style.display = "block";
-      location.reload();
+      let i = parseInt(document.getElementById("follower-count").innerHTML);
+      document.getElementById("follower-count").innerHTML = i + 1;
      }
     }
 
@@ -236,7 +257,8 @@
       })
       document.getElementById("follow").style.display = "block";
       document.getElementById("following").style.display = "none";
-      location.reload();
+      let i = parseInt(document.getElementById("follower-count").innerHTML);
+      document.getElementById("follower-count").innerHTML = i - 1;
     }
 
   function toWatch(){
@@ -248,7 +270,6 @@
     dashboard.id = "dashboard"
     document.getElementById("container").appendChild(watched)
     document.getElementById("container").appendChild(dashboard)
-    console.log('/user_profile/to-watch');
     $.get('/<%= @id %>/user_profile/to-watch', function(data){
       document.getElementById("to-watch").innerHTML = data
       //load script after html is returned
@@ -320,5 +341,5 @@
     element.parentNode.removeChild(element);
   }
 
-  watched();
+  dashboard();
 </script>
