@@ -93,4 +93,7 @@ class Film
     rs = DatabaseConnection.query("SELECT filmid FROM usersfilms WHERE userid = $1  AND iswatched = true;", [user_id])
     rs.map{ |x| x.values }.flatten.sample.to_i unless rs.to_a.empty?
   end
+
+  def self.recently_added(user_id)
+  end
 end

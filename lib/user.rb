@@ -56,4 +56,5 @@ attr_reader :email, :id, :films, :favourite_film, :profile_path
   def self.add_profile_path(user_id, profile_path)
     DatabaseConnection.query("UPDATE users SET profilepath = $1 WHERE id = $2;", [profile_path, user_id])
   end
+
 end

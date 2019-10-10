@@ -29,13 +29,30 @@
       <table>
         <tr>
           <th>Followers</th>
-          <th>Following</th>
+          <th onclick="showFollowing()">Following</th>
         </tr>
         <tr>
           <td><%= @follower_count %></td>
           <td><%= @following_count %></td>
         </tr>
       </table>
+    </div>
+
+    <div id="following" class="modal">
+      <!-- Modal content -->
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <div style="text-align: center">
+          <% if @following %>
+            <h5>You are following:</h5>
+            <% @following.each do |user| %>
+              <p><a href="/<%= user.id %>/user_profile"><%= user.email %></a></p>
+            <% end %>
+          <% else %>
+            <h5>You are not following any other users.</h5>
+          <% end %>
+        </div>
+      </div>
     </div>
 
     <br>
@@ -70,6 +87,27 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script type="text/javascript">
+  window.onload = function(){
+    let spans = document.getElementsByClassName("close");
+  }
+  spans = document.getElementsByClassName("close");
+  // let spans = document.getElementsByClassName("close")
+  for(let i = 0; i < document.getElementsByClassName("close").length; i++){
+    spans[i].onclick = function() {
+      this.parentElement.parentElement.style.display = "none";
+    }
+  }
+  function showFollowing(){
+    let modal = document.getElementById("following");
+    modal.style.display = "block";
+  }
+  window.onclick = function(event) {
+    let modal = document.getElementById("following");
+    if (event.target == modal) {
+      modal.style.display = "none";
+    }
+  }
+
   function showButton(){
     document.getElementById('change-banner').style.visibility = "visible";
     document.getElementById('change-profile').style.visibility = "visible";
