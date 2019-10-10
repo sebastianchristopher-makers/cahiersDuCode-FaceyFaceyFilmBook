@@ -67,9 +67,9 @@ class Film
     rs = DatabaseConnection.query("SELECT * FROM films RIGHT JOIN usersFilms ON films.filmid = usersFilms.filmid WHERE userid = $1 ORDER BY usersFilms.id DESC LIMIT 1;", [user_id])
     if rs.to_a.length > 0
       if rs[0]["iswatched"] == "true"
-        list = "watched list"
+        list = "'Watched List'"
       else
-        list = "to watch list"
+        list = "'To Watch' list"
       end
       "added #{rs[0]["title"]} to #{list}" if rs.to_a.length > 0
     end
