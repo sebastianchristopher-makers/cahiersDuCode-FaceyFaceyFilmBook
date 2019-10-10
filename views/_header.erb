@@ -1,35 +1,32 @@
 
-  <nav class="navbar">
-    <div style="text-align: center;">
-      <span style="display: inline-block;">
-        <h1>
-          FaceyFaceyFilmBook
-        </h1>
-      </span>
-    </div>
+<div style="background: white; display: flex; justify-content: space-between; height: 55px">
+  <div style="width:100px"></div>
+  <div style="padding-top: 4px">
+      <h1 style="font-color: white; font-family: 'Josefin Sans', sans-serif; font-weight: 500; font-size: 60px; line-height: 60px;" >
+        FACEYFACEYFILMBOOK
+      </h1>
+  </div>
 
-    <div id="avatar-dropdown">
-      <% if @user %>
-      <div class="btn-group">
-        <button data-toggle="dropdown" style="all: unset" aria-haspopup="true" aria-expanded="false">
-          <span>
-            <img id="avatar-image" class="border rounded" src="https://pbs.twimg.com/profile_images/735242324293210112/H8YfgQHP_400x400.jpg" style="height:50px; width=50px;">
-          </span>
-        </button>
+  <% if @user %>
+  <div class="avatar-dropdown" style="width: 60px; padding-top: 1px";>
+    <div class="btn-group">
+      <button data-toggle="dropdown" style="all: unset; border: solid black 2px" aria-haspopup="true" aria-expanded="false">
+          <img id="avatar-image" style="height:50px; width=50px;" src="https://pbs.twimg.com/profile_images/735242324293210112/H8YfgQHP_400x400.jpg">
+      </button>
 
-        <div class="dropdown-menu dropdown-menu-right">
-          <a class="dropdown-item" href="/<%= session[:user].id %>/dashboard">Dashboard</a>
-          <a class="dropdown-item" href="/<%= session[:user].id %>/user_profile">Profile</a>
-          <a class="dropdown-item" href="/search">Search</a>
-          <div class="dropdown-divider"></div>
-          <a class="dropdown-item">
-            <form method="POST" action="/sessions/destroy" >
-              <input  style="all: unset;" type="submit" value="Log out">
-            </form>
-          </a>
-        </div>
+      <div class="dropdown-menu dropdown-menu-right rounded-0" style="font-family: 'Roboto Mono', monospace; font-size: 16px; border: 3px black solid;">
+        <a class="dropdown-item" href="/<%= session[:user].id %>/dashboard">Dashboard</a>
+        <a class="dropdown-item" href="/<%= session[:user].id %>/user_profile">Profile</a>
+        <a class="dropdown-item" href="/search">Search</a>
+        <div class="dropdown-divider" ></div>
+        <a class="dropdown-item">
+          <form method="POST" action="/sessions/destroy" >
+            <input  style="all: unset;" type="submit" value="Log out">
+          </form>
+        </a>
       </div>
-      <% end %>
     </div>
-  </nav>
+  </div>
+  <% end %>
+</div>
 
