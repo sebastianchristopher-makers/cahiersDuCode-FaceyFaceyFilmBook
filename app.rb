@@ -160,6 +160,7 @@ class App < Sinatra::Base
     @recommendations = response['results'].map{ |result|
       Recommendation.create(result)
     }
+    @recommendations = @recommendations.each_slice(4).to_a unless @recommendations.empty?
     @film_title = Film.find_by_id(film_id).title if Film.film_exists?(film_id)
 
     @following = Follower.get_following_users(params[:id]).map{ |follower|
@@ -173,7 +174,7 @@ class App < Sinatra::Base
 
     userId = params[:id]
     @id = userId.to_i
-    @films = Film.find_to_watch(userId).each_slice(3).to_a
+    @films = Film.find_to_watch(userId).each_slice(4).to_a
     erb :_to_watch
   end
 
