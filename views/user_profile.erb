@@ -13,9 +13,13 @@
 </head>
 
 <div onMouseOver="showButton()" onMouseOut="hideButton()" class="jumbotron rounded-0" style="border: 35px solid black; border-left: 0px; border-right: 0px; height: 550px;background: #ccc; background-image: url(https://image.tmdb.org/t/p/w1280/<%= @backdrop_path %>); background-repeat: no-repeat; background-size:cover;-webkit-filter:grayscale(100%);filter:contrast(110%) grayscale(100%);">
+
+  <% if @user.id == @id %>
+
   <button id='change-banner' style="visibility:hidden;margin-bottom:5px" type="button" class="btn-default" onclick="window.location.href ='/add_favourite';">Change your banner photo</button>
   <br>
   <button id='change-profile' style="visibility:hidden;" type="button" class="btn-default" onclick="window.location.href ='/change-profile';">Change your profile photo</button>
+  <% end %>
   <div style="text-align: center;">
 
     <div style="display: inline-block;" >
@@ -32,11 +36,46 @@
     <br>
 
     <div style="display: inline-block; background-color: white; font-family: 'Roboto Mono', monospace; font-size: 16px;">
-      <span>
-        <%= @follower_count %> Followers |
-        <%= @following_count %> Following
-      </span>
+        <span>
+          <%= @follower_count %><span onclick="showFollowers()"> Followers </span>|
+          <%= @following_count %><span onclick="showFollowing()"> Following</span>
+        </span>
     </div>
+
+    <div id="following" class="modal">
+      <!-- Modal content -->
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <div style="text-align: center">
+          <% if @following %>
+            <h5>You are following:</h5>
+            <% @following.each do |user| %>
+              <p><a href="/<%= user.id %>/user_profile"><%= user.email %></a></p>
+            <% end %>
+          <% else %>
+            <h5>You are not following any other users.</h5>
+          <% end %>
+        </div>
+      </div>
+    </div>
+
+    <div id="followers" class="modal">
+      <!-- Modal content -->
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <div style="text-align: center">
+          <% if @followers %>
+            <h5>You are being followed by:</h5>
+            <% @followers.each do |user| %>
+              <p><a href="/<%= user.id %>/user_profile"><%= user.email %></a></p>
+            <% end %>
+          <% else %>
+            <h5>You are not being followed by any other users.</h5>
+          <% end %>
+        </div>
+      </div>
+    </div>
+
     <br>
     <br>
     <div style="display:inline-block;">
@@ -104,6 +143,17 @@
   }
   window.onclick = function(event) {
     let modal = document.getElementById("following");
+    if (event.target == modal) {
+      modal.style.display = "none";
+    }
+  }
+
+   function showFollowers(){
+    let modal = document.getElementById("followers");
+    modal.style.display = "block";
+  }
+ window.onclick = function(event) {
+    let modal = document.getElementById("followers");
     if (event.target == modal) {
       modal.style.display = "none";
     }
