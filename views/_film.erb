@@ -7,6 +7,18 @@
       width: 100%;
       height: 100%;
   }
+
+  #add-review-button {
+    font-family: 'Roboto Mono', monospace;
+    font-size: 15px;
+    font-color: black;
+    border: 3px solid black ;
+  }
+
+  #add-review-button:hover {
+    font-color: white;
+    background: #009874;
+    border: 2px solid black;
   </style>
 </head>
 
@@ -20,7 +32,7 @@
 
   <!-- FILM TITLE -->
 
-  <h1 style="text-align: center; padding-top: 7px; font-family: 'Roboto Mono', monospace;">
+  <h1 style="text-align: center; padding-top: 7px; font-family: 'Roboto Mono', monospace; font-weight: 700;">
     <%= @title %>
   </h1>
   <hr/ style="border: 2px black solid">
@@ -52,14 +64,27 @@
 
   <hr/ style="border: 2px black solid">
 
+<!-- SHOW TIMES -->
+
     <div>
+
         <% if @showtime_error %>
 
           <p>Too many results - please check showtimes <a href="<%= @showtime_error %>">here</a></p>
+        <% elsif @showtimes.empty? %>
+          <!-- Don't do anything -->
         <% else %>
+        <div style="font-family: 'Roboto Mono', monospace;">
+        <h2 class="text-center">SHOWTIMES</h2>
+        <div class="text-center">
+
           <% @showtimes.each do |showtime| %>
+
             <p>Showing at <a href="<%= showtime.website %>" target="_blank"><%= showtime.cinema_name %></a> on <%= DateHelper.screen_date(showtime.start_at) %> <% if showtime.booking_link %><a href="<%= showtime.booking_link %>"><i>Buy tickets</i></a><% end %></p>
           <% end %>
+        </div>
+        </div>
+        <hr style="border: 2px solid black;">
         <% end %>
     </div>
 
@@ -87,14 +112,14 @@
       <!-- The Modal -->
       <div id="myModal1" class="modal">
         <!-- Modal content -->
-        <div class="modal-content">
+        <div class="modal-content" style="border: 5px solid black; margin-top: 40px; width: 800px; font-family: 'Roboto Mono', monospace;">
           <span class="close">&times;</span>
           <div style="text-align: center">
-            <br>
             <form action="/films/<%= @film.film_id %>" method="POST">
-                <textarea rows="20" name="review" cols="90" ></textarea>
+                <textarea style="border: 3px solid black; margin-top: 40px; width: 700px; font-family: 'Roboto Mono', monospace; outline: none;" rows="8" name="review" ></textarea>
                 <br>
-                <input type="submit" value="Add Review">
+                <br>
+                <input id="add-review-button" type="submit" value="ADD REVIEW">
             </form>
           </div>
         </div>
@@ -102,9 +127,9 @@
 
     </div>
 
-    <hr/ style="border: 2px black solid">
 
     <% unless @recommendations.empty? %>
+    <hr/ style="border: 2px black solid">
 
     <h2 class="text-center" style="font-family: 'Roboto Mono', monospace;">RECOMMENDATIONS</h2>
     <br>
@@ -152,6 +177,7 @@
     </div>
   </div>
 </div>
+
 
   <script type="text/javascript">
     let recommendations = document.getElementsByClassName('recommendation');

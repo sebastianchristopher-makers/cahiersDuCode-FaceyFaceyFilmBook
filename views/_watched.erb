@@ -20,6 +20,19 @@
   #delete:hover {
     background: red;
   }
+
+  #add-review-button {
+    font-family: 'Roboto Mono', monospace;
+    font-size: 15px;
+    font-color: black;
+    border: 3px solid black ;
+  }
+
+  #add-review-button:hover {
+    font-color: white;
+    background: #009874;
+    border: 2px solid black;
+  }
   </style>
 </head>
 
@@ -39,12 +52,12 @@
     <div class="row" >
     <% filmGroup.each do |film| %>
     <div id="myModal<%= film.film_id %>" class="modal">
-      <div class="modal-content">
+      <div class="modal-content" style="border: 5px solid black; margin-top: 40px; width: 800px; font-family: 'Roboto Mono', monospace;">
         <span class="close">&times;</span>
         <div style="text-align: center">
           <form action="/films/<%= film.film_id %>" method="POST">
-              <textarea rows="20" name="review" cols="90" ></textarea>
-              <input type="submit" value="Add review">
+              <textarea style="border: 3px solid black; margin-top: 40px; width: 700px; font-family: 'Roboto Mono', monospace; outline: none;" rows="8" name="review" ></textarea>
+              <input id="add-review-button" type="submit" value="ADD REVIEW">
             </form>
           </div>
         </div>
