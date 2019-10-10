@@ -15,8 +15,6 @@
 
 <div onMouseOver="showButton()" onMouseOut="hideButton()" class="jumbotron rounded-0" style="border: 35px solid black; border-left: 0px; border-right: 0px; height: 550px;background: #ccc; background-image: url(https://image.tmdb.org/t/p/w1280/<%= @backdrop_path %>); background-repeat: no-repeat; background-size:cover;-webkit-filter:grayscale(100%);filter:contrast(110%) grayscale(100%);">
 
-  <% if @user.id == @id %>
-
   <button id='change-banner' style="visibility:hidden;margin-bottom:5px" type="button" class="btn-default" onclick="window.location.href ='/add_favourite';">Change your banner photo</button>
   <br>
   <button id='change-profile' style="visibility:hidden;" type="button" class="btn-default" onclick="window.location.href ='/change-profile';">Change your profile photo</button>
