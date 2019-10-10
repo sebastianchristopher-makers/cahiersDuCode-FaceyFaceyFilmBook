@@ -13,11 +13,9 @@
 </head>
 
 <div onMouseOver="showButton()" onMouseOut="hideButton()" class="jumbotron" style="background-image: url(https://image.tmdb.org/t/p/w1280/<%= @backdrop_path %>); background-repeat: no-repeat; background-size:cover;-webkit-filter:grayscale(100%);filter:contrast(110%) grayscale(100%);">
-  <% if @user.id == @id %>
   <button id='change-banner' style="visibility:hidden;margin-bottom:5px" type="button" class="btn-default" onclick="window.location.href ='/add_favourite';">Change your banner photo</button>
   <br>
   <button id='change-profile' style="visibility:hidden;" type="button" class="btn-default" onclick="window.location.href ='/change-profile';">Change your profile photo</button>
-  <% end %>
   <div style="text-align: center;">
 
     <div style="display: inline-block;">
@@ -38,35 +36,35 @@
         </span>
     </div>
 
-    <div id="following" class="modal">
+    <div id="following-modal" class="modal">
       <!-- Modal content -->
       <div class="modal-content">
         <span class="close">&times;</span>
         <div style="text-align: center">
           <% if @following %>
-            <h5>You are following:</h5>
+            <h5>User is following:</h5>
             <% @following.each do |user| %>
               <p><a href="/<%= user.id %>/user_profile"><%= user.email %></a></p>
             <% end %>
           <% else %>
-            <h5>You are not following any other users.</h5>
+            <h5>User is not following any other users.</h5>
           <% end %>
         </div>
       </div>
     </div>
 
-    <div id="followers" class="modal">
+    <div id="followers-modal" class="modal">
       <!-- Modal content -->
       <div class="modal-content">
         <span class="close">&times;</span>
         <div style="text-align: center">
           <% if @followers %>
-            <h5>You are being followed by:</h5>
+            <h5>User is being followed by:</h5>
             <% @followers.each do |user| %>
               <p><a href="/<%= user.id %>/user_profile"><%= user.email %></a></p>
             <% end %>
           <% else %>
-            <h5>You are not being followed by any other users.</h5>
+            <h5>User is not being followed by any other users.</h5>
           <% end %>
         </div>
       </div>
@@ -77,23 +75,6 @@
     <div style="display:inline-block;">
       <button type="button" class="btn btn-success rounded-0" style="font-family: 'Roboto Mono', monospace; font-size: 16px;" id="follow" onclick="follower()" >Follow</button>
       <button type="button" class="btn btn-danger rounded-0" style="font-family: 'Roboto Mono', monospace; font-size: 16px;" id="following" onclick="unfollow()">Unfollow</button>
-    </div>
-  </div>
-</div>
-
-<div id="following" class="modal">
-  <!-- Modal content -->
-  <div class="modal-content">
-    <span class="close">&times;</span>
-    <div style="text-align: center">
-      <% if @following %>
-        <h5>You are following:</h5>
-        <% @following.each do |user| %>
-          <p><a href="/<%= user.id %>/user_profile"><%= user.email %></a></p>
-        <% end %>
-      <% else %>
-        <h5>You are not following any other users.</h5>
-      <% end %>
     </div>
   </div>
 </div>
@@ -135,37 +116,42 @@
     }
   }
   function showFollowing(){
-    let modal = document.getElementById("following");
+    let modal = document.getElementById("following-modal");
     modal.style.display = "block";
   }
   window.onclick = function(event) {
-    let modal = document.getElementById("following");
+    let modal = document.getElementById("following-modal");
     if (event.target == modal) {
       modal.style.display = "none";
     }
   }
 
    function showFollowers(){
-    let modal = document.getElementById("followers");
+    let modal = document.getElementById("followers-modal");
     modal.style.display = "block";
   }
  window.onclick = function(event) {
-    let modal = document.getElementById("followers");
+    let modal = document.getElementById("followers-modal");
     if (event.target == modal) {
       modal.style.display = "none";
     }
   }
 
   function showButton(){
+    <% if @user.id == @id %>
     document.getElementById('change-banner').style.visibility = "visible";
     document.getElementById('change-profile').style.visibility = "visible";
+    <% end %>
   }
   function hideButton(){
+    <% if @user.id == @id %>
     document.getElementById('change-banner').style.visibility = "hidden";
     document.getElementById('change-profile').style.visibility = "hidden";
+    <% end %>
   }
 
-  if(<%= @user.id%> ==<%=@id%>){
+  debugger;
+  if(<%= @user.id == @id %>){
     document.getElementById("follow").style.display = "none";
     document.getElementById("following").style.display = "none";
   } else if (<%= @userisfollowing %>){
@@ -181,7 +167,7 @@
   }
 
   function follower(){
-    if(<%= @user.id%> !=<%=@id%>){
+    if(<%= @user.id != @id %>){
       $.post('/addfollow', {userid:<%= @user.id%>, followerid: <%= @id%>}, function(data){
       })
       document.getElementById("follow").style.display = "none";
