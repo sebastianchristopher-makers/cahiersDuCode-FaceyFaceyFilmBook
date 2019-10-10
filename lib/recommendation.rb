@@ -14,7 +14,7 @@ class Recommendation
     film_id = result['id']
     title = result['original_title']
     poster_path = result['poster_path']
-    year = result['year']
+    year = result['release_date'][0..3]
     backdrop_path = result['backdrop_path']
     overview = result['overview']
     Recommendation.new(film_id, title, poster_path, year, backdrop_path, overview)

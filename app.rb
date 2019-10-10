@@ -112,6 +112,7 @@ class App < Sinatra::Base
       poster_path = params[:poster_path]
       year = params[:year].to_i
       backdrop_path = params[:backdrop_path]
+      poster_path = params[:poster_path]
       overview = params[:overview]
 
       url = 'https://api.internationalshowtimes.com/v4/movies?apikey=' + ENV['SHOWTIMES_API'] + '&tmdb_id=' + film_id
@@ -270,6 +271,8 @@ class App < Sinatra::Base
 
     @user_model = User
 
+    @watched = Film.watched?(@user.id, film_id)
+    @to_watch = Film.to_watch?(@user.id, film_id)
     erb :_film
   end
 
@@ -302,7 +305,7 @@ class App < Sinatra::Base
     follower_id = params[:followerid]
     Follower.unfollow(user_id, follower_id)
   end
-  
+
   post '/delete-watched' do
     user_id = params[:userId]
     film_id = params[:filmId]
