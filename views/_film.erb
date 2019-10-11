@@ -93,7 +93,7 @@
 
           <% @showtimes.each do |showtime| %>
 
-            <p>Showing at <a href="<%= showtime.website %>" target="_blank"><%= showtime.cinema_name %></a> on <%= DateHelper.screen_date(showtime.start_at) %> <% if showtime.booking_link %><a href="<%= showtime.booking_link %>"><i>Buy tickets</i></a><% end %></p>
+            <p>Showing at <a href="<%= showtime.website %>" target="_blank"><%= showtime.cinema_name %></a> on <%= DateHelper.screen_date(showtime.start_at) %> <% if showtime.booking_link %><a href="<%= showtime.booking_link %>" target="_blank"><i>Buy tickets</i></a><% end %></p>
           <% end %>
         </div>
         </div>
