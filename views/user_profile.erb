@@ -87,8 +87,8 @@
 
     <div style="display: inline-block; background-color: white; font-family: 'Roboto Mono', monospace; font-size: 16px;">
         <span>
-          <span id="follower-count"><%= @follower_count %></span><span onclick="showFollowers()"> Followers </span>|
-          <span id="following-count"><%= @following_count %></span><span onclick="showFollowing()"> Following</span>
+          <span id="follower-count"> <%= @follower_count %></span><span onclick="showFollowers()"> Followers </span>|
+          <span id="following-count"><%= @following_count %></span><span onclick="showFollowing()"> Following </span>
         </span>
     </div>
 
@@ -340,6 +340,9 @@
     var element = document.getElementById(elementId);
     element.parentNode.removeChild(element);
   }
-
+  <% if @user.id == @id %>
   dashboard();
+  <% else %>
+  watched();
+  <% end %>
 </script>
