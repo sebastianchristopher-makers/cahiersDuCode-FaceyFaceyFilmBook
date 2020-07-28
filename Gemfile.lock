@@ -9,7 +9,7 @@ GEM
     dotenv (2.7.5)
     eventmachine (1.2.7)
     jaro_winkler (1.5.3)
-    json (2.2.0)
+    json (2.3.1)
     mustermann (1.0.3)
     parallel (1.18.0)
     parser (2.6.5.0)
